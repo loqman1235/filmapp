@@ -466,8 +466,8 @@ section#suggestion {
 	border: none;
 	background-color: rgba(0, 0, 0, 0.5);
 	cursor: pointer;
-	width: 38px;
-	height: 38px;
+	width: 24px;
+	height: 24px;
 	display: flex;
 	align-items: center;
 	justify-content: center;
