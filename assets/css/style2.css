@@ -455,6 +455,18 @@ section#suggestion {
 	border-radius: 4px;
 }
 
+.section .section_body .section_movie .section_movie_poster > .type {
+	position: absolute;
+	left: 8px;
+	top: 8px;
+	z-index: 999;
+	font-size: 16px;
+	background-color: #060606;
+	color: #fff;
+	padding: 4px 8px;
+	border-radius: 4px;
+}
+
 .removeFromMyWatchlistBtn {
 	position: absolute;
 	right: 8px;

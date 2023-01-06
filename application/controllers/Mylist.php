@@ -136,8 +136,9 @@ class Mylist extends CI_Controller
                     alt=""
                     />';
                     $result .= '<button title="remove from your watchlist" data-name="'.$watchlistMovie->watchlist_movieName.'" data-id="'.$watchlistMovie->watchlist_movieId.'" onclick="removeMovieFromWatchlist(event)" class="removeFromMyWatchlistBtn"><i class="far fa-minus"></i></button>';
+                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<div class="type">Movie</div>' : '<div class="type">Serie</div>';
                     $result .= '</div>';
-                    $result .= '<a href="'.base_url('home/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. $watchlistMovie->watchlist_movieName .'</a>';
+                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('home/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. $watchlistMovie->watchlist_movieName .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. $watchlistMovie->watchlist_movieName .'</a>';
                     $result .= '<ul class="genre">';
                     foreach($genres as $genre)
                     {
