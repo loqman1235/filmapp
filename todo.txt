@@ -1,0 +1,31 @@
+1 Create shows table                               -> Not done yet
+
+2 Create Suggestions under movie details page      -> Done
+
+3 Create watch page                                -> Not done yet 
+
+4 Create watch servers                             -> Not done yet
+
+5 Start working on the backend                     -> Not done yet
+
+6 Create actors table and display actors           -> Done 
+
+// 
+
+// Movies Actors SQL
+
+SELECT tbl_movies_actors.movie_id, tbl_movies.movie_name,tbl_actors.actod_name,tbl_movies_actors.actor_as FROM tbl_movies_actors
+JOIN tbl_movies ON tbl_movies_actors.movie_id=tbl_movies.movie_id
+JOIN tbl_actors ON tbl_movies_actors.actor_id=tbl_actors.actor_id
+WHERE tbl_movies_actors.movie_id=1
+
+
+SELECT tbl_movies.movie_name,tbl_actors.actod_name,tbl_movies_actors.actor_as FROM tbl_movies_actors
+JOIN tbl_movies ON tbl_movies_actors.movie_id=tbl_movies.movie_id
+JOIN tbl_actors ON tbl_movies_actors.actor_id=tbl_actors.actor_id
+WHERE tbl_movies_actors.movie_id=1;
+
+
+
+// When inserting an actor check for duplicates
+// Page title to movie title (Helps for SEO)
