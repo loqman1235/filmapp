@@ -134,6 +134,7 @@
     formData.append('moviePoster', '<?= $serie->serie_poster ?>');
     formData.append('movieName', '<?= $serie->serie_name ?>');
     formData.append('moviePlot', `<?= $serie->serie_plot ?>`);
+    formData.append('watchlistItemType', 'serie');
 
 
     const response = await fetch('<?= base_url('mylist/addToWatchList') ?>', {

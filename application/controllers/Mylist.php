@@ -54,6 +54,7 @@ class Mylist extends CI_Controller
                         'watchlist_movieBackdrop'  => $this->input->post('movieBackdrop'),
                         'watchlist_moviePoster'    => $this->input->post('moviePoster'),
                         'watchlist_moviePlot'      => $this->input->post('moviePlot'),
+                        'watchlist_type'           => $this->input->post('watchlistItemType'),
                         'user_id'                  => $this->session->userdata('userId')
 
                     ];
