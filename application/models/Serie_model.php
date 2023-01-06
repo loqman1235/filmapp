@@ -125,4 +125,45 @@ class Serie_model extends CI_Model
     }
 
 
+    public function getSeasonsBySerieId($serieId)
+    {
+        $this->db->select('tbl_series.serie_id, tbl_seasons.season_id,tbl_seasons.season_name');
+        $this->db->from('tbl_series');
+        $this->db->join('tbl_seasons', 'tbl_series.serie_id=tbl_seasons.serie_id');
+        $this->db->where('tbl_series.serie_id', $serieId);
+        $query = $this->db->get();
+
+        if($query->num_rows() >0)
+        {
+            return $query->result();
+        }
+        else
+        {
+            return false;
+        }
+
+    }
+
+    // Get Episodes
+    public function getEpisodesBySerieId($seasonId, $serieId)
+    {
+        $this->db->select('tbl_seasons.serie_id, tbl_seasons.season_id, tbl_episodes.episode_id, tbl_episodes.episode_name');
+        $this->db->from('tbl_seasons');
+        $this->db->join('tbl_episodes', 'tbl_seasons.season_id=tbl_episodes.seasons_id');
+        $this->db->where('season_id', $seasonId);
+        $this->db->where('serie_id', $serieId);
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
+
+    }
+
+
 }

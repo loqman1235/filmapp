@@ -1,21 +1,21 @@
 <div class="movie_page">
-  <input type="hidden" name="movieIdInput" id="movieIdInput" value="<?= $movie->movie_id ?>">
-      
+  <input type="hidden" name="movieIdInput" id="movieIdInput" value="<?= $serie->serie_id ?>">
+ 
       <div class="movie_details">
         <div class="section_movie_left">
           <div class="movie_poster">
             <img
-              src="<?= $movie->movie_poster ?>"
-              alt=""
+              src="<?= $serie->serie_poster ?>"
+              alt="<?= $serie->serie_name ?>"
             />
           </div>
           <div class="movie_btns">
-            <a href="<?= base_url('home/watch/') . $movie->movie_id ?>" class="btn btn_secondary">
-              <i class="fas fa-play"></i> Watch Now
+            <!-- <a href="<?= base_url('home/watch/') . $serie->serie_id ?>" class="btn btn_secondary">
+              <i class="far fa-play"></i> Watch Now
             </a>
             <button class="btn btn_outline" id="trailerBtn">
               <i class="far fa-video"></i> Trailer
-            </button>
+            </button> -->
             <?php if($this->session->userdata('is_logged_in')) :?>
             <div class="deleteBtnContainer" id="deleteBtnContainer">
                 <?php if(!$watchListMoviesExist) :?>
@@ -29,34 +29,32 @@
         </div>
         <div class="movie_info">
           <h5 class="movie_name">
-            <strong><?= $movie->movie_name ?></strong>
+            <strong><?= $serie->serie_name ?></strong>
           </h5>
           <div class="movie_data">
             <ul class="genre">
-                  <?php foreach($genres as $genre) : ?>
-                    <?php if($genre->movie_id === $movie->movie_id) : ?>
-                        <li><a href="<?= base_url('home/genre/') . $genre->genre_id ?>"><?= $genre->genre_name ?></a></li>
+                  <?php foreach($serieGenres as $serieGenre) : ?>
+                    <?php if($serieGenre->serie_id === $serie->serie_id) : ?>
+                        <li><a href="<?= base_url('home/genre/') . $serieGenre->genre_id ?>"><?= $serieGenre->genre_name ?></a></li>
                     <?php endif; ?>
                   <?php endforeach; ?>
             </ul>
-            <a href="#" class="year"><?= $movie->movie_year ?></a>
-            <p class="time"><?= $movie->movie_runtime ?></p>
-            <p class="quality"><?= $movie->movie_quality ?></p>
+            <a href="#" class="year"><?= $serie->serie_year ?></a>
             <span class="movie_imdb_rating"
-              ><i class="fas fa-star"></i> <?= $movie->movie_imdb_rating ?>/10</span
+              ><i class="fas fa-star"></i> <?= $serie->serie_imdb_rating ?>/10</span
             >
           </div>
           <div class="movie_plot">
             <h3><strong>Overview</strong></h3>
             <p>
-            <?= $movie->movie_plot ?>
+            <?= $serie->serie_plot ?>
             </p>
           </div>
-         <?php if($movieActors) : ?>
+         <?php if($serieActors) : ?>
           <div class="movie_cast">
             <h3><strong>Cast</strong></h3>
             <div class="cast_actors">
-              <?php foreach($movieActors as $actor) : ?>
+              <?php foreach($serieActors as $actor) : ?>
                   <a href="<?= base_url('actor/') . $actor->actor_id ?>" class="cast_actor">
                   <div class="actor_img">
                     <img
@@ -73,34 +71,55 @@
             </div>
           </div>
           <?php endif; ?>
-         
+       
+          <!-- Serie Seasons -->
+          <h3><strong>Seasons</strong></h3>
+          <?php if($serieSeasons) :?>
+          <div class="serie_seasons_container">
+           <ul class="seasons">
+            <?php foreach($serieSeasons as $season) : ?>
+              <?php $seasonNum++; ?>
+              <li class="season" data-season-id="<?= $season->season_id ?>"><a href="#">Se.<?= $seasonNum ?></a></li>
+              <?php endforeach; ?>
+           </ul>
+           <ul class="episodes" id="episodes">
+           </ul>
+          </div>
+          <!-- Serie Seasons end -->
+          <!-- else comming soon -->
+          <?php endif; ?>
         </div>
       </div>
 
-      <!-- Similar Movies -->
 
-    <?php if($similarMovies) : ?>
+
+
+
+
+<!-- Similar Movies -->
+
+    <?php if($similarSeries) : ?>
       <section class="section" id="suggestion">
         <div class="section_header">
           <h3><strong>More like this</strong></h3>
         </div>
         <div class="section_body swiper" id="suggestMovies">
           <div class="swiper-wrapper">
-            <?php foreach($similarMovies as $similarMovie) : ?>
+            <?php foreach($similarSeries as $similarSerie) : ?>
               <div class="section_movie swiper-slide">
                 <div class="section_movie_poster">
                   <img
-                    src="<?= $similarMovie->movie_poster ?>"
-                    alt="<?= $similarMovie->movie_name ?>"
+                    src="<?= $similarSerie->serie_poster ?>"
+                    alt="<?= $similarSerie->serie_name ?>"
                   />
                 </div>
-                <a href="<?= base_url('home/movie/') . $similarMovie->movie_id ?>" class="section_movie_title"><?= $similarMovie->movie_name ?></a>
+                <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie_title"><?= $similarSerie->serie_name ?></a>
                 <ul class="genre">
-                  <?php foreach($genres as $genre) : ?>
-                      <?php if($genre->movie_id === $similarMovie->movie_id) : ?>
-                          <li><a href="<?= base_url('home/genre/') . $genre->genre_id ?>"><?= $genre->genre_name ?></a></li>
-                      <?php endif; ?>
-                    <?php endforeach; ?>
+                <?php foreach($serieGenres as $serieGenre) : ?>
+                    <?php if($serieGenre->serie_id === $similarSerie->serie_id) : ?>
+                        <li><a href="<?= base_url('home/genre/') . $serieGenre->genre_id ?>"><?= $serieGenre->genre_name ?></a></li>
+                    <?php endif; ?>
+                  <?php endforeach; ?>
                 </ul>
               </div>
             <?php endforeach; ?>
@@ -120,73 +139,6 @@
     </div>
 
 
-    <!-- footer start -->
-    <footer class="footer">
-      <div class="footer_top">
-      <div class="footer_column">
-          <h4>Browse</h4>
-          <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Discover</a></li>
-            <li><a href="#">Movies/a></li>
-            <li><a href="#">Shows</a></li>
-          </ul>
-        </div>
-
-        <div class="footer_column">
-          <h4>Links</h4>
-          <ul>
-            <li><a href="#">link</a></li>
-            <li><a href="#">link</a></li>
-            <li><a href="#">link</a></li>
-            <li><a href="#">link</a></li>
-          </ul>
-        </div>
-
-        <div class="footer_column">
-          <h4>Links</h4>
-          <ul>
-            <li><a href="#">link</a></li>
-            <li><a href="#">link</a></li>
-            <li><a href="#">link</a></li>
-            <li><a href="#">link</a></li>
-          </ul>
-        </div>
-        <div class="footer_column">
-          <h4>Support</h4>
-          <ul>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#">FAQ</a></li>
-            <li><a href="#">Terms of use</a></li>
-            <li><a href="#">Privacy Policy</a></li>
-          </ul>
-        </div>
-        <div class="footer_column">
-          <h4>Contact</h4>
-          <ul>
-            <li><i class="fal fa-map-marker-alt"></i> 233 New Hampshire 107</li>
-            <li><i class="fal fa-at"></i> tonyvito@gmail.com</li>
-            <li><i class="fal fa-phone"></i> +213 776 05 09 93</li>
-          </ul>
-          <ul class="social">
-            <li>
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="fab fa-twitter"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-            </li>
-            <li>
-              <a href="#"><i class="fab fa-youtube"></i></a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </footer>
-    <!-- footer end -->
-
 <script>
   const addToMyListBtn = document.getElementById('addToMyListBtn');
   const removeFromMyListBtn = document.getElementById('removeFromMyListBtn');
@@ -196,13 +148,12 @@
     e.preventDefault();
     
     let formData = new FormData();
-    formData.append('movieId', '<?= $movie->movie_id ?>');
-    formData.append('movieBackdrop', '<?= $movie->movie_backdrop ?>');
-    formData.append('moviePoster', '<?= $movie->movie_poster ?>');
-    formData.append('movieName', '<?= $movie->movie_name ?>');
-    formData.append('moviePlot', `<?= $movie->movie_plot ?>`);
-    formData.append('watchlistItemType', 'movie');
-
+    formData.append('movieId', '<?= $serie->serie_id ?>');
+    formData.append('movieBackdrop', '<?= $serie->serie_backdrop ?>');
+    formData.append('moviePoster', '<?= $serie->serie_poster ?>');
+    formData.append('movieName', '<?= $serie->serie_name ?>');
+    formData.append('moviePlot', `<?= $serie->serie_plot ?>`);
+    formData.append('watchlistItemType', 'serie');
 
 
     const response = await fetch('<?= base_url('mylist/addToWatchList') ?>', {
@@ -238,8 +189,8 @@
     e.preventDefault();
 
     let formData = new FormData();
-    formData.append('movieId', `<?= $movie->movie_id ?>`);
-    formData.append('movieName', `<?= $movie->movie_name ?>`);
+    formData.append('movieId', `<?= $serie->serie_id ?>`);
+    formData.append('movieName', `<?= $serie->serie_name ?>`);
 
     const response = await fetch('<?= base_url('mylist/removeFromWatchList') ?>',{
       method: 'POST',
@@ -259,6 +210,54 @@
   // Remove movie from user's watchlist
 
   if(removeFromMyListBtn !== null) removeFromMyListBtn.addEventListener('click', removeMovieFromWatchlist);
+
+
+// Get Episodes By Season Id
+
+
+const getEpisodesBySeasonId = async (seasonId) => 
+{
+
+  let formData = new FormData();
+  formData.append('seasonId', seasonId);
+  formData.append('serieId', `<?= $serie->serie_id ?>`)
+
+  const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
+    method: 'POST',
+    body: formData
+  });
+
+  const result = await response.json();
+  console.log(result);
+  return result;
+
+}
+
+
+const seasons = document.querySelectorAll('.season');
+const episodesEl = document.getElementById('episodes');
+
+
+const showEpisodes = async () => {
+  episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
+}
+
+showEpisodes();
+
+seasons[0].classList.add('active');
+
+seasons.forEach(season => {
+  season.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const seasonId = season.dataset.seasonId;
+    document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
+    season.classList.add('active');
+    episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
+  })
+})
+
+
+
 
 
 </script>

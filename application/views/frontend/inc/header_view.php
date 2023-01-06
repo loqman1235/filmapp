@@ -53,7 +53,7 @@
         loop: false,
         speed: 900,
         autoplay: false,
-        slidesPerView: 5,
+        slidesPerView: 6,
         spaceBetween: 16,
 
         // Navigation arrows
@@ -72,7 +72,7 @@
         loop: false,
         speed: 900,
         autoplay: false,
-        slidesPerView: 5,
+        slidesPerView: 6,
         spaceBetween: 16,
 
         // Navigation arrows
@@ -91,7 +91,7 @@
         loop: false,
         speed: 900,
         autoplay: false,
-        slidesPerView: 5,
+        slidesPerView: 6,
         spaceBetween: 16,
 
         // Navigation arrows

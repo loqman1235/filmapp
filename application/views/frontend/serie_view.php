@@ -1,17 +1,31 @@
 <div class="movie_page">
   <input type="hidden" name="movieIdInput" id="movieIdInput" value="<?= $serie->serie_id ?>">
-      <div class="movie_backdrop">
-        <img
-          src="<?= $serie->serie_backdrop ?>"
-          alt="<?= $serie->serie_name ?>"
-        />
-      </div>
+ 
       <div class="movie_details">
-        <div class="movie_poster">
-          <img
-            src="<?= $serie->serie_poster ?>"
-            alt="<?= $serie->serie_name ?>"
-          />
+        <div class="section_movie_left">
+          <div class="movie_poster">
+            <img
+              src="<?= $serie->serie_poster ?>"
+              alt="<?= $serie->serie_name ?>"
+            />
+          </div>
+          <div class="movie_btns">
+            <!-- <a href="<?= base_url('home/watch/') . $serie->serie_id ?>" class="btn btn_secondary">
+              <i class="far fa-play"></i> Watch Now
+            </a>
+            <button class="btn btn_outline" id="trailerBtn">
+              <i class="far fa-video"></i> Trailer
+            </button> -->
+            <?php if($this->session->userdata('is_logged_in')) :?>
+            <div class="deleteBtnContainer" id="deleteBtnContainer">
+                <?php if(!$watchListMoviesExist) :?>
+                  <button class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><i class="far fa-plus"></i> My list</button>
+                  <?php else: ?>
+                    <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>
+                  <?php endif; ?>
+            </div>
+           <?php endif; ?>
+          </div>
         </div>
         <div class="movie_info">
           <h5 class="movie_name">
@@ -57,27 +71,34 @@
             </div>
           </div>
           <?php endif; ?>
-          <div class="movie_btns">
-            <a href="<?= base_url('home/watch/') . $serie->serie_id ?>" class="btn btn_secondary">
-              <i class="far fa-play"></i> Watch Now
-            </a>
-            <button class="btn btn_outline" id="trailerBtn">
-              <i class="far fa-video"></i> Trailer
-            </button>
-            <?php if($this->session->userdata('is_logged_in')) :?>
-            <div class="deleteBtnContainer" id="deleteBtnContainer">
-                <?php if(!$watchListMoviesExist) :?>
-                  <button class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><i class="far fa-plus"></i> My list</button>
-                  <?php else: ?>
-                    <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>
-                  <?php endif; ?>
-            </div>
-           <?php endif; ?>
+       
+          <!-- Serie Seasons -->
+          <h3><strong>Seasons</strong></h3>
+          <?php if($serieSeasons) :?>
+          <div class="serie_seasons_container">
+           <ul class="seasons">
+            <?php foreach($serieSeasons as $season) : ?>
+              <?php $seasonNum++; ?>
+              <li class="season" data-season-id="<?= $season->season_id ?>"><a href="#">Se.<?= $seasonNum ?></a></li>
+              <?php endforeach; ?>
+           </ul>
+           <ul class="episodes" id="episodes">
+           </ul>
           </div>
+          <!-- Serie Seasons end -->
+
+          
+          <!-- else comming soon -->
+          <?php endif; ?>
         </div>
       </div>
 
-      <!-- Similar Movies -->
+
+
+
+
+
+<!-- Similar Movies -->
 
     <?php if($similarSeries) : ?>
       <section class="section" id="suggestion">
@@ -191,6 +212,54 @@
   // Remove movie from user's watchlist
 
   if(removeFromMyListBtn !== null) removeFromMyListBtn.addEventListener('click', removeMovieFromWatchlist);
+
+
+// Get Episodes By Season Id
+
+
+const getEpisodesBySeasonId = async (seasonId) => 
+{
+
+  let formData = new FormData();
+  formData.append('seasonId', seasonId);
+  formData.append('serieId', `<?= $serie->serie_id ?>`)
+
+  const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
+    method: 'POST',
+    body: formData
+  });
+
+  const result = await response.json();
+  console.log(result);
+  return result;
+
+}
+
+
+const seasons = document.querySelectorAll('.season');
+const episodesEl = document.getElementById('episodes');
+
+
+const showEpisodes = async () => {
+  episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
+}
+
+showEpisodes();
+
+seasons[0].classList.add('active');
+
+seasons.forEach(season => {
+  season.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const seasonId = season.dataset.seasonId;
+    document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
+    season.classList.add('active');
+    episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
+  })
+})
+
+
+
 
 
 </script>

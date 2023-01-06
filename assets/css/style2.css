@@ -12,7 +12,7 @@
 
 :root {
 	--font-family: "Kanit", sans-serif;
-	--accent-color: #e50914;
+	--accent-color: #ffc107;
 }
 
 ::-webkit-scrollbar {
@@ -49,11 +49,11 @@ body {
 .btn {
 	outline: none;
 	border: none;
-	padding: 8px 28px;
+	padding: 12px 28px;
 	font-family: var(--font-family);
 	font-size: 16px;
 	cursor: pointer;
-	text-transform: uppercase;
+	text-transform: capitalize;
 	transition: 0.2s ease-out;
 	border-radius: 2px;
 	display: flex;
@@ -61,11 +61,13 @@ body {
 	justify-content: center;
 	gap: 8px;
 	display: flex;
+	border-radius: 16px;
+	font-weight: 400;
 }
 
 .btn_secondary {
 	background-color: var(--accent-color);
-	color: #fff;
+	color: #080808;
 }
 
 .btn_outline {
@@ -75,7 +77,7 @@ body {
 }
 
 .btn_secondary:hover {
-	box-shadow: 0 0 20px rgba(229, 9, 20, 40%);
+	/* box-shadow: 0 0 20px rgba(229, 9, 20, 40%); */
 }
 
 .btn_outline:hover {
@@ -94,6 +96,7 @@ body {
 	position: fixed;
 	top: 0;
 	z-index: 9999;
+	background-color: rgb(29, 29, 30);
 }
 
 .navbar.navBgColor {
@@ -124,6 +127,9 @@ body {
 	transition: 0.2s ease-in-out;
 	display: block;
 	font-weight: 500;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 }
 
 .navbar .nav_links_left > li.active > a {
@@ -146,7 +152,9 @@ body {
 	font-size: 18px;
 	text-transform: capitalize;
 	transition: 0.2s ease-in-out;
-	display: block;
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	font-weight: 500;
 }
 
@@ -213,7 +221,7 @@ body {
 	width: 32px;
 	height: 32px;
 	overflow: hidden;
-	/* border-radius: 50%; */
+	border-radius: 50%;
 }
 
 .profileImg > img {
@@ -351,7 +359,7 @@ section#suggestion {
 	font-size: 24px;
 	color: #fff;
 	position: absolute;
-	top: 50%;
+	top: 41%;
 	transform: translateY(-50%);
 	z-index: 9999;
 	background: rgb(0 0 0 / 54%);
@@ -411,7 +419,7 @@ section#suggestion {
 
 .section .genre_section {
 	display: grid;
-	grid-template-columns: repeat(5, 1fr);
+	grid-template-columns: repeat(6, 1fr);
 	gap: 40px 16px;
 	margin-bottom: 80px;
 }
@@ -448,11 +456,11 @@ section#suggestion {
 .section .section_body .section_movie .section_movie_poster {
 	width: 100%;
 	height: 100%;
-	height: 350px;
+	height: 280px;
 	overflow: hidden;
 	display: block;
 	position: relative;
-	border-radius: 4px;
+	border-radius: 20px;
 }
 
 .section .section_body .section_movie .section_movie_poster > .type {
@@ -460,11 +468,11 @@ section#suggestion {
 	left: 8px;
 	top: 8px;
 	z-index: 999;
-	font-size: 16px;
+	font-size: 14px;
 	background-color: #060606;
 	color: #fff;
 	padding: 4px 8px;
-	border-radius: 4px;
+	border-radius: 40px;
 }
 
 .removeFromMyWatchlistBtn {
@@ -684,7 +692,7 @@ section#suggestion {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #fff;
+	color: #161616;
 	font-size: 14px;
 }
 
@@ -710,15 +718,21 @@ section#suggestion {
 }
 
 .movie_page .movie_details {
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
 	width: 100%;
 	display: flex;
 	align-items: flex-start;
 	gap: 40px;
-	padding: 0 40px;
-	padding-top: 80px;
+	padding: 120px 40px;
+}
+
+.section_movie_left .movie_btns {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+.section_movie_left .movie_btns .btn_outline {
+	width: 100% !important;
 }
 
 .movie_page .movie_details .movie_poster {
@@ -727,6 +741,8 @@ section#suggestion {
 	overflow: hidden;
 	box-shadow: 0 12px 24px rgb(0 0 0 / 24%);
 	position: relative;
+	border-radius: 20px;
+	margin-bottom: 20px;
 }
 
 .movie_page .movie_details .movie_poster > img {
@@ -765,11 +781,15 @@ section#suggestion {
 	text-transform: uppercase;
 }
 
+.movie_page .movie_details .movie_info .movie_data > .time {
+	text-transform: capitalize;
+}
+
 .movie_page .movie_details .movie_info .movie_plot {
-	color: #fff;
+	color: #767778;
 	font-size: 16px;
 	font-weight: 300;
-	line-height: 24px;
+	line-height: 28px;
 }
 
 .movie_page .movie_details .movie_info .movie_imdb_rating {
@@ -820,8 +840,8 @@ section#suggestion {
 	> .cast_actors
 	> .cast_actor
 	> .actor_img {
-	width: 60px;
-	height: 60px;
+	width: 48px;
+	height: 48px;
 	border-radius: 50%;
 	background-color: #060606;
 	overflow: hidden;
@@ -871,6 +891,89 @@ section#suggestion {
 	margin-top: 40px;
 	display: flex;
 	gap: 12px;
+}
+
+/* Seasons */
+.serie_seasons_container {
+	width: 100%;
+	background-color: #1d1d1e;
+	padding: 16px 20px;
+	display: flex;
+	border-radius: 8px;
+}
+
+.serie_seasons_container .seasons {
+	width: 20%;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px solid #262626;
+}
+
+.serie_seasons_container .seasons > li > a {
+	display: block;
+	color: #767778;
+	padding: 12px 0;
+	transition: 0.2s ease;
+	position: relative;
+	font-weight: 300;
+	text-transform: uppercase;
+}
+
+.serie_seasons_container .seasons > li.active a::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	height: 100%;
+	width: 4px;
+	top: 50%;
+	transform: translateY(-50%);
+	background-color: var(--accent-color);
+}
+
+.serie_seasons_container .seasons > li.active > a {
+	color: var(--accent-color);
+	font-weight: 400;
+}
+
+.serie_seasons_container .seasons > li a:hover {
+	color: #fff;
+}
+
+.serie_seasons_container .episodes {
+	width: 80%;
+	padding: 0 16px;
+	padding-right: 0;
+}
+
+.serie_seasons_container .episodes > li > a {
+	display: block;
+	color: #fff;
+	padding: 12px 20px;
+	font-weight: 300;
+	transition: 0.2s ease;
+	position: relative;
+	border-bottom: 1px solid #262626 !important;
+	display: flex;
+	align-items: center;
+	gap: 40px;
+	border-radius: 8px;
+}
+
+.serie_seasons_container .episodes li a:hover {
+	background-color: #262626;
+}
+
+.serie_seasons_container .episodes li:last-child a {
+	border-bottom: none !important;
+}
+
+.serie_seasons_container .episodes li a > .ep_num {
+	color: #767778;
+	text-transform: uppercase;
+}
+
+.serie_seasons_container .episodes li a > .ep_name {
+	text-transform: capitalize;
 }
 
 /* Login */

@@ -1,11 +1,11 @@
 <nav class="navbar" id="navbar">
       <a href="<?= base_url('home') ?>" class="brand">Film.<span>Io</span></a>
       <ul class="nav_links_left">
-        <li class="<?= setActiveClass('home') ?>"><a href="<?= base_url('home') ?>">Home</a></li>
-        <li class="<?= setActiveClass('movies') ?>"><a href="<?= base_url('movies') ?>">Movies</a></li>
-        <li class="<?= setActiveClass('series') ?>"><a href="<?= base_url('series') ?>">Series</a></li>
+        <li class="<?= setActiveClass('home') ?>"><a href="<?= base_url('home') ?>"><i class="far fa-house"></i> Home</a></li>
+        <li class="<?= setActiveClass('movies') ?>"><a href="<?= base_url('movies') ?>"><i class="far fa-film-alt"></i> Movies</a></li>
+        <li class="<?= setActiveClass('series') ?>"><a href="<?= base_url('series') ?>"><i class="far fa-tv-alt"></i> Series</a></li>
         <?php if($this->session->userdata('is_logged_in')) : ?>
-          <li class="<?= setActiveClass('mylist') ?>"><a href="<?= base_url('mylist') ?>">My List</a></li>
+          <li class="<?= setActiveClass('mylist') ?>"><a href="<?= base_url('mylist') ?>"><i class="far fa-bookmark"></i> My List</a></li>
         <?php endif; ?>
       </ul>
       <ul class="nav_links_right">
@@ -13,8 +13,8 @@
           <button class="search_btn"><i class="far fa-search"></i></button>
         </li>
         <?php if(!$this->session->userdata('is_logged_in')) : ?>
-        <li><a href="<?= base_url('login') ?>">Login</a></li>
-        <li><a href="<?= base_url('register') ?>">Sign Up</a></li>
+        <li><a href="<?= base_url('login') ?>"><i class="far fa-sign-in"></i> Login</a></li>
+        <li><a href="<?= base_url('register') ?>"><i class="far fa-user-plus"></i> Sign Up</a></li>
         <?php else : ?>
           <li class="user_profile">
             <div class="profileDetails">
