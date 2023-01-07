@@ -308,7 +308,7 @@ body {
 .genre > li > a {
 	color: #fff;
 	position: relative;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400;
 }
 
@@ -342,7 +342,7 @@ body {
 }
 
 section#suggestion {
-	margin-top: 40px;
+	margin-top: 80px;
 }
 
 .section .section_header {
@@ -460,7 +460,7 @@ section#suggestion {
 	overflow: hidden;
 	display: block;
 	position: relative;
-	border-radius: 20px;
+	border-radius: 8px;
 }
 
 .section .section_body .section_movie .section_movie_poster > .type {
@@ -722,7 +722,7 @@ section#suggestion {
 	display: flex;
 	align-items: flex-start;
 	gap: 40px;
-	padding: 120px 40px;
+	padding: 120px 40px 0 40px;
 }
 
 .section_movie_left .movie_btns {
@@ -741,7 +741,7 @@ section#suggestion {
 	overflow: hidden;
 	box-shadow: 0 12px 24px rgb(0 0 0 / 24%);
 	position: relative;
-	border-radius: 20px;
+	border-radius: 8px;
 	margin-bottom: 20px;
 }
 
@@ -755,8 +755,15 @@ section#suggestion {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
-	gap: 24px;
+	/* gap: 24px; */
 	width: calc(100% - 240px);
+	/* padding: 20px 0; */
+	/* border-bottom: 1px solid #1c1c1c; */
+}
+
+.movie_page .movie_details div:last-child {
+	border-bottom: 0 !important;
+	padding-bottom: 0;
 }
 
 .movie_page .movie_details .movie_info .movie_name {
@@ -764,19 +771,25 @@ section#suggestion {
 	color: #fff;
 	line-height: 40px;
 	text-shadow: 0 8px 16px rgb(0 0 0 / 8%);
+	padding-bottom: 20px;
+	border-bottom: 1px solid #1c1c1c;
+	width: 100%;
 }
 
 .movie_page .movie_details .movie_info .movie_data {
 	display: flex;
 	align-items: center;
-	gap: 28px;
+	gap: 40px;
+	padding: 20px 0 20px 0;
+	border-bottom: 1px solid #1c1c1c;
+	width: 100%;
 }
 
 .movie_page .movie_details .movie_info .movie_data > .year,
 .movie_page .movie_details .movie_info .movie_data > .time,
 .movie_page .movie_details .movie_info .movie_data > .quality {
 	color: #fff;
-	font-size: 18px;
+	font-size: 16px;
 	font-weight: 400;
 	text-transform: uppercase;
 }
@@ -790,11 +803,13 @@ section#suggestion {
 	font-size: 16px;
 	font-weight: 300;
 	line-height: 28px;
+	padding: 20px 0;
+	border-bottom: 1px solid #1c1c1c;
 }
 
 .movie_page .movie_details .movie_info .movie_imdb_rating {
 	color: #fff;
-	font-size: 18px;
+	font-size: 16px;
 	display: flex;
 	align-items: center;
 	gap: 8px;
@@ -807,12 +822,15 @@ section#suggestion {
 .movie_page .movie_details .movie_info .movie_cast > h3,
 .movie_page .movie_details .movie_info .movie_plot > h3 {
 	color: #fff;
-	margin-bottom: 8px;
+	margin-bottom: 12px;
 	position: relative;
+	display: inline-block;
 }
 
 .movie_page .movie_details .movie_info .movie_cast {
 	width: 100%;
+	padding: 20px 0;
+	border-bottom: 1px solid #1c1c1c;
 }
 
 .movie_page .movie_details .movie_info .movie_cast > .cast_actors {
@@ -880,7 +898,7 @@ section#suggestion {
 	> .cast_actors
 	> .cast_actor
 	.actor_moviename {
-	color: #fff;
+	color: #767778;
 	font-weight: 300;
 	text-transform: capitalize;
 	font-size: 14px;
@@ -894,7 +912,7 @@ section#suggestion {
 }
 
 /* Seasons */
-.serie_seasons_container {
+/* .serie_seasons_container {
 	width: 100%;
 	background-color: #1d1d1e;
 	padding: 16px 20px;
@@ -974,6 +992,58 @@ section#suggestion {
 
 .serie_seasons_container .episodes li a > .ep_name {
 	text-transform: capitalize;
+} */
+
+.seasons {
+	width: 100%;
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	gap: 40px 16px;
+	margin-bottom: 80px;
+}
+
+.seasons > .season {
+	width: 100%;
+}
+
+.seasons > .season > .season_poster {
+	width: 100%;
+	height: 100%;
+	height: 240px;
+	overflow: hidden;
+	display: block;
+	position: relative;
+	border-radius: 8px;
+}
+
+.seasons > .season > .season_poster > img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.seasons > .season > .season_title {
+	font-weight: 700;
+	color: #fff;
+	margin-top: 8px;
+	font-size: 16px;
+	display: block;
+	text-transform: uppercase;
+}
+
+.seasons > .season > .season_year {
+	color: #767778 !important;
+	font-weight: 300;
+	font-size: 16px;
+}
+
+.seasons_section {
+	width: 100%;
+	padding: 20px 0;
+}
+
+.seasons_section > h3 {
+	margin-bottom: 12px;
 }
 
 /* Login */
@@ -1149,4 +1219,8 @@ input:-webkit-autofill:active {
 #watchlist_body > p {
 	color: #7c7c7c;
 	font-weight: 300;
+}
+
+img.imdb_logo {
+	width: 40px;
 }

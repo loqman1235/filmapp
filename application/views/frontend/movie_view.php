@@ -11,7 +11,7 @@
           </div>
           <div class="movie_btns">
             <a href="<?= base_url('home/watch/') . $movie->movie_id ?>" class="btn btn_secondary">
-              <i class="fas fa-play"></i> Watch Now
+              <i class="fas fa-play"></i> Play Now
             </a>
             <button class="btn btn_outline" id="trailerBtn">
               <i class="far fa-video"></i> Trailer
@@ -24,6 +24,8 @@
                     <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>
                   <?php endif; ?>
             </div>
+            <?php else : ?>
+              <a href="<?= base_url('login') ?>" class="btn btn_outline " id=""><i class="far fa-plus"></i> My list</a>
            <?php endif; ?>
           </div>
         </div>
@@ -43,7 +45,7 @@
             <p class="time"><?= $movie->movie_runtime ?></p>
             <p class="quality"><?= $movie->movie_quality ?></p>
             <span class="movie_imdb_rating"
-              ><i class="fas fa-star"></i> <?= $movie->movie_imdb_rating ?>/10</span
+              ><img src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="" class="imdb_logo"> <?= $movie->movie_imdb_rating ?>/10</span
             >
           </div>
           <div class="movie_plot">

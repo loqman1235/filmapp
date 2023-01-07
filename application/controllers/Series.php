@@ -28,6 +28,8 @@ class Series extends CI_Controller
 
     public function serie($serieId)
     {
+
+
         $data['page_title'] = 'serie';
         $data['serie'] = $this->serie_model->getSerieById($serieId);
 		$data['serieGenres'] = $this->serie_model->getSerieGenre();

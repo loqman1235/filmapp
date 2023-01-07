@@ -24,6 +24,8 @@
                     <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>
                   <?php endif; ?>
             </div>
+            <?php else : ?>
+              <a href="<?= base_url('login') ?>" class="btn btn_outline " id=""><i class="far fa-plus"></i> My list</a>
            <?php endif; ?>
           </div>
         </div>
@@ -41,7 +43,7 @@
             </ul>
             <a href="#" class="year"><?= $serie->serie_year ?></a>
             <span class="movie_imdb_rating"
-              ><i class="fas fa-star"></i> <?= $serie->serie_imdb_rating ?>/10</span
+              ><img src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="" class="imdb_logo"> <?= $serie->serie_imdb_rating ?>/10</span
             >
           </div>
           <div class="movie_plot">
@@ -72,23 +74,26 @@
           </div>
           <?php endif; ?>
        
-          <!-- Serie Seasons -->
-          <h3><strong>Seasons</strong></h3>
-          <?php if($serieSeasons) :?>
-          <div class="serie_seasons_container">
-           <ul class="seasons">
-            <?php foreach($serieSeasons as $season) : ?>
-              <?php $seasonNum++; ?>
-              <li class="season" data-season-id="<?= $season->season_id ?>"><a href="#">Se.<?= $seasonNum ?></a></li>
-              <?php endforeach; ?>
-           </ul>
-           <ul class="episodes" id="episodes">
-           </ul>
-          </div>
-          <!-- Serie Seasons end -->
-
-          
-          <!-- else comming soon -->
+          <?php if($serieSeasons) : ?>
+            <div class="seasons_section">
+               <!-- Serie Seasons -->
+              <h3><strong>Seasons</strong></h3>
+              <div class="seasons">
+                <?php foreach($serieSeasons as $season) : ?>
+                  <?php $seasonNum++ ?>
+                <div class="season">
+                  <a href="#" class="season_poster">
+                    <img src="<?= $season->season_poster ?>" alt="">
+                  </a>
+                  <a href="#" class="season_title">Season . <?= $seasonNum ?></a>
+                  <span class="season_year"><?= $season->season_year ?></span>
+                </div>
+                <?php endforeach; ?>
+              </div>
+              <!-- Serie Seasons end -->
+            </div>
+          <?php else : ?>
+            <p>Comming Soon</p>
           <?php endif; ?>
         </div>
       </div>
@@ -142,6 +147,7 @@
 
 
 <script>
+
   const addToMyListBtn = document.getElementById('addToMyListBtn');
   const removeFromMyListBtn = document.getElementById('removeFromMyListBtn');
 
@@ -217,46 +223,46 @@
 // Get Episodes By Season Id
 
 
-const getEpisodesBySeasonId = async (seasonId) => 
-{
+// const getEpisodesBySeasonId = async (seasonId) => 
+// {
 
-  let formData = new FormData();
-  formData.append('seasonId', seasonId);
-  formData.append('serieId', `<?= $serie->serie_id ?>`)
+//   let formData = new FormData();
+//   formData.append('seasonId', seasonId);
+//   formData.append('serieId', `<?= $serie->serie_id ?>`)
 
-  const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
-    method: 'POST',
-    body: formData
-  });
+//   const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
+//     method: 'POST',
+//     body: formData
+//   });
 
-  const result = await response.json();
-  console.log(result);
-  return result;
+//   const result = await response.json();
+//   console.log(result);
+//   return result;
 
-}
-
-
-const seasons = document.querySelectorAll('.season');
-const episodesEl = document.getElementById('episodes');
+// }
 
 
-const showEpisodes = async () => {
-  episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
-}
+// const seasons = document.querySelectorAll('.season');
+// const episodesEl = document.getElementById('episodes');
 
-showEpisodes();
 
-seasons[0].classList.add('active');
+// const showEpisodes = async () => {
+//   episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
+//}
 
-seasons.forEach(season => {
-  season.addEventListener('click', async (e) => {
-    e.preventDefault();
-    const seasonId = season.dataset.seasonId;
-    document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
-    season.classList.add('active');
-    episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
-  })
-})
+// showEpisodes();
+
+// seasons[0].classList.add('active');
+
+// seasons.forEach(season => {
+//   season.addEventListener('click', async (e) => {
+//     e.preventDefault();
+//     const seasonId = season.dataset.seasonId;
+//     document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
+//     season.classList.add('active');
+//     episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
+//   })
+// })
 
 
 

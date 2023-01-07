@@ -127,7 +127,7 @@ class Serie_model extends CI_Model
 
     public function getSeasonsBySerieId($serieId)
     {
-        $this->db->select('tbl_series.serie_id, tbl_seasons.season_id,tbl_seasons.season_name');
+        $this->db->select('tbl_series.serie_id, tbl_seasons.season_id,tbl_seasons.season_name, tbl_seasons.season_poster, tbl_seasons.season_year');
         $this->db->from('tbl_series');
         $this->db->join('tbl_seasons', 'tbl_series.serie_id=tbl_seasons.serie_id');
         $this->db->where('tbl_series.serie_id', $serieId);

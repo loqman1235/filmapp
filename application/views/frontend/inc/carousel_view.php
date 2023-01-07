@@ -25,7 +25,7 @@
             </p>
             <div class="hero_btns">
               <a href="#" class="btn btn_secondary">
-                <i class="far fa-play"></i> Watch Now
+                <i class="fas fa-play"></i> Play Now
               </a>
               <a href="<?= base_url('home/movie/') . $featuredMovie->movie_id ?>" class="btn btn_outline">
                 <i class="far fa-info-circle"></i> More information
@@ -60,7 +60,7 @@
             </p>
             <div class="hero_btns">
               <a href="#" class="btn btn_secondary">
-                <i class="fas fa-play"></i> Watch Now
+                <i class="fas fa-play"></i> Play Now
               </a>
               <a href="<?= base_url('home/serie/') . $featuredSerie->serie_id ?>" class="btn btn_outline">
                 <i class="far fa-info-circle"></i> More information

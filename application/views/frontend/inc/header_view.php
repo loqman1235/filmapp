@@ -26,7 +26,7 @@
         // Optional parameters
         direction: "horizontal",
         speed: 900,
-        loop: true,
+        loop: false,
         autoplay: {
           delay: 5000,
         },
@@ -55,6 +55,9 @@
         autoplay: false,
         slidesPerView: 6,
         spaceBetween: 16,
+        // centeredSlides: true,
+        // centerInsufficientSlides: true,
+        // centeredSlidesBounds: true,
 
         // Navigation arrows
         navigation: {
