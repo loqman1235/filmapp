@@ -1,16 +1,20 @@
-1 Create shows table                               -> Not done yet
+* Work on the homepage slider                      -> Not done yet
 
-2 Create Suggestions under movie details page      -> Done
+* Add searching                                    -> Not done yet
 
-3 Create watch page                                -> Not done yet 
+* Add filtering to Movies and Series pages         -> Not done yet
 
-4 Create watch servers                             -> Not done yet
+* Start working on the backend                     -> Not done yet
 
-5 Start working on the backend                     -> Not done yet
+* Create shows table                               -> Done
 
-6 Create actors table and display actors           -> Done 
+* Create Suggestions under movie details page      -> Done
 
-* Create keywords table/ and movies_keywords table, series_keywords table
+* Create watch page                                -> Done
+
+* Create actors table and display actors           -> Done 
+
+* Create keywords table/ and movies_keywords table, series_keywords table  -> done
 
 // 
 

@@ -3,6 +3,7 @@
     <section class="section" id="latestMoviesSection">
       <div class="section_header">
         <h3><strong>Movies</strong></h3>
+        <a href="<?= base_url('movies') ?>" class="see_all">View All <i class="far fa-angle-right"></i></a>
       </div>
       <div class="section_body swiper" id="latestMovies">
         <div class="swiper-wrapper">
@@ -45,6 +46,7 @@
     <section class="section" id="latestSeriesSection">
       <div class="section_header">
         <h3><strong>Series</strong></h3>
+        <a href="<?= base_url('series') ?>" class="see_all">View All <i class="far fa-angle-right"></i></a>
       </div>
       <div class="section_body swiper" id="latestSeries">
         <div class="swiper-wrapper">

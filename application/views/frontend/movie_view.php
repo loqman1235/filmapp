@@ -10,9 +10,9 @@
             />
           </div>
           <div class="movie_btns">
-            <a href="<?= base_url('home/watch/') . $movie->movie_id ?>" class="btn btn_secondary">
-              <i class="fas fa-play"></i> Play Now
-            </a>
+            <button onclick="scrollToPlayer()" class="btn btn_secondary">
+              <i class="fas fa-play"></i> Watch Now
+            </button>
             <button class="btn btn_outline" id="trailerBtn">
               <i class="far fa-video"></i> Trailer
             </button>
@@ -55,6 +55,7 @@
             </p>
           </div>
          <?php if($movieActors) : ?>
+          <!-- Cast start -->
           <div class="movie_cast">
             <h3><strong>Cast</strong></h3>
             <div class="cast_actors">
@@ -74,7 +75,12 @@
                 <?php endforeach; ?>
             </div>
           </div>
+          <!-- Cast ends -->
           <?php endif; ?>
+          <div class="movie_embed" id="player">
+                <iframe id="iframe" allowfullscreen="true" src="<?= $movie->movie_embed ?>"></iframe>
+          </div>
+
          
         </div>
       </div>
@@ -261,6 +267,16 @@
   // Remove movie from user's watchlist
 
   if(removeFromMyListBtn !== null) removeFromMyListBtn.addEventListener('click', removeMovieFromWatchlist);
+
+
+function scrollToPlayer() {
+  const player = document.getElementById('player');
+  player.scrollIntoView({ behavior: 'smooth', block: 'end'});
+}
+
+
+
+
 
 
 </script>

@@ -83,6 +83,9 @@ class Home extends CI_Controller {
 
 		if($data['movie'])
 		{
+			// Insert views
+			$this->movie_model->updateMovieVisitors($movieId);
+
 			$this->load->view('frontend/inc/header_view', $data);
 			$this->load->view('frontend/inc/navbar_view');
 			$this->load->view('frontend/movie_view', $data);

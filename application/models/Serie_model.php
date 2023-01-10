@@ -147,7 +147,7 @@ class Serie_model extends CI_Model
     // Get Episodes
     public function getEpisodesBySerieId($seasonId, $serieId)
     {
-        $this->db->select('tbl_seasons.serie_id, tbl_seasons.season_id, tbl_episodes.episode_id, tbl_episodes.episode_name');
+        $this->db->select('tbl_seasons.serie_id, tbl_seasons.season_id, tbl_episodes.episode_id, tbl_episodes.episode_name, tbl_episodes.episode_embed');
         $this->db->from('tbl_seasons');
         $this->db->join('tbl_episodes', 'tbl_seasons.season_id=tbl_episodes.seasons_id');
         $this->db->where('season_id', $seasonId);
@@ -163,6 +163,32 @@ class Serie_model extends CI_Model
             return false;
         }
 
+    }
+
+     // Update Serie Views
+     public function updateSerieVisitors($id){
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        if(!empty($ip))
+        {
+            $this->db->select('serie_views');
+            $this->db->from('series');
+            $this->db->where('serie_id', $id);
+            $query = $this->db->get();
+            $views = $query->row()->serie_views;
+            $newViews = ++$views;
+
+            $this->db->set('serie_views', $newViews);
+            $this->db->where('serie_id', $id);
+            $this->db->update('series');
+          
+           
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

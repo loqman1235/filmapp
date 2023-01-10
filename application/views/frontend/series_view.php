@@ -1,5 +1,5 @@
 <!-- Section start -->
-<section class="section">
+<section class="section" id="series_section">
     <div class="section_header">
         <h3><strong>Series</strong></h3>
     </div>

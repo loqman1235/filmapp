@@ -7,12 +7,15 @@
         <div class="movie swiper-slide">
           <div class="movie_backdrop">
             <img
-              src="<?= $featuredMovie->movie_backdrop ?>"
+              src="<?= $featuredMovie->movie_poster ?>"
               alt=""
             />
+            <!-- <div class="playBtnContainer">
+             <a href="#" class="playBtn"><i class="fas fa-play"></i></a>
+            </div> -->
           </div>
           <div class="movie_details">
-            <h1><?= $featuredMovie->movie_name ?></h1>
+            <h1><a href="<?= base_url('home/movie/') . $featuredMovie->movie_id ?>"><?= $featuredMovie->movie_name ?></a></h1>
             <ul class="genre">
               <?php foreach($genres as $genre) : ?>
                 <?php if($genre->movie_id === $featuredMovie->movie_id) : ?>
@@ -20,17 +23,17 @@
                  <?php endif; ?>
               <?php endforeach; ?>
             </ul>
-            <p class="movie_details_info_plot">
+            <!-- <p class="movie_details_info_plot">
               <?= strShortner($featuredMovie->movie_plot, 200) ?>...
-            </p>
-            <div class="hero_btns">
+            </p> -->
+            <!-- <div class="hero_btns">
               <a href="#" class="btn btn_secondary">
                 <i class="fas fa-play"></i> Play Now
               </a>
               <a href="<?= base_url('home/movie/') . $featuredMovie->movie_id ?>" class="btn btn_outline">
                 <i class="far fa-info-circle"></i> More information
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- Hero Movie end -->
@@ -42,12 +45,13 @@
         <div class="movie swiper-slide">
           <div class="movie_backdrop">
             <img
-              src="<?= $featuredSerie->serie_backdrop ?>"
+              src="<?= $featuredSerie->serie_poster ?>"
               alt=""
             />
           </div>
           <div class="movie_details">
-            <h1><?= $featuredSerie->serie_name ?></h1>
+          <h1><a href="<?= base_url('series/serie/') . $featuredSerie->serie_id ?>"><?= $featuredSerie->serie_name ?></a></h1>
+
             <ul class="genre">
               <?php foreach($serieGenres as $serieGenre) : ?>
                 <?php if($serieGenre->serie_id === $featuredSerie->serie_id) : ?>
@@ -55,17 +59,17 @@
                  <?php endif; ?>
               <?php endforeach; ?>
             </ul>
-            <p class="movie_details_info_plot">
+            <!-- <p class="movie_details_info_plot">
               <?= strShortner($featuredSerie->serie_plot, 200) ?>...
-            </p>
-            <div class="hero_btns">
+            </p> -->
+            <!-- <div class="hero_btns">
               <a href="#" class="btn btn_secondary">
                 <i class="fas fa-play"></i> Play Now
               </a>
               <a href="<?= base_url('home/serie/') . $featuredSerie->serie_id ?>" class="btn btn_outline">
                 <i class="far fa-info-circle"></i> More information
               </a>
-            </div>
+            </div> -->
           </div>
         </div>
         <!-- Hero Movie end -->

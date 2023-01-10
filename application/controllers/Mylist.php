@@ -157,7 +157,7 @@ class Mylist extends CI_Controller
             }
             else
             {
-                $result .= '<p>You didn\'t add any movie yet</p>';
+                $result .= '<p>You didn\'t add any item yet</p>';
             }
 
 

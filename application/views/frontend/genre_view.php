@@ -1,5 +1,5 @@
     <!-- section start -->
-    <section class="section">
+    <section class="section" id="genre_section">
       <div class="section_header">
         <h3><strong><?= $genre->genre_name ?></strong></h3>
       </div>

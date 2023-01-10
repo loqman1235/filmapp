@@ -247,4 +247,62 @@ class Movie_model extends CI_Model
     }
 
 
+    // Update Movie Views
+    public function updateMovieVisitors($id){
+
+        $ip = $_SERVER['REMOTE_ADDR'];
+
+        if(!empty($ip))
+        {
+            $this->db->select('movie_views');
+            $this->db->from('movies');
+            $this->db->where('movie_id', $id);
+            $query = $this->db->get();
+            $views = $query->row()->movie_views;
+            $newViews = ++$views;
+
+            $this->db->set('movie_views', $newViews);
+            $this->db->where('movie_id', $id);
+            $this->db->update('movies');
+          
+           
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public function getAllGenres() 
+    {
+        $query = $this->db->get('genres');
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
+
+    }
+
+    public function getMovieYears()
+    {
+        $this->db->distinct();
+        $this->db->select('movie_year');
+        $this->db->from('movies');
+        $this->db->order_by('movie_year', 'DESC');
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
 }

@@ -26,26 +26,13 @@
         // Optional parameters
         direction: "horizontal",
         speed: 900,
-        loop: false,
+        loop: true,
         autoplay: {
           delay: 5000,
         },
+        slidesPerView: 4,
+        // spaceBetween: 8,
 
-        // If we need pagination
-        pagination: {
-          el: ".swiper-pagination",
-        },
-
-        // Navigation arrows
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-
-        // And if we need scrollbar
-        scrollbar: {
-          el: ".swiper-scrollbar",
-        },
       });
 
       // Latest Movies slider
@@ -54,7 +41,7 @@
         speed: 900,
         autoplay: false,
         slidesPerView: 6,
-        spaceBetween: 16,
+        spaceBetween: 8,
         // centeredSlides: true,
         // centerInsufficientSlides: true,
         // centeredSlidesBounds: true,
@@ -76,7 +63,7 @@
         speed: 900,
         autoplay: false,
         slidesPerView: 6,
-        spaceBetween: 16,
+        spaceBetween: 8,
 
         // Navigation arrows
         navigation: {
@@ -95,7 +82,7 @@
         speed: 900,
         autoplay: false,
         slidesPerView: 6,
-        spaceBetween: 16,
+        spaceBetween: 8,
 
         // Navigation arrows
         navigation: {

@@ -1,5 +1,5 @@
 <!-- section start -->
-<section class="section">
+<section class="section" id="list_section">
     <div class="section_header">
     <h3><strong>My List</strong> <?= ($countListMovies > 0) ? '<small>('. $countListMovies .')</small>' : '' ?></h3>
     </div>

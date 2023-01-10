@@ -6,7 +6,7 @@
           <ul>
             <li><a href="#">Home</a></li>
             <li><a href="#">Discover</a></li>
-            <li><a href="#">Movies/a></li>
+            <li><a href="#">Movies</a></li>
             <li><a href="#">Shows</a></li>
           </ul>
         </div>

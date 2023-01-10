@@ -10,12 +10,12 @@
             />
           </div>
           <div class="movie_btns">
-            <!-- <a href="<?= base_url('home/watch/') . $serie->serie_id ?>" class="btn btn_secondary">
-              <i class="far fa-play"></i> Watch Now
-            </a>
+          <button onclick="scrollToSeriePlayer()" class="btn btn_secondary">
+              <i class="fas fa-play"></i> Watch Now
+            </button>
             <button class="btn btn_outline" id="trailerBtn">
               <i class="far fa-video"></i> Trailer
-            </button> -->
+            </button> 
             <?php if($this->session->userdata('is_logged_in')) :?>
             <div class="deleteBtnContainer" id="deleteBtnContainer">
                 <?php if(!$watchListMoviesExist) :?>
@@ -24,7 +24,7 @@
                     <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>
                   <?php endif; ?>
             </div>
-            <?php else : ?>
+            <?php else: ?>
               <a href="<?= base_url('login') ?>" class="btn btn_outline " id=""><i class="far fa-plus"></i> My list</a>
            <?php endif; ?>
           </div>
@@ -43,7 +43,7 @@
             </ul>
             <a href="#" class="year"><?= $serie->serie_year ?></a>
             <span class="movie_imdb_rating"
-              ><img src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="" class="imdb_logo"> <?= $serie->serie_imdb_rating ?>/10</span
+              ><i class="fas fa-star"></i> <?= $serie->serie_imdb_rating ?>/10</span
             >
           </div>
           <div class="movie_plot">
@@ -74,26 +74,24 @@
           </div>
           <?php endif; ?>
        
-          <?php if($serieSeasons) : ?>
-            <div class="seasons_section">
-               <!-- Serie Seasons -->
-              <h3><strong>Seasons</strong></h3>
-              <div class="seasons">
-                <?php foreach($serieSeasons as $season) : ?>
-                  <?php $seasonNum++ ?>
-                <div class="season">
-                  <a href="#" class="season_poster">
-                    <img src="<?= $season->season_poster ?>" alt="">
-                  </a>
-                  <a href="#" class="season_title">Season . <?= $seasonNum ?></a>
-                  <span class="season_year"><?= $season->season_year ?></span>
-                </div>
-                <?php endforeach; ?>
-              </div>
-              <!-- Serie Seasons end -->
-            </div>
-          <?php else : ?>
-            <p>Comming Soon</p>
+          <!-- Serie Seasons -->
+          
+          <?php if($serieSeasons) :?>
+          <div class="movie_embed" id="seriePlayer">
+              <iframe id="serieIframe" allowfullscreen="true" src=""></iframe>
+          </div>
+          <div class="serie_seasons_container">
+           <ul class="seasons">
+            <?php foreach($serieSeasons as $season) : ?>
+              <?php $seasonNum++; ?>
+              <li class="season" data-season-id="<?= $season->season_id ?>"><a href="#">Se.<?= $seasonNum ?></a></li>
+              <?php endforeach; ?>
+           </ul>
+           <ul class="episodes" id="episodes">
+           </ul>
+          </div>
+          <!-- Serie Seasons end -->
+          <!-- else comming soon -->
           <?php endif; ?>
         </div>
       </div>
@@ -147,9 +145,9 @@
 
 
 <script>
-
   const addToMyListBtn = document.getElementById('addToMyListBtn');
   const removeFromMyListBtn = document.getElementById('removeFromMyListBtn');
+  const serieIframe = document.getElementById('serieIframe');
 
 
   const addMovieToWatchlist = async (e) => {
@@ -223,49 +221,67 @@
 // Get Episodes By Season Id
 
 
-// const getEpisodesBySeasonId = async (seasonId) => 
-// {
+const getEpisodesBySeasonId = async (seasonId) => 
+{
 
-//   let formData = new FormData();
-//   formData.append('seasonId', seasonId);
-//   formData.append('serieId', `<?= $serie->serie_id ?>`)
+  let formData = new FormData();
+  formData.append('seasonId', seasonId);
+  formData.append('serieId', `<?= $serie->serie_id ?>`)
 
-//   const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
-//     method: 'POST',
-//     body: formData
-//   });
+  const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
+    method: 'POST',
+    body: formData
+  });
 
-//   const result = await response.json();
-//   console.log(result);
-//   return result;
+  const result = await response.json();
+  return result;
 
-// }
-
-
-// const seasons = document.querySelectorAll('.season');
-// const episodesEl = document.getElementById('episodes');
+}
 
 
-// const showEpisodes = async () => {
-//   episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
-//}
-
-// showEpisodes();
-
-// seasons[0].classList.add('active');
-
-// seasons.forEach(season => {
-//   season.addEventListener('click', async (e) => {
-//     e.preventDefault();
-//     const seasonId = season.dataset.seasonId;
-//     document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
-//     season.classList.add('active');
-//     episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
-//   })
-// })
+const seasons = document.querySelectorAll('.season');
+const episodesEl = document.getElementById('episodes');
 
 
+// Display Episodes and play the first episode
+const showEpisodes = async () => {
+  episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
 
+  // Play First episode by default
+  episodesEl.children[0].classList.add('active');
+  serieIframe.src = episodesEl.children[0].firstElementChild.dataset.episodeSrc
+
+}
+
+showEpisodes();
+
+seasons[0].classList.add('active');
+
+seasons.forEach(season => {
+  season.addEventListener('click', async (e) => {
+    e.preventDefault();
+    const seasonId = season.dataset.seasonId;
+    document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
+    season.classList.add('active');
+    episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
+  })
+})
+
+
+function playEpisode(e)
+{
+  e.preventDefault();
+  document.querySelectorAll('.episode').forEach(ep => ep.classList.remove('active'));
+  e.target.parentElement.classList.add('active');
+  serieIframe.src = e.target.dataset.episodeSrc;
+  
+}
+
+
+function scrollToSeriePlayer() {
+  const seriePlayer = document.getElementById('seriePlayer');
+  seriePlayer.scrollIntoView({ behavior: 'smooth', block: 'end'});
+}
 
 
 </script>
