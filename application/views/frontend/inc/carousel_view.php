@@ -7,7 +7,7 @@
         <div class="movie swiper-slide">
           <div class="movie_backdrop">
             <img
-              src="<?= $featuredMovie->movie_poster ?>"
+              src="<?= $featuredMovie->movie_backdrop ?>"
               alt=""
             />
             <!-- <div class="playBtnContainer">
@@ -23,17 +23,17 @@
                  <?php endif; ?>
               <?php endforeach; ?>
             </ul>
-            <!-- <p class="movie_details_info_plot">
+            <p class="movie_details_info_plot">
               <?= strShortner($featuredMovie->movie_plot, 200) ?>...
-            </p> -->
-            <!-- <div class="hero_btns">
-              <a href="#" class="btn btn_secondary">
-                <i class="fas fa-play"></i> Play Now
+            </p>
+            <div class="hero_btns">
+              <a href="<?= base_url('home/movie/') . $featuredMovie->movie_id ?>" class="btn btn_secondary">
+                <i class="fas fa-play"></i> Watch Now
               </a>
-              <a href="<?= base_url('home/movie/') . $featuredMovie->movie_id ?>" class="btn btn_outline">
-                <i class="far fa-info-circle"></i> More information
+              <a href="" class="btn btn_outline">
+                <i class="far fa-plus"></i> Add To My List
               </a>
-            </div> -->
+            </div>
           </div>
         </div>
         <!-- Hero Movie end -->
@@ -45,7 +45,7 @@
         <div class="movie swiper-slide">
           <div class="movie_backdrop">
             <img
-              src="<?= $featuredSerie->serie_poster ?>"
+              src="<?= $featuredSerie->serie_backdrop ?>"
               alt=""
             />
           </div>
@@ -59,17 +59,17 @@
                  <?php endif; ?>
               <?php endforeach; ?>
             </ul>
-            <!-- <p class="movie_details_info_plot">
+            <p class="movie_details_info_plot">
               <?= strShortner($featuredSerie->serie_plot, 200) ?>...
-            </p> -->
-            <!-- <div class="hero_btns">
-              <a href="#" class="btn btn_secondary">
-                <i class="fas fa-play"></i> Play Now
+            </p>
+            <div class="hero_btns">
+              <a href="<?= base_url('series/serie/') . $featuredSerie->serie_id ?>" class="btn btn_secondary">
+                <i class="fas fa-play"></i> Watch Now
               </a>
-              <a href="<?= base_url('home/serie/') . $featuredSerie->serie_id ?>" class="btn btn_outline">
-                <i class="far fa-info-circle"></i> More information
+              <a href="" class="btn btn_outline">
+                <i class="far fa-plus"></i> Add To My List
               </a>
-            </div> -->
+            </div>
           </div>
         </div>
         <!-- Hero Movie end -->

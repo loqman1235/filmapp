@@ -1,10 +1,14 @@
-* Work on the homepage slider                      -> Not done yet
+* Start working on the backend                     -> Not done yet
 
 * Add searching                                    -> Not done yet
 
-* Add filtering to Movies and Series pages         -> Not done yet
+* Add pagination to movies/series filter           -> Not Done yet
 
-* Start working on the backend                     -> Not done yet
+* Work on the homepage slider                      -> Done
+
+* Add pagination to movies/series                  -> Done
+
+* Add filtering to Movies and Series pages         -> Done
 
 * Create shows table                               -> Done
 

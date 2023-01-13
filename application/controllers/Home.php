@@ -27,6 +27,9 @@ class Home extends CI_Controller {
 		$data['featuredMovies'] = $this->movie_model->getFeaturedMovies();
 		$data['featuredSeries'] = $this->serie_model->getFeaturedSeries();
 
+		$data['recommendedMovies'] = $this->movie_model->getRecommendedMovies();
+		$data['recommendedSeries'] = $this->serie_model->getRecommendedSeries();
+
 		$this->load->view('frontend/inc/header_view');
 		$this->load->view('frontend/inc/navbar_view');
 		$this->load->view('frontend/inc/carousel_view', $data);

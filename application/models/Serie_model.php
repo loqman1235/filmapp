@@ -10,6 +10,7 @@ class Serie_model extends CI_Model
         $this->db->select('*');
         $this->db->from('series');
         $this->db->order_by('serie_id', 'DESC');
+        $this->db->where('serie_is_visible', 1);
         $query = $this->db->get();
 
         if($query->num_rows() > 0)
@@ -21,6 +22,31 @@ class Serie_model extends CI_Model
             return false;
         }
     }
+
+    public function countSeries()
+    {
+        return $this->db->count_all("series");
+    }
+
+     // Get series for pagination
+     public function getSeriesLimit($start, $end)
+     {
+         $this->db->select('*');
+         $this->db->from('series');
+         $this->db->limit($start, $end);
+         $this->db->where('serie_is_visible', 1);
+         $this->db->order_by('serie_id', 'DESC');
+         $query = $this->db->get();
+ 
+         if($query->num_rows() > 0)
+         {
+             return $query->result();
+         } 
+         else
+         {
+             return false;
+         }
+     }
 
     // Get genres of a serie
     public function getSerieGenre() 
@@ -48,6 +74,25 @@ class Serie_model extends CI_Model
         $this->db->from('series');
         $this->db->where('serie_is_visible', 1);
         $this->db->where('serie_is_featured', 1);
+        $this->db->order_by('serie_id', 'DESC');
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    public function getRecommendedSeries()
+    {
+        $this->db->select('*');
+        $this->db->from('series');
+        $this->db->where('serie_is_visible', 1);
+        $this->db->where('serie_is_recommended', 1);
         $this->db->order_by('serie_id', 'DESC');
         $query = $this->db->get();
 
@@ -189,6 +234,66 @@ class Serie_model extends CI_Model
         {
             return false;
         }
+    }
+
+
+    public function getSerieYears() 
+    {
+        $this->db->distinct();
+        $this->db->select('serie_year');
+        $this->db->from('series');
+        $this->db->order_by('serie_year', 'DESC');
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
+    }
+
+    public function getFilterdSeries($genres, $years, $order)
+    {
+        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        FROM tbl_series_genres
+        JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id
+        JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id";
+
+        if(isset($genres) && !empty($genres))
+        {
+            $query .= " AND tbl_series_genres.genre_id IN ($genres)";
+        }
+
+        if(isset($years) && !empty($years))
+        {
+            $query .= " AND tbl_series.serie_year IN ($years)";
+        }
+
+        $query .= ' WHERE serie_is_visible=1';
+        $query .= ' GROUP BY tbl_series.serie_id';
+
+        if($order === 'asc')
+        {
+            $query .= " ORDER BY tbl_series_genres.serie_id ASC";
+        }
+        else
+        {
+            $query .= " ORDER BY tbl_series_genres.serie_id DESC";
+
+        }
+
+
+       if($this->db->query($query)->num_rows() > 0)
+       {
+        return $this->db->query($query)->result();
+       }
+       else 
+       {
+        return false;
+       }
+
     }
 
 

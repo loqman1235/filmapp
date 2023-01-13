@@ -16,38 +16,12 @@ class Movie_model extends CI_Model
         if($query->num_rows() > 0)
         {
             return $query->result();
-        } 
+        }
         else
         {
             return false;
         }
 
-    }
-
-    // Get movies for pagination
-    public function getMoviesLimit($start, $end)
-    {
-        $this->db->select('*');
-        $this->db->from('movies');
-        $this->db->limit($start, $end);
-        $this->db->where('movie_is_visible', 1);
-        $this->db->order_by('movie_id', 'DESC');
-        $query = $this->db->get();
-
-        if($query->num_rows() > 0)
-        {
-            return $query->result();
-        } 
-        else
-        {
-            return false;
-        }
-    }
-
-
-    public function countMovies()
-    {
-        return $this->db->count_all("movies");
     }
 
 
@@ -272,25 +246,6 @@ class Movie_model extends CI_Model
         }
     }
 
-    public function getRecommendedMovies()
-    {
-        $this->db->select('*');
-        $this->db->from('movies');
-        $this->db->where('movie_is_visible', 1);
-        $this->db->where('movie_is_recommended', 1);
-        $this->db->order_by('movie_id', 'DESC');
-        $query = $this->db->get();
-
-        if($query->num_rows() > 0)
-        {
-            return $query->result();
-        }
-        else
-        {
-            return false;
-        }
-    }
-
 
     // Update Movie Views
     public function updateMovieVisitors($id){
@@ -367,7 +322,6 @@ class Movie_model extends CI_Model
         {
             $query .= " AND tbl_movies.movie_year IN ($years)";
         }
-        $query .= ' WHERE movie_is_visible=1';
 
         $query .= ' GROUP BY tbl_movies.movie_id';
 
@@ -380,7 +334,6 @@ class Movie_model extends CI_Model
             $query .= " ORDER BY tbl_movies_genres.movie_id DESC";
 
         }
-
 
 
        if($this->db->query($query)->num_rows() > 0)

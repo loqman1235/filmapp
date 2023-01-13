@@ -6,10 +6,10 @@
               <!-- Filter start -->
                 <div class="filter" id="genreFilter">
                 <div class="selcted_container">
-                    <div class="filter_selected" data-value="">Select Genres</div>
+                    <div class="filter_selected" data-value="[]">Select genres</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-angle-down"></i>
+                    <i class="far fa-caret-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="genresDropdown">
                     <?php if($allGenres) : ?>
@@ -26,10 +26,10 @@
                 <!-- Filter start -->
                 <div class="filter" id="yearFilter">
                 <div class="selcted_container">
-                    <div class="filter_selected" data-value="">Select Years</div>
+                    <div class="filter_selected" data-value="[]">Select years</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-angle-down"></i>
+                    <i class="far fa-caret-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="yearDropdown">
                     <?php if ($years) : ?>
@@ -42,13 +42,34 @@
                 </ul>
                 </div>
                 <!-- Filter ends -->
+
+                <!-- Filter start -->
+                <div class="filter" id="orderFilter">
+                <div class="selcted_container">
+                    <div class="filter_selected" data-value='["desc"]'>Descending</div>
+                </div>
+                <div class="filterToggleDropdownBtn">
+                    <i class="far fa-caret-down"></i>
+                </div>
+                <ul class="filter_dropdown" id="orderDropdown">
+                    <li class="filter_dropdown_item" data-value="asc">
+                    <i class="fal fa-square"></i> <span class="item_text">Ascending</span>
+                    </li>
+                    <li class="filter_dropdown_item checked" data-value="desc">
+                    <i class="fal fa-square"></i>
+                    <span class="item_text">Descending</span>
+                    </li>
+                </ul>
+                </div>
+                <!-- Filter ends -->
                 <button id="filterSubmitBtn" class="btn btn_secondary filterSubmitBtn"><i class="fas fa-filter"></i> Filter</button>
         </div>
     </div>
     <?php if($movies) : ?>
-    <div class="section_body genre_section">
+        <div class="spinner"><img src="<?= base_url('assets/img/spinner.gif') ?>" alt=""></div>
+    <div class="section_body genre_section " id="sectionBody">
         <?php foreach($movies as $movie) : ?>
-        <div class="section_movie">
+        <div class="section_movie animate__animated animate__fadeIn">
             <a href="<?= base_url('home/movie/') . $movie->movie_id ?>" class="section_movie_poster">
                 <img src="<?= $movie->movie_poster ?>" alt="<?= $movie->movie_name ?>">
             </a>
@@ -69,6 +90,13 @@
 </section>
 <!-- Section end -->
 
+<!-- Pagination start -->
+<div class="pagination_container">
+    <?= $pagination ?>
+</div>
+<!-- Pagination end -->
+
+
 
 <script type="module">
 import { initFilter } from "<?= base_url() ?>assets/js/libs/Functions.js";
@@ -86,42 +114,57 @@ filters.forEach((filter) => {
   });
 
   if (filter.lastElementChild.id === "genresDropdown") {
-    initFilter(filter.lastElementChild.children, "#genresDropdown", "Genres");
+    initFilter(filter.lastElementChild.children, "#genresDropdown", "genres");
   }
 
   if (filter.lastElementChild.id === "yearDropdown") {
-    initFilter(filter.lastElementChild.children, "#yearDropdown", "Years");
+    initFilter(filter.lastElementChild.children, "#yearDropdown", "years");
   }
+
+  if (filter.lastElementChild.id === "orderDropdown") {
+    initFilter(filter.lastElementChild.children, "#orderDropdown", "order", false);
+  }
+
+  
 });
 
+
+// Filter Data
 const filterSubmitBtn = document.getElementById('filterSubmitBtn');
-const genreFilter = document.getElementById('genreFilter');
-const yearFilter = document.getElementById('yearFilter');
+const sectionBody = document.getElementById('sectionBody');
 
 
-filterSubmitBtn.addEventListener('click', (e) => {
+const filterData = async (e) => {
     e.preventDefault();
-    console.log(JSON.parse(genreFilter.firstElementChild.firstElementChild.dataset.value));
-})
+    const genre = JSON.parse(document.getElementById('genreFilter').firstElementChild.firstElementChild.dataset.value);
+    const year = JSON.parse(document.getElementById('yearFilter').firstElementChild.firstElementChild.dataset.value);
+    const order = JSON.parse(document.getElementById('orderFilter').firstElementChild.firstElementChild.dataset.value);
+
+    let formData =  new FormData();
+    formData.append('genres', genre);
+    formData.append('years', year);
+    formData.append('order', order);
+    const spinner = document.querySelector('.spinner');
+    // Show spinner
+    spinner.classList.add('active');
+    const response = await fetch('<?= base_url('movies/filterMovies') ?>', {
+        method: 'POST',
+        body: formData
+    });
+
+    const result = await response.json();
+    // Hide spinner
+    // spinner.classList.remove('active');
 
 
 
+    sectionBody.innerHTML = result;
 
 
-// async function getMoviesByGenreId(genreId){
+};
 
-//     let formData = new FormData();
-//     formData.append('genreId', genreId);
 
-//     const response = await fetch('<?= base_url('movies/getMoviesByGenre') ?>', {
-//         method: 'POST', 
-//         body: formData
-//     });
-
-//     const result = await response.json();
-//     return result;
-// }
-
+filterSubmitBtn.addEventListener('click', filterData)
 
 
 

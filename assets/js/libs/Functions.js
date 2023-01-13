@@ -26,21 +26,58 @@ export function randProfilePicture(str) {
 }
 
 //  Create a filter
-export function initFilter([...dropdownItems], dropdownName, placeholderText) {
+export function initFilter(
+	[...dropdownItems],
+	dropdownName,
+	placeholderText,
+	multiSelect = true
+) {
 	dropdownItems.forEach((item) => {
-		item.addEventListener("click", () => {
-			// Toggle active class of the dropdown checkboxes
-			item.classList.toggle("checked");
+		if (!multiSelect) {
 			if (item.classList.contains("checked")) {
 				item.firstElementChild.classList.remove("fa-square");
 				item.firstElementChild.classList.remove("fal");
 				item.firstElementChild.classList.add("fas");
 				item.firstElementChild.classList.add("fa-check-square");
+			}
+		}
+
+		item.addEventListener("click", () => {
+			if (!multiSelect) {
+				dropdownItems.forEach((item) => {
+					item.classList.remove("checked");
+					item.firstElementChild.classList.remove("fas");
+					item.firstElementChild.classList.add("fal");
+					item.firstElementChild.classList.remove("fa-check-square");
+					item.firstElementChild.classList.add("fa-square");
+				});
+				// Toggle active class of the dropdown checkboxes
+
+				item.classList.toggle("checked");
+				if (item.classList.contains("checked")) {
+					item.firstElementChild.classList.remove("fa-square");
+					item.firstElementChild.classList.remove("fal");
+					item.firstElementChild.classList.add("fas");
+					item.firstElementChild.classList.add("fa-check-square");
+				} else {
+					item.firstElementChild.classList.remove("fas");
+					item.firstElementChild.classList.add("fal");
+					item.firstElementChild.classList.remove("fa-check-square");
+					item.firstElementChild.classList.add("fa-square");
+				}
 			} else {
-				item.firstElementChild.classList.remove("fas");
-				item.firstElementChild.classList.add("fal");
-				item.firstElementChild.classList.remove("fa-check-square");
-				item.firstElementChild.classList.add("fa-square");
+				item.classList.toggle("checked");
+				if (item.classList.contains("checked")) {
+					item.firstElementChild.classList.remove("fa-square");
+					item.firstElementChild.classList.remove("fal");
+					item.firstElementChild.classList.add("fas");
+					item.firstElementChild.classList.add("fa-check-square");
+				} else {
+					item.firstElementChild.classList.remove("fas");
+					item.firstElementChild.classList.add("fal");
+					item.firstElementChild.classList.remove("fa-check-square");
+					item.firstElementChild.classList.add("fa-square");
+				}
 			}
 
 			let checkedItems = [
@@ -50,7 +87,11 @@ export function initFilter([...dropdownItems], dropdownName, placeholderText) {
 			let checkItemsText = [];
 			item.parentElement.parentElement.firstElementChild.firstElementChild.innerText = `${checkedItems.length} ${placeholderText} selected`;
 			checkedItems.forEach((checkedItem) => {
-				checkItemsValues.push(parseInt(checkedItem.dataset.value));
+				checkItemsValues.push(
+					isNaN(checkedItem.dataset.value)
+						? checkedItem.dataset.value
+						: parseInt(checkedItem.dataset.value)
+				);
 				checkItemsText.push(checkedItem.lastElementChild.textContent);
 			});
 

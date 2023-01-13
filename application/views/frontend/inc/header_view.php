@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><?= (isset($page_title)) ? APPNAME . ' | ' . $page_title : APPNAME ?></title>
     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link
       href="https://cdn.jsdelivr.net/gh/hung1001/font-awesome-pro@4cac1a6/css/all.css"
       rel="stylesheet"
       type="text/css"
@@ -25,26 +29,53 @@
       const heroSlider = new Swiper(".heroSlider", {
         // Optional parameters
         direction: "horizontal",
+        effect: 'fade',
         speed: 900,
         loop: true,
         autoplay: {
           delay: 5000,
         },
-        slidesPerView: 4,
-        // spaceBetween: 8,
+        slidesPerView: 1,
+
 
       });
 
+      // Recommended Movies slider
+      const recommendedMovieSerie = new Swiper("#recommendedMovieSerie", {
+              loop: true,
+              speed: 900,
+              autoplay: false,
+              slidesPerView: 6,
+              spaceBetween: 20,
+              centeredSlides: true,
+              centerInsufficientSlides: true,
+              centeredSlidesBounds: true,
+              effect: 'card',
+
+              // Navigation arrows
+              navigation: {
+                nextEl: ".movies_next_btn",
+                prevEl: ".movies_prev_btn",
+              },
+
+              // mousewheel: {
+              //   invert: true,
+              // },
+            });
+
+
+
       // Latest Movies slider
       const latestMovies = new Swiper("#latestMovies", {
-        loop: false,
+        loop: true,
         speed: 900,
         autoplay: false,
         slidesPerView: 6,
-        spaceBetween: 8,
-        // centeredSlides: true,
-        // centerInsufficientSlides: true,
-        // centeredSlidesBounds: true,
+        spaceBetween: 20,
+        centeredSlides: true,
+        centerInsufficientSlides: true,
+        centeredSlidesBounds: true,
+        effect: 'card',
 
         // Navigation arrows
         navigation: {
@@ -52,46 +83,53 @@
           prevEl: ".movies_prev_btn",
         },
 
-        mousewheel: {
-          invert: true,
-        },
+        // mousewheel: {
+        //   invert: true,
+        // },
       });
 
       // Latest Series Slider
       const latestSeries = new Swiper("#latestSeries", {
-        loop: false,
+        loop: true,
         speed: 900,
         autoplay: false,
         slidesPerView: 6,
-        spaceBetween: 8,
+        spaceBetween: 20,
+        centeredSlides: true,
+        centerInsufficientSlides: true,
+        centeredSlidesBounds: true,
+        effect: 'card',
 
         // Navigation arrows
         navigation: {
           nextEl: ".movies_next_btn",
           prevEl: ".movies_prev_btn",
         },
-         mousewheel: {
-          invert: true,
-        },
+        //  mousewheel: {
+        //   invert: true,
+        // },
       });
 
 
       // Suggested movies slider
       const suggestMovies = new Swiper("#suggestMovies", {
-        loop: false,
+        loop: true,
         speed: 900,
         autoplay: false,
         slidesPerView: 6,
-        spaceBetween: 8,
+        spaceBetween: 20,
+        centeredSlides: true,
+        centerInsufficientSlides: true,
+        centeredSlidesBounds: true,
 
         // Navigation arrows
         navigation: {
           nextEl: ".movies_next_btn",
           prevEl: ".movies_prev_btn",
         },
-         mousewheel: {
-          invert: true,
-        },
+        //  mousewheel: {
+        //   invert: true,
+        // },
       });
     </script>
 
