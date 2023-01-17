@@ -104,8 +104,37 @@ class Movies extends CI_Controller
        $genres = htmlentities($this->input->post('genres'));
        $years = htmlentities($this->input->post('years'));
        $order = htmlentities($this->input->post('order'));
-       $filteredMovies = $this->movie_model->getFilterdMovies($genres, $years, $order);
+       
+
+       // Pagination
+       $config['base_url'] = base_url('#');
+       $config['total_rows'] = $this->movie_model->countFilteredMovies($genres, $years, $order);
+       $config['per_page'] = 24; 
+       $config ['num_links'] = 2;
+       $config['use_page_numbers'] = TRUE;
+       $config['uri_segment'] = 3;
+
+       // Customizing the pagination 
+       $config['first_link'] = false; 
+       $config['last_link']  = false;
+       $config ['prev_link'] = '<i class="far fa-angle-left"></i>';
+       $config ['next_link'] = '<i class="far fa-angle-right"></i>';
+       $config['prev_tag_open'] = '<li class="pagination_item prev">';
+       $config['prev_tag_close'] = '</li>';
+       $config['next_tag_open'] = '<li class="pagination_item next">';
+       $config['next_tag_close'] = '</li>';
+       $config['num_tag_open'] = '<li class="pagination_item">';
+       $config['num_tag_close'] = '</li>';
+       $config['cur_tag_open'] = '<li class="pagination_item active">';
+       $config['cur_tag_close'] = '</li>';
+       $config['full_tag_open']  = '<ul class="pagination">';
+       $config['full_tag_close'] = '</ul>';
+       $page = $this->uri->segment(3);
+       $start = ($page - 1) * $config['per_page'];
+       $this->pagination->initialize($config);
+       $filteredMovies = $this->movie_model->getFilterdMovies($genres, $years, $order, $start, $config['per_page']);
 	   $filteredMoviesGenres = $this->movie_model->getMovieGenre();
+
 
        $result = '';
 
@@ -137,7 +166,10 @@ class Movies extends CI_Controller
             $result .= '<p>Not found!</p>';
        }
         
-       echo json_encode($result);
+
+       $data = ['result' => $result, 'pagination' => $this->pagination->create_links()];
+
+       echo json_encode($data);
 
     }
 

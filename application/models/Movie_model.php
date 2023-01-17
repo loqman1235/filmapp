@@ -351,7 +351,50 @@ class Movie_model extends CI_Model
     }
 
     // Filter Movies
-    public function getFilterdMovies($genres, $years, $order)
+    public function getFilterdMovies($genres, $years, $order, $start, $limit)
+    {
+        $query = "SELECT tbl_movies.movie_id,tbl_movies.movie_name,tbl_movies.movie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        FROM tbl_movies_genres
+        JOIN tbl_movies ON tbl_movies_genres.movie_id=tbl_movies.movie_id
+        JOIN tbl_genres ON tbl_movies_genres.genre_id=tbl_genres.genre_id";
+
+        if(isset($genres) && !empty($genres))
+        {
+            $query .= " AND tbl_movies_genres.genre_id IN ($genres)";
+        }
+
+        if(isset($years) && !empty($years))
+        {
+            $query .= " AND tbl_movies.movie_year IN ($years)";
+        }
+        $query .= ' WHERE movie_is_visible=1';
+
+        $query .= ' GROUP BY tbl_movies.movie_id';
+
+        if($order === 'asc')
+        {
+            $query .= " ORDER BY tbl_movies_genres.movie_id ASC";
+        }
+        else
+        {
+            $query .= " ORDER BY tbl_movies_genres.movie_id DESC";
+
+        }
+
+        $query .= ' LIMIT '.$start.', ' . $limit;
+
+       if($this->db->query($query)->num_rows() > 0)
+       {
+        return $this->db->query($query)->result();
+       }
+       else 
+       {
+        return false;
+       }
+
+    }
+
+    public function countFilteredMovies($genres, $years, $order)
     {
         $query = "SELECT tbl_movies.movie_id,tbl_movies.movie_name,tbl_movies.movie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
         FROM tbl_movies_genres
@@ -383,15 +426,7 @@ class Movie_model extends CI_Model
 
 
 
-       if($this->db->query($query)->num_rows() > 0)
-       {
-        return $this->db->query($query)->result();
-       }
-       else 
-       {
-        return false;
-       }
-
+       return $this->db->query($query)->num_rows();
     }
 
 }

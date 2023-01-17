@@ -131,8 +131,7 @@ const seriesFilterSubmitBtn = document.getElementById('seriesFilterSubmitBtn');
 const seriesSectionBody = document.getElementById('seriesSectionBody');
 
 
-const filterData = async (e) => {
-    e.preventDefault();
+const filterData = async (page) => {
     const genre = JSON.parse(document.getElementById('genreFilter').firstElementChild.firstElementChild.dataset.value);
     const year = JSON.parse(document.getElementById('yearFilter').firstElementChild.firstElementChild.dataset.value);
     const order = JSON.parse(document.getElementById('orderFilter').firstElementChild.firstElementChild.dataset.value);
@@ -142,19 +141,31 @@ const filterData = async (e) => {
     formData.append('years', year);
     formData.append('order', order);
 
-    const response = await fetch('<?= base_url('series/filterSeries') ?>', {
+    const response = await fetch('<?= base_url('series/filterSeries/') ?>' + page, {
         method: 'POST',
         body: formData
     });
 
     const result = await response.json();
 
-    seriesSectionBody.innerHTML = result;
+    seriesSectionBody.innerHTML = result.result;
+    document.querySelector('.pagination_container').innerHTML = result.pagination;
+    document.querySelectorAll('.pagination li a').forEach(pageLink => {
+        pageLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            let page = pageLink.dataset.ciPaginationPage;
+            filterData(page);
+        })
+    })
 
 
 };
 
 
-seriesFilterSubmitBtn.addEventListener('click', filterData)
+seriesFilterSubmitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    filterData(1)
+})
+
 
 </script>

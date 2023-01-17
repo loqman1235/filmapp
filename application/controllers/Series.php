@@ -126,43 +126,74 @@ class Series extends CI_Controller
     public function filterSeries()
     {
         $genres = htmlentities($this->input->post('genres'));
-        $years = htmlentities($this->input->post('years'));
-        $order = htmlentities($this->input->post('order'));
-        $filteredSeries = $this->serie_model->getFilterdSeries($genres, $years, $order);
-        $filteredSeriesGenres = $this->serie_model->getSerieGenre();
- 
-        $result = '';
- 
-        if($filteredSeries)
-        {
-             foreach($filteredSeries as $serie)
-             {
-                 $result .= '
-                 <div class="section_movie animate__animated animate__fadeIn">
-                 <a href="'. base_url("home/movie/") . $serie->serie_id .'" class="section_movie_poster">
-                     <img src="'. $serie->serie_poster .'" />
-                 </a>
-                 <a href="'. base_url("home/movie/") . $serie->serie_id .'" class="section_movie_title">'. $serie->serie_name .'</a>
-                 <ul class="genre">';
-                 foreach($filteredSeriesGenres as $genre)
-                 {
-                     if($genre->serie_id === $serie->serie_id)
-                     {
-                         $result .= '<li><a href="'. base_url("home/genre/") . $genre->genre_id .'">'. $genre->genre_name .'</a></li>';
-                     }
-                 }
-                 $result .= '</ul>
-                 </div>
-                 ';
-             }
-        }
-        else
-        {
-             $result .= '<p>Not found!</p>';
-        }
-         
-        echo json_encode($result);
- 
+       $years = htmlentities($this->input->post('years'));
+       $order = htmlentities($this->input->post('order'));
+       
+
+       // Pagination
+       $config['base_url'] = base_url('#');
+       $config['total_rows'] = $this->serie_model->countFilteredSeries($genres, $years, $order);
+       $config['per_page'] = 24; 
+       $config ['num_links'] = 2;
+       $config['use_page_numbers'] = TRUE;
+       $config['uri_segment'] = 3;
+
+       // Customizing the pagination 
+       $config['first_link'] = false; 
+       $config['last_link']  = false;
+       $config ['prev_link'] = '<i class="far fa-angle-left"></i>';
+       $config ['next_link'] = '<i class="far fa-angle-right"></i>';
+       $config['prev_tag_open'] = '<li class="pagination_item prev">';
+       $config['prev_tag_close'] = '</li>';
+       $config['next_tag_open'] = '<li class="pagination_item next">';
+       $config['next_tag_close'] = '</li>';
+       $config['num_tag_open'] = '<li class="pagination_item">';
+       $config['num_tag_close'] = '</li>';
+       $config['cur_tag_open'] = '<li class="pagination_item active">';
+       $config['cur_tag_close'] = '</li>';
+       $config['full_tag_open']  = '<ul class="pagination">';
+       $config['full_tag_close'] = '</ul>';
+       $page = $this->uri->segment(3);
+       $start = ($page - 1) * $config['per_page'];
+       $this->pagination->initialize($config);
+       $filteredSeries = $this->serie_model->getFilterdSeries($genres, $years, $order, $start, $config['per_page']);
+	   $filteredSeriesGenres =$this->serie_model->getSerieGenre();
+
+
+       $result = '';
+
+       if($filteredSeries)
+       {
+            foreach($filteredSeries as $serie)
+            {
+                $result .= '
+                <div class="section_movie animate__animated animate__fadeIn">
+                <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_poster">
+                    <img src="'. $serie->serie_poster .'" />
+                </a>
+                <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_title">'. $serie->serie_name .'</a>
+                <ul class="genre">';
+                foreach($filteredSeriesGenres as $genre)
+                {
+                    if($genre->serie_id === $serie->serie_id)
+                    {
+                        $result .= '<li><a href="'. base_url("home/genre/") . $genre->genre_id .'">'. $genre->genre_name .'</a></li>';
+                    }
+                }
+                $result .= '</ul>
+                </div>
+                ';
+            }
+       }
+       else
+       {
+            $result .= '<p>Not found!</p>';
+       }
+        
+
+       $data = ['result' => $result, 'pagination' => $this->pagination->create_links()];
+
+       echo json_encode($data);
     }
 
 }

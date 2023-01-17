@@ -254,7 +254,7 @@ class Serie_model extends CI_Model
         }
     }
 
-    public function getFilterdSeries($genres, $years, $order)
+    public function getFilterdSeries($genres, $years, $order, $start, $limit)
     {
         $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
         FROM tbl_series_genres
@@ -285,6 +285,8 @@ class Serie_model extends CI_Model
         }
 
 
+        $query .= ' LIMIT '.$start.', ' . $limit;
+
        if($this->db->query($query)->num_rows() > 0)
        {
         return $this->db->query($query)->result();
@@ -294,6 +296,40 @@ class Serie_model extends CI_Model
         return false;
        }
 
+    }
+
+    public function countFilteredSeries($genres, $years, $order)
+    {
+        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        FROM tbl_series_genres
+        JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id
+        JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id";
+
+        if(isset($genres) && !empty($genres))
+        {
+            $query .= " AND tbl_series_genres.genre_id IN ($genres)";
+        }
+
+        if(isset($years) && !empty($years))
+        {
+            $query .= " AND tbl_series.serie_year IN ($years)";
+        }
+
+        $query .= ' WHERE serie_is_visible=1';
+        $query .= ' GROUP BY tbl_series.serie_id';
+
+        if($order === 'asc')
+        {
+            $query .= " ORDER BY tbl_series_genres.serie_id ASC";
+        }
+        else
+        {
+            $query .= " ORDER BY tbl_series_genres.serie_id DESC";
+
+        }
+
+
+       return $this->db->query($query)->num_rows();
     }
 
 

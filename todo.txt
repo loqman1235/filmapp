@@ -2,7 +2,9 @@
 
 * Add searching                                    -> Not done yet
 
-* Add pagination to movies/series filter           -> Not Done yet
+* Add loader to movies/series filter               -> Not done yet
+
+* Add pagination to movies/series filter           -> Done
 
 * Work on the homepage slider                      -> Done
 

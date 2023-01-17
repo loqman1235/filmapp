@@ -66,7 +66,6 @@
         </div>
     </div>
     <?php if($movies) : ?>
-        <div class="spinner"><img src="<?= base_url('assets/img/spinner.gif') ?>" alt=""></div>
     <div class="section_body genre_section " id="sectionBody">
         <?php foreach($movies as $movie) : ?>
         <div class="section_movie animate__animated animate__fadeIn">
@@ -132,10 +131,14 @@ filters.forEach((filter) => {
 // Filter Data
 const filterSubmitBtn = document.getElementById('filterSubmitBtn');
 const sectionBody = document.getElementById('sectionBody');
+let start = 0;
+let limit = 12;
+// let page = 1;
 
 
-const filterData = async (e) => {
-    e.preventDefault();
+
+const filterData = async (page) => {
+    // e.preventDefault();
     const genre = JSON.parse(document.getElementById('genreFilter').firstElementChild.firstElementChild.dataset.value);
     const year = JSON.parse(document.getElementById('yearFilter').firstElementChild.firstElementChild.dataset.value);
     const order = JSON.parse(document.getElementById('orderFilter').firstElementChild.firstElementChild.dataset.value);
@@ -144,27 +147,34 @@ const filterData = async (e) => {
     formData.append('genres', genre);
     formData.append('years', year);
     formData.append('order', order);
-    const spinner = document.querySelector('.spinner');
-    // Show spinner
-    spinner.classList.add('active');
-    const response = await fetch('<?= base_url('movies/filterMovies') ?>', {
+
+    const response = await fetch('<?= base_url('movies/filterMovies/') ?>' + page, {
         method: 'POST',
         body: formData
     });
 
     const result = await response.json();
-    // Hide spinner
-    // spinner.classList.remove('active');
 
+    sectionBody.innerHTML = result.result;
+    document.querySelector('.pagination_container').innerHTML = result.pagination;
 
-
-    sectionBody.innerHTML = result;
-
+    document.querySelectorAll('.pagination li a').forEach(pageLink => {
+        pageLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            let page = pageLink.dataset.ciPaginationPage;
+            filterData(page);
+        })
+    })
 
 };
 
 
-filterSubmitBtn.addEventListener('click', filterData)
+filterSubmitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    filterData(1)
+})
+
+
 
 
 
