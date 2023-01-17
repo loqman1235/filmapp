@@ -9,7 +9,7 @@
                     <div class="filter_selected" data-value="[]">Select genres</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-caret-down"></i>
+                    <i class="far fa-angle-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="genresDropdown">
                     <?php if($allGenres) : ?>
@@ -29,7 +29,7 @@
                     <div class="filter_selected" data-value="[]">Select years</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-caret-down"></i>
+                    <i class="far fa-angle-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="yearDropdown">
                     <?php if ($years) : ?>
@@ -49,7 +49,7 @@
                     <div class="filter_selected" data-value='["desc"]'>Descending</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-caret-down"></i>
+                    <i class="far fa-angle-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="orderDropdown">
                     <li class="filter_dropdown_item" data-value="asc">
@@ -88,6 +88,11 @@
      <?php endif; ?>
 </section>
 <!-- Section end -->
+
+<div class="spinner_container w-100 text-center"> 
+    <div id="spinner" class="lds-facebook"><div></div><div></div><div></div></div>
+</div>
+
 
 <!-- Pagination start -->
 <div class="pagination_container">
@@ -131,6 +136,7 @@ filters.forEach((filter) => {
 // Filter Data
 const filterSubmitBtn = document.getElementById('filterSubmitBtn');
 const sectionBody = document.getElementById('sectionBody');
+const spinner = document.getElementById('spinner');
 let start = 0;
 let limit = 12;
 // let page = 1;
@@ -138,6 +144,15 @@ let limit = 12;
 
 
 const filterData = async (page) => {
+
+    let requestFetch = function() {
+            console.log('** beforeSend request fetch **');
+            // Display loader
+            spinner.classList.add('active');
+            return fetch.apply(this, arguments);
+        }
+
+
     // e.preventDefault();
     const genre = JSON.parse(document.getElementById('genreFilter').firstElementChild.firstElementChild.dataset.value);
     const year = JSON.parse(document.getElementById('yearFilter').firstElementChild.firstElementChild.dataset.value);
@@ -148,13 +163,15 @@ const filterData = async (page) => {
     formData.append('years', year);
     formData.append('order', order);
 
-    const response = await fetch('<?= base_url('movies/filterMovies/') ?>' + page, {
+    const response = await requestFetch('<?= base_url('movies/filterMovies/') ?>' + page, {
         method: 'POST',
         body: formData
     });
 
     const result = await response.json();
 
+    // Hide spinner after getting data
+    spinner.classList.remove('active');
     sectionBody.innerHTML = result.result;
     document.querySelector('.pagination_container').innerHTML = result.pagination;
 
@@ -172,6 +189,8 @@ const filterData = async (page) => {
 filterSubmitBtn.addEventListener('click', (e) => {
     e.preventDefault();
     filterData(1)
+    document.querySelectorAll('.filter_dropdown').forEach(dropdown => dropdown.classList.remove('active'));
+    document.querySelectorAll('.filterToggleDropdownBtn').forEach(btn => btn.classList.remove('active'));
 })
 
 

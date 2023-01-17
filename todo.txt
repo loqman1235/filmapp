@@ -2,7 +2,7 @@
 
 * Add searching                                    -> Not done yet
 
-* Add loader to movies/series filter               -> Not done yet
+* Add loader to movies/series filter               -> Done
 
 * Add pagination to movies/series filter           -> Done
 

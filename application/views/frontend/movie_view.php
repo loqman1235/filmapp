@@ -1,6 +1,4 @@
 <div class="movie_page">
-  <input type="hidden" name="movieIdInput" id="movieIdInput" value="<?= $movie->movie_id ?>">
-      
       <div class="movie_details">
         <div class="section_movie_left">
           <div class="movie_poster">

@@ -1,7 +1,7 @@
 <nav class="navbar" id="navbar">
       <a href="<?= base_url('home') ?>" class="brand">Film.<span>Io</span></a>
       <ul class="nav_links_left">
-        <li class="<?= setActiveClass('home') ?>"><a href="<?= base_url('home') ?>"><i class="far fa-home"></i> Home</a></li>
+        <li class="<?= setActiveClass('home') ?>"><a href="<?= base_url('home') ?>"><i class="far fa-house"></i> Home</a></li>
         <li class="<?= setActiveClass('movies') ?>"><a href="<?= base_url('movies') ?>"><i class="far fa-video"></i> Movies</a></li>
         <li class="<?= setActiveClass('series') ?>"><a href="<?= base_url('series') ?>"><i class="far fa-tv-alt"></i> Series</a></li>
         <li class="<?= setActiveClass('trending') ?>"><a href="<?= base_url('trending') ?>"><i class="far fa-fire"></i> Trending</a></li>
@@ -29,7 +29,7 @@
 
             <ul class="userProfileDropdown">
               <li><a href="#"><i class="far fa-user-circle"></i> Account</a></li>
-              <li><a href="<?= base_url('mylist') ?>"><i class="far fa-list-alt"></i> My list</a></li>
+              <li><a href="<?= base_url('mylist') ?>"><i class="far fa-bookmark"></i> My list</a></li>
                <li><a href="<?= base_url('logout') ?>"><i class="far fa-sign-out"></i> Logout</a></li>
             </ul>
 

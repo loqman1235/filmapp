@@ -9,7 +9,7 @@
                     <div class="filter_selected" data-value="[]">Select genres</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-caret-down"></i>
+                    <i class="far fa-angle-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="genresDropdown">
                     <?php if($allGenres) : ?>
@@ -29,7 +29,7 @@
                     <div class="filter_selected" data-value="[]">Select years</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-caret-down"></i>
+                    <i class="far fa-angle-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="yearDropdown">
                     <?php if ($years) : ?>
@@ -49,7 +49,7 @@
                     <div class="filter_selected" data-value='["desc"]'>Descending</div>
                 </div>
                 <div class="filterToggleDropdownBtn">
-                    <i class="far fa-caret-down"></i>
+                    <i class="far fa-angle-down"></i>
                 </div>
                 <ul class="filter_dropdown" id="orderDropdown">
                     <li class="filter_dropdown_item" data-value="asc">
@@ -88,6 +88,10 @@
      <?php endif; ?>
 </section>
 <!-- Section end -->
+
+<div class="spinner_container w-100 text-center"> 
+    <div id="spinner" class="lds-facebook"><div></div><div></div><div></div></div>
+</div>
 
 <div class="pagination_container">
     <?= $pagination ?>
@@ -129,9 +133,19 @@ filters.forEach((filter) => {
 // Filter Data
 const seriesFilterSubmitBtn = document.getElementById('seriesFilterSubmitBtn');
 const seriesSectionBody = document.getElementById('seriesSectionBody');
+const spinner = document.getElementById('spinner');
 
 
 const filterData = async (page) => {
+    
+    let requestFetch = function() {
+            console.log('** beforeSend request fetch **');
+            // Display loader
+            spinner.classList.add('active');
+            return fetch.apply(this, arguments);
+        }
+
+
     const genre = JSON.parse(document.getElementById('genreFilter').firstElementChild.firstElementChild.dataset.value);
     const year = JSON.parse(document.getElementById('yearFilter').firstElementChild.firstElementChild.dataset.value);
     const order = JSON.parse(document.getElementById('orderFilter').firstElementChild.firstElementChild.dataset.value);
@@ -141,13 +155,15 @@ const filterData = async (page) => {
     formData.append('years', year);
     formData.append('order', order);
 
-    const response = await fetch('<?= base_url('series/filterSeries/') ?>' + page, {
+    const response = await requestFetch('<?= base_url('series/filterSeries/') ?>' + page, {
         method: 'POST',
         body: formData
     });
 
     const result = await response.json();
-
+    
+    // Hide spinner after getting data
+    spinner.classList.remove('active');
     seriesSectionBody.innerHTML = result.result;
     document.querySelector('.pagination_container').innerHTML = result.pagination;
     document.querySelectorAll('.pagination li a').forEach(pageLink => {
@@ -165,6 +181,8 @@ const filterData = async (page) => {
 seriesFilterSubmitBtn.addEventListener('click', (e) => {
     e.preventDefault();
     filterData(1)
+    document.querySelectorAll('.filter_dropdown').forEach(dropdown => dropdown.classList.remove('active'));
+    document.querySelectorAll('.filterToggleDropdownBtn').forEach(btn => btn.classList.remove('active'));
 })
 
 
