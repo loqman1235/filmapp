@@ -1,7 +1,7 @@
-<div class="movie_page">
+<div class="movie_page" style="background: url(<?= $serie->serie_backdrop ?>) no-repeat fixed center; background-size: cover;">
   <input type="hidden" name="movieIdInput" id="movieIdInput" value="<?= $serie->serie_id ?>">
  
-      <div class="movie_details">
+      <div class="movie_details animate__animated animate__fadeIn">
         <div class="section_movie_left">
           <div class="movie_poster">
             <img
@@ -11,27 +11,28 @@
           </div>
           <div class="movie_btns">
           <button onclick="scrollToSeriePlayer()" class="btn btn_secondary">
-              <i class="fas fa-play"></i> Watch Now
+              <span class="material-symbols-rounded">play_arrow</span> Play Now
             </button>
             <button class="btn btn_outline" id="trailerBtn">
-              <i class="far fa-video"></i> Trailer
+            <span class="material-symbols-rounded">videocam</span> Trailer
             </button> 
             <?php if($this->session->userdata('is_logged_in')) :?>
             <div class="deleteBtnContainer" id="deleteBtnContainer">
                 <?php if(!$watchListMoviesExist) :?>
-                  <button class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><i class="far fa-plus"></i> My list</button>
+                  <button class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><span class="material-symbols-rounded">add</span> My list</button>
                   <?php else: ?>
-                    <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>
+                    <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><span class="material-symbols-rounded">done</span> My list</button>
                   <?php endif; ?>
             </div>
             <?php else: ?>
-              <a href="<?= base_url('login') ?>" class="btn btn_outline " id=""><i class="far fa-plus"></i> My list</a>
+              <a href="<?= base_url('login') ?>" class="btn btn_outline " id=""><span class="material-symbols-rounded">add</span> My list</a>
            <?php endif; ?>
           </div>
         </div>
         <div class="movie_info">
           <h5 class="movie_name">
             <strong><?= $serie->serie_name ?></strong>
+            <a href="#" class="year"><?= $serie->serie_year ?></a>
           </h5>
           <div class="movie_data">
             <ul class="genre">
@@ -41,9 +42,11 @@
                     <?php endif; ?>
                   <?php endforeach; ?>
             </ul>
-            <a href="#" class="year"><?= $serie->serie_year ?></a>
+            <span class="seperator"></span>
+            <p class="quality"><?= $serie->serie_quality ?></p>
+            <span class="seperator"></span>
             <span class="movie_imdb_rating"
-              ><i class="fas fa-star"></i> <?= $serie->serie_imdb_rating ?>/10</span
+              ><img src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="" class="imdb_logo"> <?= $serie->serie_imdb_rating ?>/10</span
             >
           </div>
           <div class="movie_plot">
@@ -111,22 +114,14 @@
         <div class="section_body swiper" id="suggestMovies">
           <div class="swiper-wrapper">
             <?php foreach($similarSeries as $similarSerie) : ?>
-              <div class="section_movie swiper-slide">
+              <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie swiper-slide">
                 <div class="section_movie_poster">
                   <img
-                    src="<?= $similarSerie->serie_poster ?>"
+                    src="<?= $similarSerie->serie_poster_large ?>"
                     alt="<?= $similarSerie->serie_name ?>"
                   />
                 </div>
-                <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie_title"><?= $similarSerie->serie_name ?></a>
-                <ul class="genre">
-                <?php foreach($serieGenres as $serieGenre) : ?>
-                    <?php if($serieGenre->serie_id === $similarSerie->serie_id) : ?>
-                        <li><a href="<?= base_url('home/genre/') . $serieGenre->genre_id ?>"><?= $serieGenre->genre_name ?></a></li>
-                    <?php endif; ?>
-                  <?php endforeach; ?>
-                </ul>
-              </div>
+              </a>
             <?php endforeach; ?>
           </div>
           <div class="movies_prev_btn">
@@ -157,6 +152,7 @@
     formData.append('movieId', '<?= $serie->serie_id ?>');
     formData.append('movieBackdrop', '<?= $serie->serie_backdrop ?>');
     formData.append('moviePoster', '<?= $serie->serie_poster ?>');
+    formData.append('moviePosterLarge', `<?= $serie->serie_poster_large ?>`);
     formData.append('movieName', '<?= $serie->serie_name ?>');
     formData.append('moviePlot', `<?= $serie->serie_plot ?>`);
     formData.append('watchlistItemType', 'serie');
@@ -174,7 +170,7 @@
     if(result.success)
     {
       // alert(result.msg);
-     document.getElementById('deleteBtnContainer').innerHTML = ' <button onclick="removeMovieFromWatchlist(event)"  class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><i class="far fa-check"></i> My list</button>';
+     document.getElementById('deleteBtnContainer').innerHTML = ' <button onclick="removeMovieFromWatchlist(event)"  class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><span class="material-symbols-rounded">done</span> My list</button>';
     }
 
     if(result.error)
@@ -208,7 +204,7 @@
     if(result.success)
     {
       // alert(result.msg);
-      document.getElementById('deleteBtnContainer').innerHTML = '<button onclick="addMovieToWatchlist(event)" class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><i class="far fa-plus"></i> My list</button>';
+      document.getElementById('deleteBtnContainer').innerHTML = '<button onclick="addMovieToWatchlist(event)" class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><span class="material-symbols-rounded">add</span> My list</button>';
     }
 
   }

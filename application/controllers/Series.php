@@ -171,8 +171,16 @@ class Series extends CI_Controller
                 <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_poster">
                     <img src="'. $serie->serie_poster .'" />
                 </a>
-                <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_title">'. $serie->serie_name .'</a>
-                <ul class="genre">';
+                <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_title">'; 
+                if(strlen($serie->serie_name) >= 24) {
+                    $result .= strShortner($serie->serie_name, 20) . '...';
+                }
+                else 
+                {
+                    $result .= $serie->serie_name;
+                }
+                $result .= '</a>';
+                $result .= '<ul class="genre">';
                 foreach($filteredSeriesGenres as $genre)
                 {
                     if($genre->serie_id === $serie->serie_id)

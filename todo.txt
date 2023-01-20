@@ -1,6 +1,14 @@
 * Start working on the backend                     -> Not done yet
 
+* Add pagination to my list                        -> Not done yet
+
+* Remove CSS duplicates                            -> Not done yet       
+
 * Add searching                                    -> Not done yet
+
+* Work more on movie/serie details page            -> Not done yet
+
+* Add series to genre view                         -> Not done yet
 
 * Add loader to movies/series filter               -> Done
 

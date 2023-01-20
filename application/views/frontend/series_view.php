@@ -62,7 +62,7 @@
                 </ul>
                 </div>
                 <!-- Filter ends -->
-                <button id="seriesFilterSubmitBtn" class="btn btn_secondary filterSubmitBtn"><i class="fas fa-filter"></i> Filter</button>
+                <button id="seriesFilterSubmitBtn" class="btn btn_secondary filterSubmitBtn"><span class="material-symbols-rounded">filter_alt</span> Filter</button>
         </div>
     </div>
     <?php if($series) : ?>
@@ -72,7 +72,7 @@
                 <a href="<?= base_url('series/serie/') . $serie->serie_id ?>" class="section_movie_poster">
                     <img src="<?= $serie->serie_poster ?>" alt="<?= $serie->serie_name ?>">
                 </a>
-                <a href="<?= base_url('series/serie/') . $serie->serie_id ?>" class="section_movie_title"><?= $serie->serie_name ?></a>
+                <a href="<?= base_url('series/serie/') . $serie->serie_id ?>" class="section_movie_title"><?= (strlen($serie->serie_name) >= 24) ? strShortner($serie->serie_name, 20) . '...' : $serie->serie_name ?></a>
                 <ul class="genre">
                     <?php foreach($serieGenres as $serieGenre) : ?>
                     <?php if($serieGenre->serie_id === $serie->serie_id) : ?>

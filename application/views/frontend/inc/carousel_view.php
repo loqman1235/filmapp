@@ -28,10 +28,10 @@
             </p>
             <div class="hero_btns">
               <a href="<?= base_url('home/movie/') . $featuredMovie->movie_id ?>" class="btn btn_secondary">
-                <i class="fas fa-play"></i> Watch Now
+              <span class="material-symbols-rounded">play_arrow</span> Play Now
               </a>
               <a href="" class="btn btn_outline">
-                <i class="far fa-plus"></i> Add To My List
+                <span class="material-symbols-rounded">info</span> More Info
               </a>
             </div>
           </div>
@@ -64,10 +64,10 @@
             </p>
             <div class="hero_btns">
               <a href="<?= base_url('series/serie/') . $featuredSerie->serie_id ?>" class="btn btn_secondary">
-                <i class="fas fa-play"></i> Watch Now
+                <span class="material-symbols-rounded">play_arrow</span> Play Now
               </a>
               <a href="" class="btn btn_outline">
-                <i class="far fa-plus"></i> Add To My List
+              <span class="material-symbols-rounded">info</span> More Info
               </a>
             </div>
           </div>

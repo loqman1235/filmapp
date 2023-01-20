@@ -147,8 +147,16 @@ class Movies extends CI_Controller
                 <a href="'. base_url("home/movie/") . $movie->movie_id .'" class="section_movie_poster">
                     <img src="'. $movie->movie_poster .'" />
                 </a>
-                <a href="'. base_url("home/movie/") . $movie->movie_id .'" class="section_movie_title">'. $movie->movie_name .'</a>
-                <ul class="genre">';
+                <a href="'. base_url("home/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
+                if(strlen($movie->movie_name) >= 24) {
+                    $result .= strShortner($movie->movie_name, 20) . '...';
+                }
+                else 
+                {
+                    $result .= $movie->movie_name;
+                }
+                $result .= '</a>';
+                $result .= '<ul class="genre">';
                 foreach($filteredMoviesGenres as $genre)
                 {
                     if($genre->movie_id === $movie->movie_id)
