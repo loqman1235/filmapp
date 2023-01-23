@@ -123,9 +123,12 @@ class Mylist extends CI_Controller
     {
         if($this->session->userdata('is_logged_in'))
         {
+            $this->load->model('serie_model');
             $result = '';
             $watchlistMovies = $this->movie_model->getWatchlistMoviesByUserId();
-            $genres = $this->movie_model->getMovieGenre();
+            $moviesGenres = $this->movie_model->getMovieGenre();
+            $seriesGenres = $this->serie_model->getSerieGenre();
+
 
             if($watchlistMovies)
             {
@@ -141,15 +144,30 @@ class Mylist extends CI_Controller
                     $result .= '<button title="remove from your watchlist" data-name="'.$watchlistMovie->watchlist_movieName.'" data-id="'.$watchlistMovie->watchlist_movieId.'" onclick="removeMovieFromWatchlist(event)" class="removeFromMyWatchlistBtn"><i class="far fa-minus"></i></button>';
                     $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<div class="type">Movie</div>' : '<div class="type">Serie</div>';
                     $result .= '</div>';
-                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('home/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20) .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20).'</a>';
+                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('movies/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20) .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20).'</a>';
                     $result .= '<ul class="genre">';
-                    foreach($genres as $genre)
+                    
+                    if($watchlistMovie->watchlist_type === 'movie')
                     {
-                        if($genre->movie_id === $watchlistMovie->watchlist_movieId)
+                        foreach($moviesGenres as $moviesGenre)
                         {
-                            $result .= ' <li><a href="'. base_url('home/genre/') . $genre->genre_id .'">'. $genre->genre_name  .'</a></li>';
+                            if($moviesGenre->movie_id === $watchlistMovie->watchlist_movieId)
+                            {
+                                $result .= ' <li><a href="'. base_url('home/genre/') . $moviesGenre->genre_id .'">'. $moviesGenre->genre_name  .'</a></li>';
+                            }
                         }
                     }
+                    else 
+                    {
+                        foreach($seriesGenres as $seriesGenre)
+                        {
+                            if($seriesGenre->serie_id === $watchlistMovie->watchlist_movieId)
+                            {
+                                $result .= ' <li><a href="'. base_url('home/genre/') . $seriesGenre->genre_id .'">'. $seriesGenre->genre_name  .'</a></li>';
+                            }
+                        }
+                    }
+
                     $result .= '</ul>';
                     $result .= '</div>';
 

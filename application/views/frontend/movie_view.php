@@ -8,10 +8,10 @@
             />
           </div>
           <div class="movie_btns">
-            <button onclick="scrollToPlayer()" class="btn btn_secondary">
+            <a href="<?= base_url('movies/watch/') . $movie->movie_id ?>" class="btn btn_secondary">
              <span class="material-symbols-rounded">play_arrow</span> Play Now
-            </button>
-            <button class="btn btn_outline" id="trailerBtn">
+            </a>
+            <button onclick="scrollToPlayer()" class="btn btn_outline" id="trailerBtn">
               <span class="material-symbols-rounded">videocam</span> Trailer
             </button>
             <?php if($this->session->userdata('is_logged_in')) :?>
@@ -30,7 +30,7 @@
         <div class="movie_info">
           <h5 class="movie_name">
             <strong><?= $movie->movie_name ?></strong>
-            <a href="#" class="year"><?= $movie->movie_year ?></a>
+            <a href="#" class="year">(<?= $movie->movie_year ?>)</a>
           </h5>
           <div class="movie_data">
             <ul class="genre">
@@ -78,10 +78,15 @@
           </div>
           <!-- Cast ends -->
           <?php endif; ?>
-          <div class="movie_embed" id="player">
-                <iframe id="iframe" allowfullscreen="true" src="<?= $movie->movie_embed ?>"></iframe>
+          
+          <?php if($movie->movie_trailer !== '') : ?>
+          <div class="movie_trailer">
+            <h3><strong>Trailer</strong></h3>
+            <div class="movie_embed" id="player">
+                  <iframe id="iframe" allowfullscreen="true" src="<?= $movie->movie_trailer ?>"></iframe>
+            </div>
           </div>
-
+          <?php endif; ?>
          
         </div>
       </div>
@@ -96,7 +101,7 @@
         <div class="section_body swiper" id="suggestMovies">
           <div class="swiper-wrapper">
             <?php foreach($similarMovies as $similarMovie) : ?>
-              <a href="<?= base_url('home/movie/') . $similarMovie->movie_id ?>" class="section_movie swiper-slide">
+              <a href="<?= base_url('movies/movie/') . $similarMovie->movie_id ?>" class="section_movie swiper-slide">
                 <div class="section_movie_poster">
                   <img
                     src="<?= $similarMovie->movie_poster_large ?>"

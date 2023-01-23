@@ -170,6 +170,7 @@ class Series extends CI_Controller
                 <div class="section_movie animate__animated animate__fadeIn">
                 <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_poster">
                     <img src="'. $serie->serie_poster .'" />
+                    <div class="movie_quality">'. $serie->serie_quality  .'</div>
                 </a>
                 <a href="'. base_url("series/serie/") . $serie->serie_id .'" class="section_movie_title">'; 
                 if(strlen($serie->serie_name) >= 24) {
@@ -202,6 +203,42 @@ class Series extends CI_Controller
        $data = ['result' => $result, 'pagination' => $this->pagination->create_links()];
 
        echo json_encode($data);
+    }
+
+    // Serie watch page
+    public function watch($serieId) 
+    {
+        $data['serie'] = $this->serie_model->getSerieById($serieId);
+
+        if($data['serie'])
+        {
+
+            $data['page_title'] = 'Watch ' . $data['serie']->serie_name;
+            $data['serieGenres'] = $this->serie_model->getSerieGenre();
+            $data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($serieId);
+
+            $similarSeriesQueryKeywords = $data['serie']->serie_keywords;
+            $data['similarSeries'] = $this->serie_model->getSimilarSeries($similarSeriesQueryKeywords, $serieId);
+            $data['serieActors'] = $this->serie_model->getSerieActorsBySerieId($serieId);
+            // Get seasons
+            $data['serieSeasons'] = $this->serie_model->getSeasonsBySerieId($serieId);
+            // $data['serieSeasonHasEpisoded'] = $this->serie_model->serieSeasonHasEpisodes($serieId);
+            $data['seasonNum'] = 0;
+
+        
+            // Insert views
+			$this->serie_model->updateSerieVisitors($serieId);
+
+            $this->load->view('frontend/inc/header_view', $data);
+            $this->load->view('frontend/inc/navbar_view');
+            $this->load->view('frontend/serie_watch_view', $data);
+            $this->load->view('frontend/inc/footer_view');
+        }
+        else
+        {
+            redirect(base_url('home'));
+        }
+
     }
 
 }

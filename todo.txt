@@ -53,3 +53,6 @@ WHERE tbl_movies_actors.movie_id=1;
 SELECT tbl_seasons.season_id,tbl_seasons.season_alt_name, tbl_episodes.episode_id,tbl_episodes.episode_name
 FROM tbl_seasons
 LEFT JOIN tbl_episodes ON tbl_seasons.season_id=tbl_episodes.seasons_id;
+
+
+

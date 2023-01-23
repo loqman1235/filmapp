@@ -80,6 +80,7 @@ class Movie_model extends CI_Model
         $this->db->join('tbl_genres', 'tbl_movies_genres.genre_id=tbl_genres.genre_id');
         $this->db->where('tbl_genres.genre_id', $genreId);
         $this->db->where('tbl_movies.movie_is_visible', 1);
+        $this->db->order_by('tbl_movies.movie_id', 'DESC');
 
         $query = $this->db->get();
 
@@ -353,7 +354,7 @@ class Movie_model extends CI_Model
     // Filter Movies
     public function getFilterdMovies($genres, $years, $order, $start, $limit)
     {
-        $query = "SELECT tbl_movies.movie_id,tbl_movies.movie_name,tbl_movies.movie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        $query = "SELECT tbl_movies.movie_id,tbl_movies.movie_name,tbl_movies.movie_poster, tbl_movies.movie_quality,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
         FROM tbl_movies_genres
         JOIN tbl_movies ON tbl_movies_genres.movie_id=tbl_movies.movie_id
         JOIN tbl_genres ON tbl_movies_genres.genre_id=tbl_genres.genre_id";
@@ -427,6 +428,26 @@ class Movie_model extends CI_Model
 
 
        return $this->db->query($query)->num_rows();
+    }
+
+    // Trending movies
+    public function getTrendingMovies()
+    {
+        $this->db->select("*");
+        $this->db->from('movies');
+        $this->db->where('movie_views >', 100);
+        $this->db->order_by('movie_views', 'DESC');
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
+
     }
 
 }

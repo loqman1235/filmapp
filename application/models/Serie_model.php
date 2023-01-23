@@ -192,7 +192,7 @@ class Serie_model extends CI_Model
     // Get Episodes
     public function getEpisodesBySerieId($seasonId, $serieId)
     {
-        $this->db->select('tbl_seasons.serie_id, tbl_seasons.season_id, tbl_episodes.episode_id, tbl_episodes.episode_name, tbl_episodes.episode_embed');
+        $this->db->select('tbl_seasons.serie_id, tbl_seasons.season_id, tbl_episodes.episode_id, tbl_episodes.episode_name, tbl_episodes.episode_embed, tbl_episodes.episode_runtime');
         $this->db->from('tbl_seasons');
         $this->db->join('tbl_episodes', 'tbl_seasons.season_id=tbl_episodes.seasons_id');
         $this->db->where('season_id', $seasonId);
@@ -256,7 +256,7 @@ class Serie_model extends CI_Model
 
     public function getFilterdSeries($genres, $years, $order, $start, $limit)
     {
-        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster,tbl_series.serie_quality ,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
         FROM tbl_series_genres
         JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id
         JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id";
@@ -330,6 +330,24 @@ class Serie_model extends CI_Model
 
 
        return $this->db->query($query)->num_rows();
+    }
+
+    public function getTrendingSeries()
+    {
+        $this->db->select("*");
+        $this->db->from('series');
+        $this->db->where('serie_views >', 100);
+        $this->db->order_by('serie_views', 'DESC');
+        $query = $this->db->get();
+
+        if($query->num_rows() > 0 )
+        {
+            return $query->result();
+        }
+        else 
+        {
+            return false;
+        }
     }
 
 

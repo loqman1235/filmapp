@@ -30,6 +30,9 @@ class Home extends CI_Controller {
 		$data['recommendedMovies'] = $this->movie_model->getRecommendedMovies();
 		$data['recommendedSeries'] = $this->serie_model->getRecommendedSeries();
 		$data['watchlistMovies'] = $this->movie_model->getWatchlistMoviesByUserId();
+		$data['trendingMovies'] = $this->movie_model->getTrendingMovies();
+		$data['trendingSeries'] = $this->serie_model->getTrendingSeries();
+
 
 		$this->load->view('frontend/inc/header_view');
 		$this->load->view('frontend/inc/navbar_view');
@@ -68,38 +71,5 @@ class Home extends CI_Controller {
 	}
 
 
-	public function movie($movieId)
-	{
-
-		$data['movie'] = $this->movie_model->getMovieById($movieId);
-		$data['genres'] = $this->movie_model->getMovieGenre();
-		$data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($movieId);
-		$data['page_title'] = $data['movie']->movie_name;
-		
-		$similarMoviesQueryKeywords = $data['movie']->movie_keywords;
-
-		$movieId = $data['movie']->movie_id;
-		$movieName = $data['movie']->movie_name;
-		$data['similarMovies'] = $this->movie_model->getSimilarMovies($similarMoviesQueryKeywords, $movieName, $movieId);
-
-		// Movie Actors
-		$data['movieActors'] = $this->movie_model->getMovieActorsByMovieId($movieId);
-
-		if($data['movie'])
-		{
-			// Insert views
-			$this->movie_model->updateMovieVisitors($movieId);
-
-			$this->load->view('frontend/inc/header_view', $data);
-			$this->load->view('frontend/inc/navbar_view');
-			$this->load->view('frontend/movie_view', $data);
-			$this->load->view('frontend/inc/footer_view');
-		}
-		else
-		{
-			redirect(base_url('home'));
-		}
-		
-	}
 
 }

@@ -48,7 +48,7 @@
       speed: 900,
       autoplay: false,
       slidesPerView: 4,
-      spaceBetween: 4,
+      spaceBetween: 8,
       // centeredSlides: true,
       // centerInsufficientSlides: true,
       // centeredSlidesBounds: true,
@@ -64,13 +64,32 @@
       // },
     });
 
+     // Trending Movies slider
+     const trendingMovies = new Swiper("#trendingMovies", {
+      loop: false,
+      speed: 900,
+      autoplay: false,
+      slidesPerView: 4,
+      spaceBetween: 8,
+    
+      navigation: {
+        nextEl: ".movies_next_btn",
+        prevEl: ".movies_prev_btn",
+      },
+
+      // mousewheel: {
+      //   invert: true,
+      // },
+    });
+
+
     // Recommended Movies slider
     const recommendedMovieSerie = new Swiper("#recommendedMovieSerie", {
       loop: false,
       speed: 900,
       autoplay: false,
       slidesPerView: 4,
-      spaceBetween: 4,
+      spaceBetween: 8,
       // centeredSlides: true,
       // centerInsufficientSlides: true,
       // centeredSlidesBounds: true,
@@ -93,7 +112,7 @@
       speed: 900,
       autoplay: false,
       slidesPerView: 4,
-      spaceBetween: 4,
+      spaceBetween: 8,
       // centeredSlides: true,
       // centerInsufficientSlides: true,
       // centeredSlidesBounds: true,
@@ -115,7 +134,7 @@
       speed: 900,
       autoplay: false,
       slidesPerView: 4,
-      spaceBetween: 4,
+      spaceBetween: 8,
       // centeredSlides: true,
       // centerInsufficientSlides: true,
       // centeredSlidesBounds: true,
@@ -138,7 +157,7 @@
       speed: 900,
       autoplay: false,
       slidesPerView: 4,
-      spaceBetween: 4,
+      spaceBetween: 8,
       // centeredSlides: true,
       // centerInsufficientSlides: true,
       // centeredSlidesBounds: true,

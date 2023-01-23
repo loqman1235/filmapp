@@ -10,9 +10,9 @@
             />
           </div>
           <div class="movie_btns">
-          <button onclick="scrollToSeriePlayer()" class="btn btn_secondary">
+          <a href="<?= base_url('series/watch/') . $serie->serie_id ?>" class="btn btn_secondary">
               <span class="material-symbols-rounded">play_arrow</span> Play Now
-            </button>
+            </a>
             <button class="btn btn_outline" id="trailerBtn">
             <span class="material-symbols-rounded">videocam</span> Trailer
             </button> 
@@ -32,7 +32,7 @@
         <div class="movie_info">
           <h5 class="movie_name">
             <strong><?= $serie->serie_name ?></strong>
-            <a href="#" class="year"><?= $serie->serie_year ?></a>
+            <a href="#" class="year">(<?= $serie->serie_year ?>)</a>
           </h5>
           <div class="movie_data">
             <ul class="genre">
@@ -77,25 +77,6 @@
           </div>
           <?php endif; ?>
        
-          <!-- Serie Seasons -->
-          
-          <?php if($serieSeasons) :?>
-          <div class="movie_embed" id="seriePlayer">
-              <iframe id="serieIframe" allowfullscreen="true" src=""></iframe>
-          </div>
-          <div class="serie_seasons_container">
-           <ul class="seasons">
-            <?php foreach($serieSeasons as $season) : ?>
-              <?php $seasonNum++; ?>
-              <li class="season" data-season-id="<?= $season->season_id ?>"><a href="#">Se.<?= $seasonNum ?></a></li>
-              <?php endforeach; ?>
-           </ul>
-           <ul class="episodes" id="episodes">
-           </ul>
-          </div>
-          <!-- Serie Seasons end -->
-          <!-- else comming soon -->
-          <?php endif; ?>
         </div>
       </div>
 
@@ -214,70 +195,6 @@
   if(removeFromMyListBtn !== null) removeFromMyListBtn.addEventListener('click', removeMovieFromWatchlist);
 
 
-// Get Episodes By Season Id
-
-
-const getEpisodesBySeasonId = async (seasonId) => 
-{
-
-  let formData = new FormData();
-  formData.append('seasonId', seasonId);
-  formData.append('serieId', `<?= $serie->serie_id ?>`)
-
-  const response = await fetch('<?= base_url('series/getEpisodes') ?>', {
-    method: 'POST',
-    body: formData
-  });
-
-  const result = await response.json();
-  return result;
-
-}
-
-
-const seasons = document.querySelectorAll('.season');
-const episodesEl = document.getElementById('episodes');
-
-
-// Display Episodes and play the first episode
-const showEpisodes = async () => {
-  episodesEl.innerHTML = await getEpisodesBySeasonId(seasons[0].dataset.seasonId);
-
-  // Play First episode by default
-  episodesEl.children[0].classList.add('active');
-  serieIframe.src = episodesEl.children[0].firstElementChild.dataset.episodeSrc
-
-}
-
-showEpisodes();
-
-seasons[0].classList.add('active');
-
-seasons.forEach(season => {
-  season.addEventListener('click', async (e) => {
-    e.preventDefault();
-    const seasonId = season.dataset.seasonId;
-    document.querySelectorAll('.season').forEach(season => season.classList.remove('active'));
-    season.classList.add('active');
-    episodesEl.innerHTML = await getEpisodesBySeasonId(seasonId);
-  })
-})
-
-
-function playEpisode(e)
-{
-  e.preventDefault();
-  document.querySelectorAll('.episode').forEach(ep => ep.classList.remove('active'));
-  e.target.parentElement.classList.add('active');
-  serieIframe.src = e.target.dataset.episodeSrc;
-  
-}
-
-
-function scrollToSeriePlayer() {
-  const seriePlayer = document.getElementById('seriePlayer');
-  seriePlayer.scrollIntoView({ behavior: 'smooth', block: 'end'});
-}
 
 
 </script>

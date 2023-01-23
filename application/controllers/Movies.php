@@ -75,6 +75,7 @@ class Movies extends CI_Controller
                     $result .= '<div class="section_movie">
                     <a href="'. base_url('home/movie/') . $movie->movie_id .'" class="section_movie_poster">
                         <img src="'. $movie->movie_poster .'" alt="'. $movie->movie_name .'">
+                        <div class="movie_quality">'. $movie->movie_quality  .'</div>
                     </a>
                     <a href="'. base_url('home/movie/') . $movie->movie_id .'" class="section_movie_title">'. $movie->movie_name .'</a>';
                     $result .= '<ul class="genre">';
@@ -144,10 +145,11 @@ class Movies extends CI_Controller
             {
                 $result .= '
                 <div class="section_movie animate__animated animate__fadeIn">
-                <a href="'. base_url("home/movie/") . $movie->movie_id .'" class="section_movie_poster">
+                <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_poster">
                     <img src="'. $movie->movie_poster .'" />
+                    <div class="movie_quality">'. $movie->movie_quality  .'</div>
                 </a>
-                <a href="'. base_url("home/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
+                <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
                 if(strlen($movie->movie_name) >= 24) {
                     $result .= strShortner($movie->movie_name, 20) . '...';
                 }
@@ -179,6 +181,52 @@ class Movies extends CI_Controller
 
        echo json_encode($data);
 
+    }
+
+
+    public function movie($movieId)
+	{
+
+		$data['movie'] = $this->movie_model->getMovieById($movieId);
+		$data['genres'] = $this->movie_model->getMovieGenre();
+		$data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($movieId);
+		$data['page_title'] = $data['movie']->movie_name;
+		
+		$similarMoviesQueryKeywords = $data['movie']->movie_keywords;
+
+		$movieId = $data['movie']->movie_id;
+		$movieName = $data['movie']->movie_name;
+		$data['similarMovies'] = $this->movie_model->getSimilarMovies($similarMoviesQueryKeywords, $movieName, $movieId);
+
+		// Movie Actors
+		$data['movieActors'] = $this->movie_model->getMovieActorsByMovieId($movieId);
+
+		if($data['movie'])
+		{
+			// Insert views
+			$this->movie_model->updateMovieVisitors($movieId);
+
+			$this->load->view('frontend/inc/header_view', $data);
+			$this->load->view('frontend/inc/navbar_view');
+			$this->load->view('frontend/movie_view', $data);
+			$this->load->view('frontend/inc/footer_view');
+		}
+		else
+		{
+			redirect(base_url('home'));
+		}
+		
+	}
+
+    public function watch($movieId) 
+    {
+		$data['movie'] = $this->movie_model->getMovieById($movieId);
+        $data['page_title'] = $data['movie']->movie_name;
+
+        $this->load->view('frontend/inc/header_view', $data);
+        $this->load->view('frontend/inc/navbar_view');
+        $this->load->view('frontend/watch_view');
+        $this->load->view('frontend/inc/footer_view');
     }
 
 }
