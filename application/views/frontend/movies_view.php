@@ -15,7 +15,7 @@
                     <?php if($allGenres) : ?>
                         <?php foreach($allGenres as $genre) : ?>
                     <li class="filter_dropdown_item" data-value="<?= $genre->genre_id ?>">
-                    <i class="fal fa-square"></i> <span class="item_text"><?= $genre->genre_name ?></span>
+                    <i class="fal fa-circle"></i> <span class="item_text"><?= $genre->genre_name ?></span>
                     </li>
                     <?php endforeach; ?>
                     <?php endif; ?>
@@ -35,7 +35,7 @@
                     <?php if ($years) : ?>
                     <?php foreach($years as $year) : ?>
                     <li class="filter_dropdown_item" data-value="<?= $year->movie_year ?>">
-                    <i class="fal fa-square"></i> <span class="item_text"><?= $year->movie_year ?></span>
+                    <i class="fal fa-circle"></i> <span class="item_text"><?= $year->movie_year ?></span>
                     </li>
                     <?php endforeach; ?>
                     <?php endif; ?>
@@ -53,10 +53,10 @@
                 </div>
                 <ul class="filter_dropdown" id="orderDropdown">
                     <li class="filter_dropdown_item" data-value="asc">
-                    <i class="fal fa-square"></i> <span class="item_text">Ascending</span>
+                    <i class="fal fa-circle"></i> <span class="item_text">Ascending</span>
                     </li>
                     <li class="filter_dropdown_item checked" data-value="desc">
-                    <i class="fal fa-square"></i>
+                    <i class="fal fa-circle"></i>
                     <span class="item_text">Descending</span>
                     </li>
                 </ul>
@@ -70,17 +70,18 @@
         <?php foreach($movies as $movie) : ?>
         <div class="section_movie animate__animated animate__fadeIn">
             <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_poster">
-                <img src="<?= $movie->movie_poster ?>" alt="<?= $movie->movie_name ?>">
+                <img src="<?= $movie->movie_poster_large ?>" alt="<?= $movie->movie_name ?>">
                 <div class="movie_quality"><?= $movie->movie_quality ?></div>
             </a>
-            <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 24) ? strShortner($movie->movie_name, 20) . '...' : $movie->movie_name ?></a>
-            <ul class="genre">
-                <?php foreach($genres as $genre) : ?>
-                <?php if($genre->movie_id === $movie->movie_id) : ?>
-                    <li><a href="<?= base_url('home/genre/') . $genre->genre_id ?>"><?= $genre->genre_name ?></a></li>
-                <?php endif; ?>
-                <?php endforeach; ?>
-            </ul>
+            <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 30) ? strShortner($movie->movie_name, 30) . '...' : $movie->movie_name ?></a>
+            <div class="section_movie_data">
+                <div class="section_movie_info">
+                    <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> <?= $movie->movie_imdb_rating ?></p>
+                    <div class="separator"></div>
+                    <p class="section_movie_year"><?= $movie->movie_year ?></p>
+                </div>
+                <div class="section_movie_type">Movie</div>
+            </div>
         </div>
         <?php endforeach; ?>
     </div>

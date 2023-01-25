@@ -27,11 +27,20 @@ class Home extends CI_Controller {
 		$data['featuredMovies'] = $this->movie_model->getFeaturedMovies();
 		$data['featuredSeries'] = $this->serie_model->getFeaturedSeries();
 
-		$data['recommendedMovies'] = $this->movie_model->getRecommendedMovies();
-		$data['recommendedSeries'] = $this->serie_model->getRecommendedSeries();
 		$data['watchlistMovies'] = $this->movie_model->getWatchlistMoviesByUserId();
-		$data['trendingMovies'] = $this->movie_model->getTrendingMovies();
-		$data['trendingSeries'] = $this->serie_model->getTrendingSeries();
+		
+		// Recommended
+		$data['recommendedMedias'] = $this->movie_model->getRecommendedMedias();
+
+		// Trending
+		$data['trendingMedias'] = $this->movie_model->getTrendingMedias();
+
+	
+
+		$data['animationMovies'] = $this->movie_model->getAnimationMovies();
+		$data['animationSeries'] = $this->serie_model->getAnimationSeries();
+
+		
 
 
 		$this->load->view('frontend/inc/header_view');

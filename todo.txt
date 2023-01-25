@@ -6,7 +6,7 @@
 
 * Add searching                                    -> Not done yet
 
-* Work more on movie/serie details page            -> Not done yet
+* Work more on movie/serie details page            -> Done
 
 * Add series to genre view                         -> Not done yet
 
@@ -56,3 +56,24 @@ LEFT JOIN tbl_episodes ON tbl_seasons.season_id=tbl_episodes.seasons_id;
 
 
 
+// Query to order both movies and series with the genre animation based on release date
+
+SELECT tbl_movies.movie_name, tbl_genres.genre_name, tbl_movies.movie_release_date AS release_date FROM tbl_movies_genres INNER JOIN tbl_movies ON tbl_movies_genres.movie_id=tbl_movies.movie_id INNER JOIN tbl_genres ON tbl_movies_genres.genre_id=tbl_genres.genre_id WHERE tbl_genres.genre_name='Animation' UNION SELECT tbl_series.serie_name, tbl_genres.genre_name, tbl_series.serie_release_date AS release_date FROM tbl_series_genres INNER JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id INNER JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id WHERE tbl_genres.genre_name='Animation' ORDER BY release_date DESC;
+
+
+
+SELECT tbl_movies.movie_name AS media_name, tbl_movies.movie_poster_large AS media_poster_large,tbl_movies.movie_release_date AS release_date 
+FROM tbl_movies_genres 
+INNER JOIN tbl_movies ON tbl_movies_genres.movie_id=tbl_movies.movie_id 
+INNER JOIN tbl_genres ON tbl_movies_genres.genre_id=tbl_genres.genre_id 
+WHERE tbl_genres.genre_name='Drama' 
+UNION 
+SELECT tbl_series.serie_name AS media_name,tbl_series.serie_poster_large AS media_poster_large,tbl_series.serie_release_date AS release_date 
+FROM tbl_series_genres 
+INNER JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id 
+INNER JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id
+WHERE tbl_genres.genre_name='Drama' 
+ORDER BY release_date DESC;
+
+// Order Movies/Series Based on views
+SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster_large AS media_poster_large,tbl_movies.movie_views AS media_views FROM tbl_movies WHERE tbl_movies.movie_views>100 UNION SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster_large AS media_poster_large,tbl_series.serie_views AS media_views FROM tbl_series WHERE tbl_series.serie_views>100 ORDER BY media_views DESC;

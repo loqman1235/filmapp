@@ -36,10 +36,10 @@
               <?= strShortner($featuredMovie->movie_plot, 200) ?>...
             </p>
             <div class="hero_btns">
-              <a href="<?= base_url('movies/watch/') . $featuredMovie->movie_id ?>" class="btn btn_secondary">
-              <span class="material-symbols-rounded">play_arrow</span> Play Now
+              <a href="<?= base_url('movies/watch/') . $featuredMovie->movie_id ?>" class="btn btn_secondary btn_lg">
+              <i class="fas fa-play"></i> Play Now
               </a>
-              <a href="<?= base_url('movies/movie/') . $featuredMovie->movie_id ?>" class="btn btn_outline">
+              <a href="<?= base_url('movies/movie/') . $featuredMovie->movie_id ?>" class="btn btn_outline btn_lg">
                 <span class="material-symbols-rounded">info</span> More Info
               </a>
             </div>
@@ -80,10 +80,10 @@
               <?= strShortner($featuredSerie->serie_plot, 200) ?>...
             </p>
             <div class="hero_btns">
-              <a href="<?= base_url('series/watch/') . $featuredSerie->serie_id ?>" class="btn btn_secondary">
-                <span class="material-symbols-rounded">play_arrow</span> Play Now
+              <a href="<?= base_url('series/watch/') . $featuredSerie->serie_id ?>" class="btn btn_secondary btn_lg">
+                <i class="fas fa-play"></i> Play Now
               </a>
-              <a href="<?= base_url('series/serie/') . $featuredSerie->serie_id ?>" class="btn btn_outline">
+              <a href="<?= base_url('series/serie/') . $featuredSerie->serie_id ?>" class="btn btn_outline btn_lg">
               <span class="material-symbols-rounded">info</span> More Info
               </a>
             </div>

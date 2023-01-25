@@ -35,10 +35,10 @@ export function initFilter(
 	dropdownItems.forEach((item) => {
 		if (!multiSelect) {
 			if (item.classList.contains("checked")) {
-				item.firstElementChild.classList.remove("fa-square");
+				item.firstElementChild.classList.remove("fa-circle");
 				item.firstElementChild.classList.remove("fal");
 				item.firstElementChild.classList.add("fas");
-				item.firstElementChild.classList.add("fa-check-square");
+				item.firstElementChild.classList.add("fa-check-circle");
 			}
 		}
 
@@ -48,35 +48,35 @@ export function initFilter(
 					item.classList.remove("checked");
 					item.firstElementChild.classList.remove("fas");
 					item.firstElementChild.classList.add("fal");
-					item.firstElementChild.classList.remove("fa-check-square");
-					item.firstElementChild.classList.add("fa-square");
+					item.firstElementChild.classList.remove("fa-check-circle");
+					item.firstElementChild.classList.add("fa-circle");
 				});
 				// Toggle active class of the dropdown checkboxes
 
 				item.classList.toggle("checked");
 				if (item.classList.contains("checked")) {
-					item.firstElementChild.classList.remove("fa-square");
+					item.firstElementChild.classList.remove("fa-circle");
 					item.firstElementChild.classList.remove("fal");
 					item.firstElementChild.classList.add("fas");
-					item.firstElementChild.classList.add("fa-check-square");
+					item.firstElementChild.classList.add("fa-check-circle");
 				} else {
 					item.firstElementChild.classList.remove("fas");
 					item.firstElementChild.classList.add("fal");
-					item.firstElementChild.classList.remove("fa-check-square");
-					item.firstElementChild.classList.add("fa-square");
+					item.firstElementChild.classList.remove("fa-check-circle");
+					item.firstElementChild.classList.add("fa-circle");
 				}
 			} else {
 				item.classList.toggle("checked");
 				if (item.classList.contains("checked")) {
-					item.firstElementChild.classList.remove("fa-square");
+					item.firstElementChild.classList.remove("fa-circle");
 					item.firstElementChild.classList.remove("fal");
 					item.firstElementChild.classList.add("fas");
-					item.firstElementChild.classList.add("fa-check-square");
+					item.firstElementChild.classList.add("fa-check-circle");
 				} else {
 					item.firstElementChild.classList.remove("fas");
 					item.firstElementChild.classList.add("fal");
-					item.firstElementChild.classList.remove("fa-check-square");
-					item.firstElementChild.classList.add("fa-square");
+					item.firstElementChild.classList.remove("fa-check-circle");
+					item.firstElementChild.classList.add("fa-circle");
 				}
 			}
 

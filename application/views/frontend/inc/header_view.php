@@ -150,6 +150,28 @@
       // },
     });
 
+     // Animations Slider
+     const animation = new Swiper("#animation", {
+      loop: false,
+      speed: 900,
+      autoplay: false,
+      slidesPerView: 4,
+      spaceBetween: 8,
+      // centeredSlides: true,
+      // centerInsufficientSlides: true,
+      // centeredSlidesBounds: true,
+      effect: 'card',
+
+      // Navigation arrows
+      navigation: {
+        nextEl: ".movies_next_btn",
+        prevEl: ".movies_prev_btn",
+      },
+      //  mousewheel: {
+      //   invert: true,
+      // },
+    });
+
 
     // Suggested movies slider
     const suggestMovies = new Swiper("#suggestMovies", {

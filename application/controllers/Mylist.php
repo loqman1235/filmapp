@@ -56,6 +56,8 @@ class Mylist extends CI_Controller
                         'watchlist_moviePoster'      => $this->input->post('moviePoster'),
                         'watchlist_moviePosterLarge' => $this->input->post('moviePosterLarge'),
                         'watchlist_moviePlot'        => $this->input->post('moviePlot'),
+                        'watchlist_movieYear'        => $this->input->post('movieYear'),
+                        'watchlist_movieImdbRating'        => $this->input->post('movieImdbRating'),
                         'watchlist_type'             => $this->input->post('watchlistItemType'),
                         'user_id'                    => $this->session->userdata('userId')
 
@@ -136,39 +138,31 @@ class Mylist extends CI_Controller
                 foreach($watchlistMovies as $watchlistMovie)
                 {
                     $result .= '<div class="section_movie animate__animated animate__fadeIn">';
-                    $result .= '<div class="section_movie_poster">';
-                    $result .= '<img
-                    src="'.$watchlistMovie->watchlist_moviePoster.'"
-                    alt=""
-                    />';
-                    $result .= '<button title="remove from your watchlist" data-name="'.$watchlistMovie->watchlist_movieName.'" data-id="'.$watchlistMovie->watchlist_movieId.'" onclick="removeMovieFromWatchlist(event)" class="removeFromMyWatchlistBtn"><i class="far fa-minus"></i></button>';
-                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<div class="type">Movie</div>' : '<div class="type">Serie</div>';
-                    $result .= '</div>';
-                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('movies/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20) .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20).'</a>';
-                    $result .= '<ul class="genre">';
-                    
-                    if($watchlistMovie->watchlist_type === 'movie')
-                    {
-                        foreach($moviesGenres as $moviesGenre)
-                        {
-                            if($moviesGenre->movie_id === $watchlistMovie->watchlist_movieId)
-                            {
-                                $result .= ' <li><a href="'. base_url('home/genre/') . $moviesGenre->genre_id .'">'. $moviesGenre->genre_name  .'</a></li>';
-                            }
-                        }
+                    if($watchlistMovie->watchlist_type === 'movie') {
+
+                        $result .= '<a href="'. base_url('movies/movie/') . $watchlistMovie->watchlist_movieId .'" class="section_movie_poster">';
                     }
                     else 
                     {
-                        foreach($seriesGenres as $seriesGenre)
-                        {
-                            if($seriesGenre->serie_id === $watchlistMovie->watchlist_movieId)
-                            {
-                                $result .= ' <li><a href="'. base_url('home/genre/') . $seriesGenre->genre_id .'">'. $seriesGenre->genre_name  .'</a></li>';
-                            }
-                        }
+                        $result .= '<a href="'. base_url('series/serie/') . $watchlistMovie->watchlist_movieId .'" class="section_movie_poster">';
                     }
+                    $result .= '<img
+                    src="'.$watchlistMovie->watchlist_moviePosterLarge.'"
+                    alt=""
+                    />';
+                    $result .= '<button title="remove from your watchlist" data-name="'.$watchlistMovie->watchlist_movieName.'" data-id="'.$watchlistMovie->watchlist_movieId.'" onclick="removeMovieFromWatchlist(event)" class="removeFromMyWatchlistBtn"><i class="far fa-minus"></i></button>';
+                    $result .= '</a>';
+                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('movies/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20) .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20).'</a>';
+                    
+                    $result .= '<div class="section_movie_data">
+                    <div class="section_movie_info">
+                        <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> '. $watchlistMovie->watchlist_movieImdbRating  .'</p>
+                        <div class="separator"></div>
+                        <p class="section_movie_year">'. $watchlistMovie->watchlist_movieYear .'</p>
+                        </div>
+                        <div class="section_movie_type">'. ($watchlistMovie->watchlist_type) .'</div>
+                    </div>';
 
-                    $result .= '</ul>';
                     $result .= '</div>';
 
                 }

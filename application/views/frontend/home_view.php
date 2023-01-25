@@ -28,32 +28,54 @@
 </section>
 <?php endif; ?>
 
-<!-- Popular movies -->
-<?php if($trendingMovies || $trendingSeries) : ?>
-<!-- Movies Section -->
-<section class="section homeSection" id="trendingSection">
+<?php if($recommendedMedias) : ?>
+<!-- Recommended Section -->
+<section class="section homeSection" id="recommendedSection">
   <!-- Section Header -->
   <div class="section_header">
-      <h3><strong>Trending</strong></h3>
+      <h3><strong>Recommended</strong></h3>
     </div>
     <!-- Section Body -->
-    <div class="section_body swiper" id="trendingMovies">
-      <div class="swiper-wrapper" id="trendingWrapper">
-      <?php foreach($trendingMovies as $trendingMovie) : ?>
+    <div class="section_body swiper" id="recommendedMovieSerie">
+      <div class="swiper-wrapper">
+        <?php foreach($recommendedMedias as $recommendedMedia) : ?>
         <!-- Movie Start -->
-        <a data-views="<?= $trendingMovie->movie_views ?>" href="<?= base_url('movies/movie/') . $trendingMovie->movie_id ?>" class="section_movie swiper-slide">
+        <a href="<?= ($recommendedMedia->media_type === 'movie') ? base_url('movies/movie/') . $recommendedMedia->media_id : base_url('series/serie/') . $recommendedMedia->media_id ?>" class="section_movie swiper-slide">
           <div class="section_movie_poster">
-            <img src="<?= $trendingMovie->movie_poster_large ?>" alt="<?= $trendingMovie->movie_name ?>">
+            <img src="<?= $recommendedMedia->media_poster_large ?>" alt="<?= $recommendedMedia->media_name ?>">
           </div>
         </a>
         <!-- Movie End -->
         <?php endforeach; ?>
+      </div>
+      <div class="movies_prev_btn">
+          <i class="fal fa-chevron-left"></i>
+        </div>
+        <div class="movies_next_btn">
+          <i class="fal fa-chevron-right"></i>
+        </div>
+    </div>
+</section>
 
-        <?php foreach($trendingSeries as $trendingSerie) : ?>
+<?php endif; ?>
+
+
+<!-- Popular movies -->
+<?php if($trendingMedias) : ?>
+<!-- Movies Section -->
+<section class="section homeSection" id="trendingSection">
+  <!-- Section Header -->
+  <div class="section_header">
+      <h3><strong>Popular</strong></h3>
+    </div>
+    <!-- Section Body -->
+    <div class="section_body swiper" id="trendingMovies">
+      <div class="swiper-wrapper" id="trendingWrapper">
+      <?php foreach($trendingMedias as $trendingMedia) : ?>
         <!-- Movie Start -->
-        <a data-views="<?= $trendingSerie->serie_views ?>" href="<?= base_url('series/serie/') . $trendingSerie->serie_id ?>" class="section_movie swiper-slide">
+        <a href="<?= ($trendingMedia->media_type === 'movie') ? base_url('movies/movie/') . $trendingMedia->media_id : base_url('series/serie/') . $trendingMedia->media_id ?>" class="section_movie swiper-slide">
           <div class="section_movie_poster">
-            <img src="<?= $trendingSerie->serie_poster_large ?>" alt="<?= $trendingSerie->serie_name ?>">
+            <img src="<?= $trendingMedia->media_poster_large ?>" alt="<?= $trendingMedia->media_name ?>">
           </div>
         </a>
         <!-- Movie End -->
@@ -70,49 +92,6 @@
 <?php endif; ?>
 <!-- Popular ends -->
 
-
-
-<?php if($recommendedMovies || $recommendedSeries) : ?>
-<!-- Recommended Section -->
-<section class="section homeSection" id="recommendedSection">
-  <!-- Section Header -->
-  <div class="section_header">
-      <h3><strong>Recommended</strong></h3>
-    </div>
-    <!-- Section Body -->
-    <div class="section_body swiper" id="recommendedMovieSerie">
-      <div class="swiper-wrapper">
-        <?php foreach($recommendedMovies as $recommendedMovie) : ?>
-        <!-- Movie Start -->
-        <a href="<?= base_url('movies/movie/') . $recommendedMovie->movie_id ?>" class="section_movie swiper-slide">
-          <div class="section_movie_poster">
-            <img src="<?= $recommendedMovie->movie_poster_large ?>" alt="<?= $recommendedMovie->movie_name ?>">
-          </div>
-        </a>
-        <!-- Movie End -->
-        <?php endforeach; ?>
-        <?php foreach($recommendedSeries as $recommendedSerie) : ?>
-        <!-- serie Start -->
-        <a href="<?= base_url('series/serie/') . $recommendedSerie->serie_id ?>" class="section_movie swiper-slide">
-          <div class="section_movie_poster">
-            <img src="<?= $recommendedSerie->serie_poster_large ?>" alt="<?= $recommendedSerie->serie_name ?>">
-          </div>
-        </a>
-        <!-- serie End -->
-        <?php endforeach; ?>
-
-        
-      </div>
-      <div class="movies_prev_btn">
-          <i class="fal fa-chevron-left"></i>
-        </div>
-        <div class="movies_next_btn">
-          <i class="fal fa-chevron-right"></i>
-        </div>
-    </div>
-</section>
-
-<?php endif; ?>
 
 
 <?php if($movies) : ?>
@@ -163,21 +142,6 @@
           <div class="section_movie_poster">
             <img src="<?= $serie->serie_poster_large ?>" alt="<?= $serie->serie_name ?>">
           </div>
-           <!-- Movie Details -->
-           <!-- <div class="details">
-            <div class="poster_large"><img src="<?= $serie->serie_backdrop ?>" alt="<?= $serie->serie_name ?>"></div>
-            <div class="info">
-              <h2><?= $serie->serie_name ?> <small><?= $serie->serie_year ?></small></h2>
-              <ul class="genre">
-                <?php foreach($serieGenres as $serieGenre) : ?>
-                  <?php if($serieGenre->serie_id === $serie->serie_id) : ?>
-                      <li><?= $serieGenre->genre_name ?></li>
-                  <?php endif; ?>
-                <?php endforeach; ?>
-              </ul>
-              <p class="description"><?= strShortner($serie->serie_plot, 160) ?>...</p>
-            </div>
-          </div> -->
         </a>
         <!-- Movie End -->
         <?php endforeach; ?>
@@ -192,25 +156,41 @@
 </section>
 <?php endif; ?>
 
-<script>
 
-	// Order trending section
-	function comparator(a, b) {
-		if (a.dataset.views > b.dataset.views)
-			return -1;
-		if (a.dataset.views < b.dataset.views)
-			return 1;
-		return 0;
-	}
+<!-- Animation -->
 
+<?php if($animationMovies || $animationSeries) : ?>
+<!-- Series Section -->
+<section class="section homeSection" id="animationSection">
+  <!-- Section Header -->
+  <div class="section_header">
+      <h3><strong>Animation</strong></h3>
+    </div>
+    <!-- Section Body -->
+    <div class="section_body swiper" id="animation">
+      <div class="swiper-wrapper" id="animation-wrapper">
+      <?php foreach($animationMovies as $animationMovie) : ?>
+        <a data-release-date="<?= $animationMovie->movie_release_date ?>" href="<?= base_url('movies/movie/') . $animationMovie->movie_id ?>" class="section_movie swiper-slide">
+          <div class="section_movie_poster">
+            <img src="<?= $animationMovie->movie_poster_large ?>" alt="<?= $animationMovie->movie_name ?>">
+          </div>
+        </a>
+        <?php endforeach; ?>
 
-	const indexes = document.querySelectorAll("[data-views]");
-	const indexesArray = Array.from(indexes);
-	let sorted = indexesArray.sort(comparator);
-	sorted.forEach(e =>
-		document.getElementById('trendingWrapper').appendChild(e));
-
-
-
-
-</script>
+        <?php foreach($animationSeries as $animationSerie) : ?>
+        <a data-release-date="<?= $animationSerie->serie_release_date ?>" href="<?= base_url('series/serie/') . $animationSerie->serie_id ?>" class="section_movie swiper-slide">
+          <div class="section_movie_poster">
+            <img src="<?= $animationSerie->serie_poster_large ?>" alt="<?= $animationSerie->serie_name ?>">
+          </div>
+        </a>
+        <?php endforeach; ?>
+      </div>
+      <div class="movies_prev_btn">
+          <i class="fal fa-chevron-left"></i>
+        </div>
+        <div class="movies_next_btn">
+          <i class="fal fa-chevron-right"></i>
+        </div>
+    </div>
+</section>
+<?php endif; ?>

@@ -9,7 +9,8 @@ class Serie_model extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('series');
-        $this->db->order_by('serie_id', 'DESC');
+        $this->db->limit(24);
+        $this->db->order_by('serie_release_date', 'DESC');
         $this->db->where('serie_is_visible', 1);
         $query = $this->db->get();
 
@@ -35,7 +36,7 @@ class Serie_model extends CI_Model
          $this->db->from('series');
          $this->db->limit($start, $end);
          $this->db->where('serie_is_visible', 1);
-         $this->db->order_by('serie_id', 'DESC');
+         $this->db->order_by('serie_release_date', 'DESC');
          $query = $this->db->get();
  
          if($query->num_rows() > 0)
@@ -87,24 +88,6 @@ class Serie_model extends CI_Model
         }
     }
 
-    public function getRecommendedSeries()
-    {
-        $this->db->select('*');
-        $this->db->from('series');
-        $this->db->where('serie_is_visible', 1);
-        $this->db->where('serie_is_recommended', 1);
-        $this->db->order_by('serie_id', 'DESC');
-        $query = $this->db->get();
-
-        if($query->num_rows() > 0)
-        {
-            return $query->result();
-        }
-        else 
-        {
-            return false;
-        }
-    }
 
 
     public function getSerieById($serieId)
@@ -256,7 +239,7 @@ class Serie_model extends CI_Model
 
     public function getFilterdSeries($genres, $years, $order, $start, $limit)
     {
-        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster,tbl_series.serie_quality ,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster, tbl_series.serie_poster_large,tbl_series.serie_quality, tbl_series.serie_imdb_rating, tbl_series.serie_year ,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
         FROM tbl_series_genres
         JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id
         JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id";
@@ -276,11 +259,11 @@ class Serie_model extends CI_Model
 
         if($order === 'asc')
         {
-            $query .= " ORDER BY tbl_series_genres.serie_id ASC";
+            $query .= " ORDER BY tbl_series.serie_release_date ASC";
         }
         else
         {
-            $query .= " ORDER BY tbl_series_genres.serie_id DESC";
+            $query .= " ORDER BY tbl_series.serie_release_date DESC";
 
         }
 
@@ -332,19 +315,25 @@ class Serie_model extends CI_Model
        return $this->db->query($query)->num_rows();
     }
 
-    public function getTrendingSeries()
+
+    public function getAnimationSeries()
     {
-        $this->db->select("*");
-        $this->db->from('series');
-        $this->db->where('serie_views >', 100);
-        $this->db->order_by('serie_views', 'DESC');
+        $this->db->select('tbl_series.*, tbl_genres.genre_name');
+        $this->db->from('tbl_series_genres');
+        $this->db->limit(12);
+        $this->db->join('tbl_series', 'tbl_series_genres.serie_id=tbl_series.serie_id');
+        $this->db->join('tbl_genres', 'tbl_series_genres.genre_id=tbl_genres.genre_id');
+        $this->db->where('tbl_genres.genre_name', 'animation');
+        $this->db->where('tbl_series.serie_is_visible', 1);
+        $this->db->order_by('tbl_series.serie_release_date', 'DESC');
+
         $query = $this->db->get();
 
-        if($query->num_rows() > 0 )
+        if($query->num_rows() > 0)
         {
             return $query->result();
         }
-        else 
+        else
         {
             return false;
         }

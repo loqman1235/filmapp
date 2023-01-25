@@ -8,22 +8,24 @@
             />
           </div>
           <div class="movie_btns">
-            <a href="<?= base_url('movies/watch/') . $movie->movie_id ?>" class="btn btn_secondary">
+            <a href="<?= base_url('movies/watch/') . $movie->movie_id ?>" class="btn btn_secondary btn_lg">
              <span class="material-symbols-rounded">play_arrow</span> Play Now
             </a>
-            <button onclick="scrollToPlayer()" class="btn btn_outline" id="trailerBtn">
+            <?php if($movie->movie_trailer !== '') : ?>
+            <button onclick="scrollToPlayer()" class="btn btn_outline btn_lg" id="trailerBtn">
               <span class="material-symbols-rounded">videocam</span> Trailer
             </button>
+            <?php endif; ?>
             <?php if($this->session->userdata('is_logged_in')) :?>
             <div class="deleteBtnContainer" id="deleteBtnContainer">
                 <?php if(!$watchListMoviesExist) :?>
-                  <button class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><span class="material-symbols-rounded">add</span> My list</button>
+                  <button class="btn btn_outline btn_lg addToMyListBtn" id="addToMyListBtn"><span class="material-symbols-rounded">add</span> My list</button>
                   <?php else: ?>
-                    <button class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><span class="material-symbols-rounded">done</span> My list</button>
+                    <button class="btn btn_outline btn_lg removeFromMyListBtn" id="removeFromMyListBtn"><span class="material-symbols-rounded">done</span> My list</button>
                   <?php endif; ?>
             </div>
             <?php else : ?>
-              <a href="<?= base_url('login') ?>" class="btn btn_outline " id=""><span class="material-symbols-rounded">add</span> My list</a>
+              <a href="<?= base_url('login') ?>" class="btn btn_outline btn_lg" id=""><span class="material-symbols-rounded">add</span> My list</a>
            <?php endif; ?>
           </div>
         </div>
@@ -207,6 +209,8 @@
     formData.append('moviePoster', '<?= $movie->movie_poster ?>');
     formData.append('movieName', '<?= $movie->movie_name ?>');
     formData.append('moviePlot', `<?= $movie->movie_plot ?>`);
+    formData.append('movieYear', `<?= $movie->movie_year ?>`);
+    formData.append('movieImdbRating', `<?= $movie->movie_imdb_rating ?>`);
     formData.append('moviePosterLarge', `<?= $movie->movie_poster_large ?>`);
     formData.append('watchlistItemType', 'movie');
 
@@ -224,7 +228,7 @@
     if(result.success)
     {
       // alert(result.msg);
-     document.getElementById('deleteBtnContainer').innerHTML = ' <button onclick="removeMovieFromWatchlist(event)"  class="btn btn_outline removeFromMyListBtn" id="removeFromMyListBtn"><span class="material-symbols-rounded">done</span> My list</button>';
+     document.getElementById('deleteBtnContainer').innerHTML = ' <button onclick="removeMovieFromWatchlist(event)"  class="btn btn_outline btn_lg removeFromMyListBtn" id="removeFromMyListBtn"><span class="material-symbols-rounded">done</span> My list</button>';
     }
 
     if(result.error)
@@ -258,7 +262,7 @@
     if(result.success)
     {
       // alert(result.msg);
-      document.getElementById('deleteBtnContainer').innerHTML = '<button onclick="addMovieToWatchlist(event)" class="btn btn_outline addToMyListBtn" id="addToMyListBtn"><span class="material-symbols-rounded">add</span> My list</button>';
+      document.getElementById('deleteBtnContainer').innerHTML = '<button onclick="addMovieToWatchlist(event)" class="btn btn_outline btn_lg addToMyListBtn" id="addToMyListBtn"><span class="material-symbols-rounded">add</span> My list</button>';
     }
 
   }
@@ -268,7 +272,7 @@
   if(removeFromMyListBtn !== null) removeFromMyListBtn.addEventListener('click', removeMovieFromWatchlist);
 
 
-function scrollToPlayer() {
+  function scrollToPlayer() {
   const player = document.getElementById('player');
   player.scrollIntoView({ behavior: 'smooth', block: 'end'});
 }

@@ -146,29 +146,27 @@ class Movies extends CI_Controller
                 $result .= '
                 <div class="section_movie animate__animated animate__fadeIn">
                 <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_poster">
-                    <img src="'. $movie->movie_poster .'" />
+                    <img src="'. $movie->movie_poster_large .'" />
                     <div class="movie_quality">'. $movie->movie_quality  .'</div>
                 </a>
                 <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
-                if(strlen($movie->movie_name) >= 24) {
-                    $result .= strShortner($movie->movie_name, 20) . '...';
+                if(strlen($movie->movie_name) >= 30) {
+                    $result .= strShortner($movie->movie_name, 30) . '...';
                 }
                 else 
                 {
                     $result .= $movie->movie_name;
                 }
                 $result .= '</a>';
-                $result .= '<ul class="genre">';
-                foreach($filteredMoviesGenres as $genre)
-                {
-                    if($genre->movie_id === $movie->movie_id)
-                    {
-                        $result .= '<li><a href="'. base_url("home/genre/") . $genre->genre_id .'">'. $genre->genre_name .'</a></li>';
-                    }
-                }
-                $result .= '</ul>
-                </div>
-                ';
+                $result .= '<div class="section_movie_data">
+                <div class="section_movie_info">
+                    <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> '. $movie->movie_imdb_rating  .'</p>
+                        <div class="separator"></div>
+                        <p class="section_movie_year">'. $movie->movie_year .'</p>
+                    </div>
+                    <div class="section_movie_type">Movie</div>
+                </div>';
+                $result .= '</div>';
             }
        }
        else
