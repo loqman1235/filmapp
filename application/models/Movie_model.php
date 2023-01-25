@@ -413,42 +413,20 @@ class Movie_model extends CI_Model
     }
 
 
-    public function getAnimationMovies()
-    {
-        $this->db->select('tbl_movies.*, tbl_genres.genre_name');
-        $this->db->from('tbl_movies_genres');
-        $this->db->limit(12);
-        $this->db->join('tbl_movies', 'tbl_movies_genres.movie_id=tbl_movies.movie_id');
-        $this->db->join('tbl_genres', 'tbl_movies_genres.genre_id=tbl_genres.genre_id');
-        $this->db->where('tbl_genres.genre_name', 'animation');
-        $this->db->where('tbl_movies.movie_is_visible', 1);
-        $this->db->order_by('tbl_movies.movie_release_date', 'DESC');
-
-        $query = $this->db->get();
-
-        if($query->num_rows() > 0)
-        {
-            return $query->result();
-        }
-        else
-        {
-            return false;
-        }
-    }
 
     // Get trending movies/series
     public function getTrendingMedias()
     {
-        $query = "SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster ,tbl_movies.movie_poster_large AS media_poster_large, 'movie' as media_type, tbl_movies.movie_views AS media_views
+        $query = "SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster ,tbl_movies.movie_poster_large AS media_poster_large, 'movie' as media_type, tbl_movies.movie_views AS media_views, tbl_movies.movie_is_visible
         FROM tbl_movies
-        WHERE tbl_movies.movie_views>100 
+        WHERE tbl_movies.movie_views>100  AND tbl_movies.movie_is_visible=1
         UNION
-        SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large, 'serie' as media_type ,tbl_series.serie_views AS media_views
+        SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large, 'serie' as media_type ,tbl_series.serie_views AS media_views, tbl_series.serie_is_visible
         FROM tbl_series 
-        WHERE tbl_series.serie_views>100 
+        WHERE tbl_series.serie_views>100 AND tbl_series.serie_is_visible=1
         ORDER BY media_views DESC;";
 
-        if($this->db->query($query)->num_rows() > 0)
+        if($this->db->query($query)->num_rows() > 4)
        {
         return $this->db->query($query)->result();
        }
@@ -462,7 +440,55 @@ class Movie_model extends CI_Model
     // Get Recommended medias
     public function getRecommendedMedias()
     {
-        $query = "SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster ,tbl_movies.movie_poster_large AS media_poster_large, 'movie' as media_type, tbl_movies.movie_views AS media_views FROM tbl_movies WHERE tbl_movies.movie_is_recommended=1 AND tbl_movies.movie_is_visible=1 UNION SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large, 'serie' as media_type ,tbl_series.serie_views AS media_views FROM tbl_series WHERE tbl_series.serie_is_recommended=1 AND tbl_series.serie_is_visible=1 ORDER BY media_views DESC;";
+        $query = "SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster ,tbl_movies.movie_poster_large AS media_poster_large, 'movie' as media_type, tbl_movies.movie_views AS media_views 
+        FROM tbl_movies 
+        WHERE tbl_movies.movie_is_recommended=1 AND tbl_movies.movie_is_visible=1 
+        UNION 
+        SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large, 'serie' as media_type ,tbl_series.serie_views AS media_views 
+        FROM tbl_series 
+        WHERE tbl_series.serie_is_recommended=1 AND tbl_series.serie_is_visible=1 
+        ORDER BY media_views DESC;";
+
+        if($this->db->query($query)->num_rows() > 4)
+        {
+         return $this->db->query($query)->result();
+        }
+        else 
+        {
+         return false;
+        }
+    }
+
+    public function getFeaturedMedias()
+    {
+        $query = "SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_plot AS media_plot, tbl_movies.movie_year AS media_year, tbl_movies.movie_runtime AS media_runtime,tbl_movies.movie_imdb_rating AS media_imdb_rating,tbl_movies.movie_poster AS media_poster ,tbl_movies.movie_poster_large AS media_poster_large, tbl_movies.movie_backdrop AS media_backdrop,'movie' as media_type, tbl_movies.movie_release_date AS media_release_date FROM tbl_movies 
+        WHERE tbl_movies.movie_is_featured=1 AND tbl_movies.movie_is_visible=1 
+        UNION 
+        SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_plot AS media_plot, tbl_series.serie_year AS media_year, '' AS media_runtime ,tbl_series.serie_imdb_rating AS media_imdb_rating,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large, tbl_series.serie_backdrop AS media_backdrop ,'serie' as media_type ,tbl_series.serie_release_date AS media_release_date 
+        FROM tbl_series 
+        WHERE tbl_series.serie_is_featured=1 AND tbl_series.serie_is_visible=1 
+        ORDER BY media_release_date DESC;";
+
+        if($this->db->query($query)->num_rows() > 4)
+        {
+         return $this->db->query($query)->result();
+        }
+        else 
+        {
+         return false;
+        }
+    }
+
+    public function getRecentyAddedMedias()
+    {
+        $query = "SELECT tbl_movies.movie_is_visible, tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster,tbl_movies.movie_poster_large AS media_poster_large,'movie' AS media_type ,tbl_movies.movie_uploaded_at AS upload_date 
+        FROM tbl_movies
+        WHERE tbl_movies.movie_is_visible=1 
+        UNION 
+        SELECT tbl_series.serie_is_visible, tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large,'serie' AS media_type ,tbl_series.serie_uploaded_at AS upload_date 
+        FROM tbl_series 
+        WHERE tbl_series.serie_is_visible=1 
+        ORDER BY upload_date DESC;";
 
         if($this->db->query($query)->num_rows() > 0)
         {
@@ -471,6 +497,52 @@ class Movie_model extends CI_Model
         else 
         {
          return false;
+        }
+    }
+
+    public function getNewlyReleasedMedias()
+    {
+        $query = "SELECT tbl_movies.movie_is_visible, tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster ,tbl_movies.movie_poster_large AS media_poster_large,'movie' AS media_type ,tbl_movies.movie_release_date AS release_date 
+        FROM tbl_movies
+        WHERE tbl_movies.movie_is_visible=1 
+        UNION 
+        SELECT tbl_series.serie_is_visible, tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster AS media_poster,tbl_series.serie_poster_large AS media_poster_large,'serie' AS media_type ,tbl_series.serie_release_date AS release_date 
+        FROM tbl_series 
+        WHERE tbl_series.serie_is_visible=1 
+        ORDER BY release_date DESC;";
+
+        if($this->db->query($query)->num_rows() > 4)
+        {
+         return $this->db->query($query)->result();
+        }
+        else 
+        {
+         return false;
+        }
+    }
+
+    public function getMediasByGenre($genre)
+    {
+        $query = "SELECT tbl_movies.movie_is_visible, tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster AS media_poster,tbl_movies.movie_poster_large AS media_poster_large,'movie' AS media_type,tbl_movies.movie_release_date AS release_date 
+        FROM tbl_movies_genres 
+        INNER JOIN tbl_movies ON tbl_movies_genres.movie_id=tbl_movies.movie_id 
+        INNER JOIN tbl_genres ON tbl_movies_genres.genre_id=tbl_genres.genre_id 
+        WHERE tbl_genres.genre_name='$genre' AND tbl_movies.movie_is_visible=1 
+        UNION 
+        SELECT tbl_series.serie_is_visible, tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name, tbl_series.serie_poster AS media_poster ,tbl_series.serie_poster_large AS media_poster_large,'serie' AS media_type,tbl_series.serie_release_date AS release_date 
+        FROM tbl_series_genres 
+        INNER JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id 
+        INNER JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id
+        WHERE tbl_genres.genre_name='$genre' AND tbl_series.serie_is_visible=1 
+        ORDER BY release_date DESC;";
+
+        if($this->db->query($query)->num_rows() > 4)
+        {
+        return $this->db->query($query)->result();
+        }
+        else 
+        {
+        return false;
         }
     }
 

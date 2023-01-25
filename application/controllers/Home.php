@@ -27,6 +27,9 @@ class Home extends CI_Controller {
 		$data['featuredMovies'] = $this->movie_model->getFeaturedMovies();
 		$data['featuredSeries'] = $this->serie_model->getFeaturedSeries();
 
+		// Featured
+		$data['featuredMedias'] = $this->movie_model->getFeaturedMedias();
+
 		$data['watchlistMovies'] = $this->movie_model->getWatchlistMoviesByUserId();
 		
 		// Recommended
@@ -34,12 +37,25 @@ class Home extends CI_Controller {
 
 		// Trending
 		$data['trendingMedias'] = $this->movie_model->getTrendingMedias();
-
+		
+		// Recently added
+		$data['recentMedias'] = $this->movie_model->getRecentyAddedMedias();
 	
+		// New Releases
+		$data['newlyReleasedMedias'] = $this->movie_model->getNewlyReleasedMedias();
 
-		$data['animationMovies'] = $this->movie_model->getAnimationMovies();
-		$data['animationSeries'] = $this->serie_model->getAnimationSeries();
+		$allGenres = $this->movie_model->getAllGenres();
+		$data['mediasByGenre'] = [];
 
+		foreach($allGenres as $genre)
+		{
+			$data['mediasByGenre'][$genre->genre_name] = $this->movie_model->getMediasByGenre($genre->genre_name);
+		}
+
+		ksort($data['mediasByGenre']);
+
+		
+		
 		
 
 

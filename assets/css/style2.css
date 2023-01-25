@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap");
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap");
 *,
 *::before,
 *::after {
@@ -11,9 +12,9 @@
 }
 
 :root {
-	--font-family: "Kanit", sans-serif;
+	--font-family: "Rubik", sans-serif;
 	/* --accent-color: #ffc107; */
-	--accent-color: #e91024;
+	--accent-color: #ff601f;
 }
 
 ::-webkit-scrollbar {
@@ -28,7 +29,7 @@
 body {
 	font-family: var(--font-family);
 	/* background-color: #222629; */
-	background-color: #080808;
+	background-color: #10141f;
 	color: #fff;
 	scroll-behavior: smooth;
 	-webkit-font-smoothing: antialiased;
@@ -64,8 +65,8 @@ body {
 	justify-content: center;
 	gap: 8px;
 	display: flex;
-	border-radius: 40px;
-	font-weight: 400;
+	border-radius: 8px;
+	font-weight: 600;
 }
 
 .btn_lg {
@@ -95,14 +96,20 @@ body {
 
 .navbar {
 	width: 100%;
-	padding: 0 40px;
+	padding: 0 60px;
 	display: flex;
 	align-items: center;
-	height: 60px;
+	height: 70px;
 	position: fixed;
 	top: 0;
 	z-index: 9999;
-	/* background-color: rgb(29, 29, 30); */
+	background: linear-gradient(
+		180deg,
+		rgba(16, 20, 31, 0.8) 0.98%,
+		rgba(16, 20, 31, 0.4) 59.23%,
+		rgba(16, 20, 31, 0.2) 78.16%,
+		rgba(16, 20, 31, 0.0001) 96.12%
+	);
 	/* box-shadow: 0 8px 16px rgb(0 0 0 / 20%); */
 	gap: 40px;
 }
@@ -132,7 +139,7 @@ body {
 .navbar .nav_links_left > li > a {
 	color: #fff;
 	font-size: 16px;
-	text-transform: capitalize;
+	text-transform: uppercase;
 	transition: 0.2s ease-in-out;
 	display: block;
 	font-weight: 500;
@@ -202,14 +209,15 @@ body {
 	position: absolute;
 	top: 100%;
 	right: 0;
-	width: 100%;
-	background-color: rgba(21, 21, 22, 0.8);
+	width: 220px;
+	background-color: rgb(28 31 41 / 61%);
 	padding: 16px;
-	border-radius: 0 0 2px 2px;
+	border-radius: 0 0 8px 8px;
 	flex-direction: column;
-	gap: 20px;
+	gap: 28px;
 	display: none;
 	box-shadow: 0 8px 16px rgba(0, 0, 0, 20%);
+	backdrop-filter: blur(24px);
 }
 
 .userProfileDropdown.active {
@@ -318,7 +326,17 @@ body {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background: linear-gradient(to bottom, rgb(8 8 8 / 40%), #080808);
+	background: linear-gradient(
+			78.83deg,
+			rgb(16, 20, 31) 0%,
+			rgba(16, 20, 31, 0) 61.46%
+		),
+		linear-gradient(
+			360deg,
+			rgb(16, 20, 31) 0%,
+			rgba(16, 20, 31, 0) 48.44%,
+			rgba(16, 20, 31, 0.4) 100%
+		);
 }
 
 .heroSlider .movie .movie_details {
@@ -369,6 +387,7 @@ body {
 	font-size: 16px;
 	color: #fff;
 	font-weight: 300;
+	line-height: 28px;
 	margin-bottom: 20px;
 }
 
@@ -397,7 +416,7 @@ section#suggestion {
 }
 
 .homeSection .section_header {
-	padding: 0 40px;
+	padding: 0 60px;
 }
 
 .section .section_header {
@@ -456,8 +475,8 @@ section#suggestion {
 	width: 101%;
 	padding: 20px 16px;
 	flex-direction: column;
-	gap: 20px;
-	background-color: #121212;
+	gap: 28px;
+	background-color: #1c1f29;
 	display: flex;
 	z-index: 999;
 	max-height: 300px;
@@ -491,7 +510,7 @@ section#suggestion {
 /* Section Filters end */
 
 .section_header .see_all {
-	color: #7c7c7c;
+	color: #9699a3;
 	font-weight: 400;
 	transition: 0.2s ease;
 	display: flex;
@@ -506,7 +525,7 @@ section#suggestion {
 .movies_prev_btn,
 .movies_next_btn {
 	cursor: pointer;
-	font-size: 48px;
+	font-size: 36px;
 	color: #fff;
 	position: absolute;
 	top: 50%;
@@ -528,7 +547,7 @@ section#suggestion {
 .movies_prev_btn {
 	/* left: 40px; */
 	left: 0;
-	background: linear-gradient(to left, transparent, #080808);
+	background: linear-gradient(to left, transparent, #10141f);
 	height: 100%;
 	padding: 0 40px;
 	display: flex;
@@ -546,11 +565,25 @@ section#suggestion {
 .movies_next_btn {
 	/* right: 40px; */
 	right: 0;
-	background: linear-gradient(to right, transparent, #080808);
+	background: linear-gradient(to right, transparent, #10141f);
 	height: 100%;
 	padding: 0 40px;
 	display: flex;
 	align-items: center;
+}
+
+.movies_next_btn > i,
+.movies_prev_btn > i {
+	background: white;
+	width: 32px;
+	height: 32px;
+	font-size: 24px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	color: black;
+	box-shadow: 0 4px 8px rgb(0 0 0 / 20%);
 }
 
 #suggestion .section_header {
@@ -567,10 +600,9 @@ section#suggestion {
 	justify-content: center;
 	align-items: center;
 	gap: 8px;
-	padding-left: 16px;
 }
 
-.section .section_header h3::after {
+/* .section .section_header h3::after {
 	content: "";
 	position: absolute;
 	right: 0;
@@ -578,7 +610,7 @@ section#suggestion {
 	height: 80%;
 	background-color: var(--accent-color);
 	left: 0;
-}
+} */
 
 .section .section_header h3 small {
 	font-weight: 300 !important;
@@ -856,12 +888,12 @@ section#suggestion {
 .list_movie .list_movie_plot {
 	font-size: 16px;
 	font-weight: 300;
-	color: #7c7c7c;
+	color: #9699a3;
 	line-height: 24px;
 }
 
 #watchlist_body > p {
-	color: #7c7c7c;
+	color: #9699a3;
 	font-weight: 300;
 }
 
@@ -967,7 +999,7 @@ img.imdb_logo {
 	position: absolute;
 	top: 50%;
 	transform: translateY(-50%);
-	left: 40px;
+	left: 60px;
 	z-index: 999;
 	display: flex;
 	flex-direction: column;
@@ -1021,7 +1053,7 @@ img.imdb_logo {
 
 .section {
 	margin-top: 40px;
-	padding: 20px 40px;
+	padding: 20px 60px;
 }
 
 #movies_section,
@@ -1035,14 +1067,14 @@ img.imdb_logo {
 #series_section .section_movie_poster,
 #list_section .section_movie_poster,
 #genre_section .section_movie_poster {
-	height: 167px !important;
+	height: 315px !important;
 }
 
 .section_movie_data {
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	margin-top: 4px;
+	margin-top: 8px;
 }
 
 .section_movie_data .section_movie_info {
@@ -1052,16 +1084,16 @@ img.imdb_logo {
 }
 
 .section_movie_data .section_movie_info .separator {
-	width: 4px;
-	height: 4px;
+	width: 2px;
+	height: 2px;
 	border-radius: 50%;
 	background-color: rgb(255 255 255 / 30%);
 }
 
 .section_movie_data .section_movie_year,
 .section_movie_data .section_movie_rating {
-	color: #fff;
-	font-size: 16px;
+	color: #9699a3;
+	font-size: 14px;
 	font-weight: 300;
 }
 
@@ -1072,12 +1104,14 @@ img.imdb_logo {
 .section_movie_data .section_movie_type {
 	border-radius: 3px;
 	font-size: 0.7rem;
-	padding: 3px 7px;
-	border: 1px solid #a0a0a0;
-	color: #a0a0a0;
+	padding: 4px 7px;
+	/* border: 1px solid #a0a0a0; */
+	color: hsla(0, 0%, 100%, 0.8);
 	text-transform: uppercase;
 	user-select: none;
-	letter-spacing: 0.5px;
+	/* letter-spacing: 0.5px; */
+	background-color: rgba(150, 153, 163, 0.32);
+	font-weight: 500;
 }
 
 section#suggestion {
@@ -1094,11 +1128,11 @@ section#suggestion {
 
 .section .section_header .filter {
 	min-width: 220px;
-	padding: 8px 16px;
+	padding: 10px 16px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
-	border-radius: 40px;
+	border-radius: 8px;
 	/* background-color: #363a3c; */
 	/* box-shadow: 0 1px 4px rgb(0 0 0 / 16%); */
 	border: 1px solid #ffffff14;
@@ -1126,7 +1160,7 @@ section#suggestion {
 /* Section Filters end */
 
 .section_header .see_all {
-	color: #7c7c7c;
+	color: #9699a3;
 	font-weight: 300;
 	transition: 0.2s ease;
 	display: flex;
@@ -1145,8 +1179,8 @@ section#suggestion {
 
 .section .genre_section {
 	display: grid;
-	grid-template-columns: repeat(auto-fill, minmax(297px, 1fr));
-	gap: 40px 8px;
+	grid-template-columns: repeat(auto-fill, minmax(226px, 1fr));
+	gap: 40px 10px;
 	margin-bottom: 80px;
 }
 
@@ -1162,7 +1196,7 @@ section#suggestion {
 .homeSection .section_body {
 	width: 100%;
 	position: relative;
-	padding: 16px 40px;
+	padding: 16px 60px;
 	overflow: visible;
 }
 
@@ -1170,7 +1204,6 @@ section#suggestion {
 #suggestion .section_body .section_movie {
 	position: relative;
 	transition: 0.7s cubic-bezier(0.42, 0, 0, 1);
-	transform: scale(1);
 }
 
 .homeSection .section_body .section_movie .details {
@@ -1234,11 +1267,11 @@ section#suggestion {
 	object-fit: cover;
 }
 
-.homeSection .section_body .section_movie:hover,
+/* .homeSection .section_body .section_movie:hover,
 #suggestion .section_body .section_movie:hover {
-	transform: scale(1.2);
+	transform: scale(1.1);
 	z-index: 9999;
-}
+} */
 
 .homeSection:has(.section_movie:hover) .section_movie:not(:hover),
 #suggestion:has(.section_movie:hover) .section_movie:not(:hover) {
@@ -1273,12 +1306,12 @@ section#suggestion {
 .section .section_body .section_movie .section_movie_poster {
 	width: 100%;
 	/* height: 100%; */
-	height: 167px;
+	height: 315px;
 	overflow: hidden;
 	display: block;
 	position: relative;
 	/* box-shadow: 0 4px 8px rgb(0 0 0 / 16%); */
-	border-radius: 8px;
+	border-radius: 4px;
 }
 
 .section .section_body .section_movie .section_movie_poster > .type {
@@ -1426,7 +1459,7 @@ section#suggestion {
 }
 
 .footer .footer_top {
-	padding: 40px;
+	padding: 40px 60px;
 	display: grid;
 	display: flex;
 	gap: 40px;
@@ -1443,11 +1476,15 @@ section#suggestion {
 .footer .footer_column > .brand {
 	position: relative;
 	margin-bottom: 16px;
-	color: #fff;
+	color: #707c86;
 	font-size: 18px;
 	display: flex;
 	align-items: center;
 	gap: 8px;
+	font-weight: 500;
+	font-size: 13px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
 }
 
 .footer .footer_column > .brand {
@@ -1463,10 +1500,11 @@ section#suggestion {
 }
 
 .footer .footer_column > ul > li > a {
-	color: #a0a0a0;
-	margin-bottom: 8px;
+	color: #ffffff;
+	margin-bottom: 16px;
 	display: block;
 	font-weight: 300;
+	font-size: 15px;
 }
 
 .footer .footer_column > ul > li > a:hover {
@@ -1483,12 +1521,12 @@ section#suggestion {
 }
 
 .footer .footer_column:last-child > ul > li {
-	color: #a0a0a0;
+	color: #ffffff;
 	display: flex;
 	align-items: center;
 	gap: 8px;
 	margin-bottom: 16px;
-	font-size: 16px;
+	font-size: 15px;
 	font-weight: 300;
 }
 
@@ -1509,7 +1547,7 @@ section#suggestion {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	color: #000;
+	color: #fff;
 	font-size: 14px;
 }
 
@@ -1949,7 +1987,7 @@ section#suggestion {
 	position: absolute;
 	width: 100%;
 	height: 100%;
-	background-color: #151516fa;
+	background-color: #10141ff7;
 	/* backdrop-filter: blur(2px); */
 }
 
@@ -2017,7 +2055,7 @@ input:-webkit-autofill:active {
 	font-size: 16px;
 	font-family: var(--fontFamily);
 	background-color: transparent;
-	color: #7c7c7c;
+	color: #9699a3;
 	transition: 0.2s ease;
 }
 
@@ -2096,12 +2134,12 @@ input:-webkit-autofill:active {
 .list_movie .list_movie_plot {
 	font-size: 16px;
 	font-weight: 300;
-	color: #7c7c7c;
+	color: #9699a3;
 	line-height: 24px;
 }
 
 #watchlist_body > p {
-	color: #7c7c7c;
+	color: #9699a3;
 	font-weight: 300;
 }
 

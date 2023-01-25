@@ -109,7 +109,7 @@
               <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie swiper-slide">
                 <div class="section_movie_poster">
                   <img
-                    src="<?= $similarSerie->serie_poster_large ?>"
+                    src="<?= $similarSerie->serie_poster ?>"
                     alt="<?= $similarSerie->serie_name ?>"
                   />
                 </div>

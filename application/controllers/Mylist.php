@@ -147,12 +147,12 @@ class Mylist extends CI_Controller
                         $result .= '<a href="'. base_url('series/serie/') . $watchlistMovie->watchlist_movieId .'" class="section_movie_poster">';
                     }
                     $result .= '<img
-                    src="'.$watchlistMovie->watchlist_moviePosterLarge.'"
+                    src="'.$watchlistMovie->watchlist_moviePoster.'"
                     alt=""
                     />';
                     $result .= '<button title="remove from your watchlist" data-name="'.$watchlistMovie->watchlist_movieName.'" data-id="'.$watchlistMovie->watchlist_movieId.'" onclick="removeMovieFromWatchlist(event)" class="removeFromMyWatchlistBtn"><i class="far fa-minus"></i></button>';
                     $result .= '</a>';
-                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('movies/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20) .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 20).'</a>';
+                    $result .= ($watchlistMovie->watchlist_type === 'movie') ? '<a href="'.base_url('movies/movie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 24) .'</a>' : '<a href="'.base_url('series/serie/') . $watchlistMovie->watchlist_movieId.'" class="section_movie_title">'. strShortner($watchlistMovie->watchlist_movieName, 24).'</a>';
                     
                     $result .= '<div class="section_movie_data">
                     <div class="section_movie_info">

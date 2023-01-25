@@ -146,12 +146,11 @@ class Movies extends CI_Controller
                 $result .= '
                 <div class="section_movie animate__animated animate__fadeIn">
                 <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_poster">
-                    <img src="'. $movie->movie_poster_large .'" />
-                    <div class="movie_quality">'. $movie->movie_quality  .'</div>
+                    <img src="'. $movie->movie_poster .'" />
                 </a>
                 <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
-                if(strlen($movie->movie_name) >= 30) {
-                    $result .= strShortner($movie->movie_name, 30) . '...';
+                if(strlen($movie->movie_name) >= 24) {
+                    $result .= strShortner($movie->movie_name, 24) . '...';
                 }
                 else 
                 {

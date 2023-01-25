@@ -70,10 +70,9 @@
         <?php foreach($movies as $movie) : ?>
         <div class="section_movie animate__animated animate__fadeIn">
             <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_poster">
-                <img src="<?= $movie->movie_poster_large ?>" alt="<?= $movie->movie_name ?>">
-                <div class="movie_quality"><?= $movie->movie_quality ?></div>
+                <img src="<?= $movie->movie_poster ?>" alt="<?= $movie->movie_name ?>">
             </a>
-            <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 30) ? strShortner($movie->movie_name, 30) . '...' : $movie->movie_name ?></a>
+            <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 24) ? strShortner($movie->movie_name, 24) . '...' : $movie->movie_name ?></a>
             <div class="section_movie_data">
                 <div class="section_movie_info">
                     <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> <?= $movie->movie_imdb_rating ?></p>

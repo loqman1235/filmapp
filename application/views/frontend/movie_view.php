@@ -106,7 +106,7 @@
               <a href="<?= base_url('movies/movie/') . $similarMovie->movie_id ?>" class="section_movie swiper-slide">
                 <div class="section_movie_poster">
                   <img
-                    src="<?= $similarMovie->movie_poster_large ?>"
+                    src="<?= $similarMovie->movie_poster ?>"
                     alt="<?= $similarMovie->movie_name ?>"
                   />
                 </div>
