@@ -38,7 +38,7 @@
      
       const slider = new Swiper(`#${sectionBodyId}`, {
         loop: false,
-        speed: 900,
+        speed: 400,
         autoplay: false,
         slidesPerView: 5,
         spaceBetween: 10,
@@ -59,7 +59,7 @@
     const heroSlider = new Swiper(".heroSlider", {
       // Optional parameters
       direction: "horizontal",
-      effect: 'slide',
+      effect: 'fade',
       speed: 900,
       loop: true,
       autoplay: {

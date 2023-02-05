@@ -4,23 +4,26 @@
         <h3><strong><?= $genre->genre_name ?></strong></h3>
       </div>
       <div class="section_body genre_section">
-        <?php foreach($moviesByGenre as $movie) : ?>
+        <?php foreach($mediasByGenre as $media) : ?>
             <!-- Movie start -->
                 <div class="section_movie">
-                <a href="<?= base_url('home/movie/') . $movie->movie_id ?>" class="section_movie_poster">
+                <a href="<?= (($media->media_type === 'movie') ? base_url('movies/movie/') . $media->media_id : base_url('series/serie/') . $media->media_id) ?>" class="section_movie_poster">
                     <img
-                    src="<?= $movie->movie_poster ?>"
-                    alt=""
+                    src="<?= $media->media_poster ?>"
+                    alt="<?= $media->media_name ?>"
                     />
                 </a>
-                <a href="<?= base_url('home/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 24) ? strShortner($movie->movie_name, 20) . '...' : $movie->movie_name ?></a>
-                <ul class="genre">
-                    <?php foreach($genres as $genre) : ?>
-                    <?php if($genre->movie_id === $movie->movie_id) : ?>
-                        <li><a href="<?= base_url('home/genre/') . $genre->genre_id ?>"><?= $genre->genre_name ?></a></li>
+                <a href="<?= (($media->media_type === 'movie') ? base_url('movies/movie/') . $media->media_id : base_url('series/serie/') . $media->media_id) ?>" class="section_movie_title"><?= (strlen($media->media_name) >= 24) ? strShortner($media->media_name, 20) . '...' : $media->media_name ?></a>
+                <div class="section_movie_data">
+                <div class="section_movie_info">
+                    <p class="section_movie_year"><?= $media->media_year ?></p>
+                    <?php if($media->media_type === 'movie') : ?>
+                      <div class="separator"></div>
+                      <p class="section_movie_runtime"><?= $media->media_runtime ?></p>
                     <?php endif; ?>
-                    <?php endforeach; ?>
-                </ul>
+                  </div>
+                  <div class="section_movie_type"><?= (empty($media->media_age_rating)) ? 'NA' : $media->media_age_rating ?></div>
+              </div>
                 </div>
             <!-- Movie end -->
             <?php endforeach; ?>

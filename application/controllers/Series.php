@@ -71,7 +71,7 @@ class Series extends CI_Controller
 
             $data['page_title'] = 'serie';
             $data['serieGenres'] = $this->serie_model->getSerieGenre();
-            $data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($serieId);
+            $data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($serieId, 'serie');
 
             $similarSeriesQueryKeywords = $data['serie']->serie_keywords;
             $data['similarSeries'] = $this->serie_model->getSimilarSeries($similarSeriesQueryKeywords, $serieId);
@@ -182,12 +182,14 @@ class Series extends CI_Controller
                 $result .= '</a>';
                 $result .= '<div class="section_movie_data">
                 <div class="section_movie_info">
-                    <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> '. $serie->serie_imdb_rating  .'</p>
-                        <div class="separator"></div>
-                        <p class="section_movie_year">'. $serie->serie_year .'</p>
-                    </div>
-                    <div class="section_movie_type">Serie</div>
-                </div>';
+                    <p class="section_movie_year">'. $serie->serie_year .'</p>
+                    </div>';
+                    if(empty($serie->serie_age_rating)) {
+                        $result .= '<div class="section_movie_type">NA</div>';
+                    } else {
+                        $result .= '<div class="section_movie_type">'. $serie->serie_age_rating .'</div>';
+                    }
+                $result .= '</div>';
                 $result .= '</div>';
             }
        }
@@ -229,6 +231,7 @@ class Series extends CI_Controller
             $this->load->view('frontend/inc/header_view', $data);
             $this->load->view('frontend/inc/navbar_view');
             $this->load->view('frontend/serie_watch_view', $data);
+             $this->load->view('frontend/inc/footerElement_view');
             $this->load->view('frontend/inc/footer_view');
         }
         else

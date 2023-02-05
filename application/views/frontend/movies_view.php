@@ -68,18 +68,24 @@
     <?php if($movies) : ?>
     <div class="section_body genre_section " id="sectionBody">
         <?php foreach($movies as $movie) : ?>
-        <div class="section_movie animate__animated animate__fadeIn">
-            <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_poster">
+        <div class="section_movie animate__animated animate__fadeIn" data-media-id="<?= $movie->movie_id ?>" data-media-type="movie">
+            <div class="section_movie_poster" data-poster="<?= $movie->movie_poster ?>">
                 <img src="<?= $movie->movie_poster ?>" alt="<?= $movie->movie_name ?>">
-            </a>
-            <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 24) ? strShortner($movie->movie_name, 24) . '...' : $movie->movie_name ?></a>
+                <div class="movie_poster_overlay">
+                    <a href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="play_btn"><i class="fas fa-play"></i></a>
+                    <?php if($this->session->userdata('is_logged_in')) :?>
+                        <button data-add="true" data-id="<?= $movie->movie_id ?>" class="btn btn_outline addToListBtn watchlistBtn">Add to my list</button>
+                        <?php endif; ?>
+                </div>
+            </div>
+            <a data-media-name="<?= $movie->movie_name ?>" href="<?= base_url('movies/movie/') . $movie->movie_id ?>" class="section_movie_title"><?= (strlen($movie->movie_name) >= 24) ? strShortner($movie->movie_name, 24) . '...' : $movie->movie_name ?></a>
             <div class="section_movie_data">
                 <div class="section_movie_info">
-                    <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> <?= $movie->movie_imdb_rating ?></p>
+                    <p data-media-year="<?= $movie->movie_year ?>" class="section_movie_year"><?= $movie->movie_year ?></p>
                     <div class="separator"></div>
-                    <p class="section_movie_year"><?= $movie->movie_year ?></p>
+                    <p data-media-runtime="<?= $movie->movie_runtime ?>" class="section_movie_runtime"><?= $movie->movie_runtime ?></p>
                 </div>
-                <div class="section_movie_type">Movie</div>
+                <div data-media-age-rating="<?= $movie->movie_age_rating ?>" class="section_movie_type"><?= (empty($movie->movie_age_rating)) ? 'NA' : $movie->movie_age_rating ?></div>
             </div>
         </div>
         <?php endforeach; ?>
@@ -105,7 +111,7 @@
 
 <script type="module">
 import { initFilter } from "<?= base_url() ?>assets/js/libs/Functions.js";
-
+const buttons = document.querySelectorAll(".watchlistBtn");
 const filters = document.querySelectorAll(".filter");
 
 filters.forEach((filter) => {
@@ -192,8 +198,140 @@ filterSubmitBtn.addEventListener('click', (e) => {
     filterData(1)
     document.querySelectorAll('.filter_dropdown').forEach(dropdown => dropdown.classList.remove('active'));
     document.querySelectorAll('.filterToggleDropdownBtn').forEach(btn => btn.classList.remove('active'));
+
+
+
 })
 
+
+// Add to watchlist
+buttons.forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
+    addItemToDB(btn);
+  });
+
+  checkItemExist(btn).then((itemExist) => {
+    if (itemExist) {
+      btn.textContent = "Remove from My List";
+      btn.dataset.add = false;
+      btn.classList.remove("add-to-watchlist-btn");
+      btn.classList.add("remove-from-watchlist-btn");
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        removeItemFromDB(btn);
+      });
+    }
+  });
+});
+
+
+//  Add media to watchlist
+async function addItemToDB(btn) {
+  // Check if item exist in DB
+  checkItemExist(btn).then(async (itemExist) => {
+    if (!itemExist) {
+      //  Add Item
+      let formData = new FormData();
+
+      const itemId = btn.parentElement.parentElement.parentElement.dataset.mediaId;
+      const itemPoster = btn.parentElement.parentElement.dataset.poster;
+      const itemName = btn.parentElement.parentElement.nextElementSibling.dataset.mediaName;
+      const itemYear = btn.parentElement.parentElement.parentElement.lastElementChild.firstElementChild.firstElementChild.dataset.mediaYear;
+      const itemRuntime = btn.parentElement.parentElement.parentElement.lastElementChild.firstElementChild.lastElementChild.dataset.mediaRuntime;
+      const itemAgeRating = btn.parentElement.parentElement.parentElement.lastElementChild.lastElementChild.dataset.mediaAgeRating;
+      const itemType = btn.parentElement.parentElement.parentElement.dataset.mediaType;
+
+      formData.append("mediaId", itemId);
+      formData.append("mediaPoster", itemPoster);
+      formData.append("mediaName", itemName);
+      formData.append("mediaYear", itemYear);
+      formData.append("mediaRuntime", itemRuntime);
+      formData.append("mediaAgeRating", itemAgeRating);
+      formData.append("mediaType", itemType);
+
+     
+
+      const response = await fetch("<?= base_url('mylist/addMediaToWatchlist') ?>", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        // Display a message to msg to inform use that the media is added to watchlist
+        document.querySelectorAll(".watchlistBtn").forEach((itemButton) => {
+          if (
+            itemButton.parentElement.parentElement.parentElement.dataset.mediaId 
+            === 
+            btn.parentElement.parentElement.parentElement.dataset.mediaId
+          ) {
+            itemButton.textContent = "Remove from My List";
+            itemButton.dataset.add = false;
+            itemButton.classList.remove("add-to-watchlist-btn");
+            itemButton.classList.add("remove-from-watchlist-btn");
+            itemButton.addEventListener('click', (e) => {
+                e.preventDefault();
+                removeItemFromDB(itemButton);
+            });
+          }
+        });
+      } else {
+        alert(result.message);
+      }
+    } 
+  });
+}
+
+// Remove Media from watchlist
+async function removeItemFromDB(btn) {
+  checkItemExist(btn).then(async (itemExist) => {
+    if (itemExist) {
+      let formData = new FormData();
+      formData.append("mediaId", btn.parentElement.parentElement.parentElement.dataset.mediaId);
+      formData.append("mediaName", btn.parentElement.parentElement.nextElementSibling.dataset.mediaName);
+
+      const response = await fetch("<?= base_url('mylist/removeMediaFromList') ?>", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        document.querySelectorAll("button").forEach((itemButton) => {
+          if (
+            itemButton.parentElement.parentElement.parentElement.dataset.mediaId 
+            === 
+            btn.parentElement.parentElement.parentElement.dataset.mediaId
+          ) {
+            itemButton.textContent = "Add to My List";
+            itemButton.dataset.add = true;
+            itemButton.classList.remove("remove-from-watchlist-btn");
+            itemButton.classList.add("add-to-watchlist-btn");
+          }
+        });
+      }
+    }
+  });
+}
+
+
+// Check media exist
+async function checkItemExist(btn) {
+  let formData = new FormData();
+  formData.append("mediaId", btn.parentElement.parentElement.parentElement.dataset.mediaId);
+  formData.append("mediaType", btn.parentElement.parentElement.parentElement.dataset.mediaType);
+
+  const response = await fetch("<?= base_url('mylist/mediaExistInWatchlist') ?>", {
+    method: "POST",
+    body: formData,
+  });
+
+  const result = await response.json();
+  if (result) return true;
+  else return false;
+}
 
 
 

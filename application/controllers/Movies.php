@@ -144,11 +144,15 @@ class Movies extends CI_Controller
             foreach($filteredMovies as $movie)
             {
                 $result .= '
-                <div class="section_movie animate__animated animate__fadeIn">
-                <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_poster">
+                <div class="section_movie animate__animated animate__fadeIn" data-media-id="'. $movie->movie_id .'" data-media-type="movie">
+                <div  class="section_movie_poster" data-poster="'. $movie->movie_poster .'">
                     <img src="'. $movie->movie_poster .'" />
-                </a>
-                <a href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
+                    <div class="movie_poster_overlay">
+                    <a class="play_btn" href="'. base_url('series/serie/') . $movie->movie_id .'"><i class="fas fa-play"></i></a>
+                    '. ((isset($_SESSION['is_logged_in'])) ? '<button data-add="true" data-id="'. $movie->movie_id .'" class="btn btn_outline addToListBtn watchlistBtn">Add to my list</button>' : '') .'
+                    </div>
+                </div>
+                <a data-media-name="'. $movie->movie_name .'" href="'. base_url("movies/movie/") . $movie->movie_id .'" class="section_movie_title">'; 
                 if(strlen($movie->movie_name) >= 24) {
                     $result .= strShortner($movie->movie_name, 24) . '...';
                 }
@@ -159,12 +163,17 @@ class Movies extends CI_Controller
                 $result .= '</a>';
                 $result .= '<div class="section_movie_data">
                 <div class="section_movie_info">
-                    <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> '. $movie->movie_imdb_rating  .'</p>
+                    <p data-media-year="'. $movie->movie_year .'" class="section_movie_year">'. $movie->movie_year .'</p>
                         <div class="separator"></div>
-                        <p class="section_movie_year">'. $movie->movie_year .'</p>
-                    </div>
-                    <div class="section_movie_type">Movie</div>
-                </div>';
+                        <p data-media-runtime="'. $movie->movie_runtime .'" class="section_movie_runtime">'. $movie->movie_runtime .'</p>
+                    </div>';
+                    if(empty($movie->movie_age_rating)) {
+                        $result .= '<div class="section_movie_type">NA</div>';
+                    } else {
+                        $result .= '<div data-media-age-rating="'. $movie->movie_age_rating .'" class="section_movie_type">'. $movie->movie_age_rating .'</div>';
+                    }
+                    
+               $result .= '</div>';
                 $result .= '</div>';
             }
        }
@@ -186,7 +195,7 @@ class Movies extends CI_Controller
 
 		$data['movie'] = $this->movie_model->getMovieById($movieId);
 		$data['genres'] = $this->movie_model->getMovieGenre();
-		$data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($movieId);
+		$data['watchListMoviesExist'] = $this->movie_model->watchListMovieExist($movieId, 'movie');
 		$data['page_title'] = $data['movie']->movie_name;
 		
 		$similarMoviesQueryKeywords = $data['movie']->movie_keywords;
@@ -223,6 +232,7 @@ class Movies extends CI_Controller
         $this->load->view('frontend/inc/header_view', $data);
         $this->load->view('frontend/inc/navbar_view');
         $this->load->view('frontend/watch_view');
+        $this->load->view('frontend/inc/footerElement_view');
         $this->load->view('frontend/inc/footer_view');
     }
 

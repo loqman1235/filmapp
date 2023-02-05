@@ -1,12 +1,12 @@
 <nav class="navbar" id="navbar">
       <a href="<?= base_url('home') ?>" class="brand">Film.<span>Io</span></a>
       <ul class="nav_links_left">
-        <li class="<?= setActiveClass('home') ?>"><a href="<?= base_url('home') ?>"><span class="material-symbols-rounded">home</span> Home</a></li>
-        <li class="<?= setActiveClass('movies') ?>"><a href="<?= base_url('movies') ?>"><span class="material-symbols-rounded">movie</span> Movies</a></li>
-        <li class="<?= setActiveClass('series') ?>"><a href="<?= base_url('series') ?>"><span class="material-symbols-rounded">smart_display</span> Series</a></li>
-        <li class="<?= setActiveClass('trending') ?>"><a href="<?= base_url('trending') ?>"><span class="material-symbols-rounded">trending_up</span> Trending</a></li>
+        <li class="<?= setActiveClass('home') ?>"><a href="<?= base_url('home') ?>">Home</a></li>
+        <li class="<?= setActiveClass('movies') ?>"><a href="<?= base_url('movies') ?>">Movies</a></li>
+        <li class="<?= setActiveClass('series') ?>"><a href="<?= base_url('series') ?>">Series</a></li>
+        <li class="<?= setActiveClass('kids') ?>"><a href="<?= base_url('kids') ?>">Kids</a></li>
         <?php if($this->session->userdata('is_logged_in')) : ?>
-          <li class="<?= setActiveClass('mylist') ?>"><a href="<?= base_url('mylist') ?>"><span class="material-symbols-rounded">bookmark</span> My List</a></li>
+          <li class="<?= setActiveClass('mylist') ?>"><a href="<?= base_url('mylist') ?>">My List</a></li>
         <?php endif; ?>
       </ul>
       <ul class="nav_links_right">
@@ -14,8 +14,8 @@
           <button class="search_btn"><span class="material-symbols-rounded">search</span></button>
         </li>
         <?php if(!$this->session->userdata('is_logged_in')) : ?>
-        <li><a href="<?= base_url('login') ?>"> <span class="material-symbols-rounded">login</span> Login</a></li>
-        <li><a href="<?= base_url('register') ?>"> <span class="material-symbols-rounded">person_add</span> Sign Up</a></li>
+        <li><a href="<?= base_url('login') ?>">Login</a></li>
+        <li><a href="<?= base_url('register') ?>">Sign Up</a></li>
         <?php else : ?>
           <li class="user_profile">
             <div class="profileDetails">

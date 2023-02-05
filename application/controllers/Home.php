@@ -15,17 +15,15 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$data['movies'] = $this->movie_model->getMovies();
+
+		// Get movie genre
 		$data['genres'] = $this->movie_model->getMovieGenre();
 
-		// Display Series
-		$data['series'] = $this->serie_model->getAllSeries();
 		// Get Serie Genre
 		$data['serieGenres'] = $this->serie_model->getSerieGenre();
 
-		// Featured Movies
-		$data['featuredMovies'] = $this->movie_model->getFeaturedMovies();
-		$data['featuredSeries'] = $this->serie_model->getFeaturedSeries();
+		// Upcoming 
+		$data['upcomingMedias'] = $this->movie_model->getUpcommingMedias();
 
 		// Featured
 		$data['featuredMedias'] = $this->movie_model->getFeaturedMedias();
@@ -76,10 +74,10 @@ class Home extends CI_Controller {
 
 		$data['movies'] = $this->movie_model->getMovies();
 		$data['genres'] = $this->movie_model->getMovieGenre();
-		$data['moviesByGenre'] = $this->movie_model->getMoviesByGenreId($genreId);
+		$data['mediasByGenre'] = $this->movie_model->getMediasByGenreId($genreId);
 		$data['genre'] = $this->movie_model->getGenreById($genreId);
 
-		if($data['moviesByGenre'])
+		if($data['mediasByGenre'])
 		{
 			$this->load->view('frontend/inc/header_view');
 			$this->load->view('frontend/inc/navbar_view');

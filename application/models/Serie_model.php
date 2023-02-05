@@ -69,25 +69,6 @@ class Serie_model extends CI_Model
         return $query->result();
     }
 
-    public function getFeaturedSeries()
-    {
-        $this->db->select('*');
-        $this->db->from('series');
-        $this->db->where('serie_is_visible', 1);
-        $this->db->where('serie_is_featured', 1);
-        $this->db->order_by('serie_id', 'DESC');
-        $query = $this->db->get();
-
-        if($query->num_rows() > 0)
-        {
-            return $query->result();
-        }
-        else 
-        {
-            return false;
-        }
-    }
-
 
 
     public function getSerieById($serieId)
@@ -239,7 +220,7 @@ class Serie_model extends CI_Model
 
     public function getFilterdSeries($genres, $years, $order, $start, $limit)
     {
-        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster, tbl_series.serie_poster_large,tbl_series.serie_quality, tbl_series.serie_imdb_rating, tbl_series.serie_year ,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
+        $query = "SELECT tbl_series.serie_id,tbl_series.serie_name,tbl_series.serie_poster, tbl_series.serie_poster_large,tbl_series.serie_quality, tbl_series.serie_imdb_rating, tbl_series.serie_year , tbl_series.serie_age_rating ,GROUP_CONCAT(tbl_genres.genre_name SEPARATOR ', ') as genres
         FROM tbl_series_genres
         JOIN tbl_series ON tbl_series_genres.serie_id=tbl_series.serie_id
         JOIN tbl_genres ON tbl_series_genres.genre_id=tbl_genres.genre_id";

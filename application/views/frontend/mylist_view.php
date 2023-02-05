@@ -1,7 +1,7 @@
 <!-- section start -->
 <section class="section" id="list_section">
     <div class="section_header">
-    <h3><strong>My List</strong> <?= ($countListMovies > 0) ? '<small>('. $countListMovies .')</small>' : '' ?></h3>
+    <h3><strong>My List</strong> <small id="listCounter">(<?= $countListMovies ?>)</small></h3>
     </div>
     <div id="watchlist_body"></div>
 </section>
@@ -19,7 +19,9 @@
         const response = await fetch('<?= base_url('mylist/getWatchlist') ?>');
         const result = await response.json();
 
-        watchlist_body.innerHTML = result;
+        watchlist_body.innerHTML = result.result;
+        document.getElementById('listCounter').innerText = `(${result.listCounter})`;
+
     }
 
 
@@ -45,7 +47,7 @@
     if(result.success)
     {
       alert(result.msg);
-      getWatchlist()
+      getWatchlist();
     
     }
 

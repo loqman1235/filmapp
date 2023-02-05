@@ -9,11 +9,11 @@
           </div>
           <div class="movie_btns">
             <a href="<?= base_url('movies/watch/') . $movie->movie_id ?>" class="btn btn_secondary btn_lg">
-             <span class="material-symbols-rounded">play_arrow</span> Play Now
+             <i class="fas fa-play fa-sm"></i> Play Now
             </a>
             <?php if($movie->movie_trailer !== '') : ?>
             <button onclick="scrollToPlayer()" class="btn btn_outline btn_lg" id="trailerBtn">
-              <span class="material-symbols-rounded">videocam</span> Trailer
+              <i class="far fa-video"></i> Trailer
             </button>
             <?php endif; ?>
             <?php if($this->session->userdata('is_logged_in')) :?>
@@ -43,13 +43,11 @@
                   <?php endforeach; ?>
             </ul>
             <span class="seperator"></span>
+            <p class="year"><?= $movie->movie_year ?></p>
+            <span class="seperator"></span>
             <p class="time"><?= $movie->movie_runtime ?></p>
             <span class="seperator"></span>
-            <p class="quality"><?= $movie->movie_quality ?></p>
-            <span class="seperator"></span>
-            <span class="movie_imdb_rating"
-              ><img src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="" class="imdb_logo"> <?= $movie->movie_imdb_rating ?>/10</span
-            >
+            <p class="movie_age_rating"><?= $movie->movie_age_rating ?></p>
           </div>
           <div class="movie_plot">
             <h3><strong>Overview</strong></h3>
@@ -103,14 +101,23 @@
         <div class="section_body swiper" id="suggestMovies">
           <div class="swiper-wrapper">
             <?php foreach($similarMovies as $similarMovie) : ?>
-              <a href="<?= base_url('movies/movie/') . $similarMovie->movie_id ?>" class="section_movie swiper-slide">
-                <div class="section_movie_poster">
+              <div class="section_movie swiper-slide">
+                <a href="<?= base_url('movies/movie/') . $similarMovie->movie_id ?>" class="section_movie_poster">
                   <img
                     src="<?= $similarMovie->movie_poster ?>"
                     alt="<?= $similarMovie->movie_name ?>"
                   />
-                </div>
-              </a>
+                </a>
+                <a href="<?= base_url('movies/movie/') . $similarMovie->movie_id ?>" class="section_movie_title"><?= (strlen($similarMovie->movie_name) >= 24) ? strShortner($similarMovie->movie_name, 24) . '...' : $similarMovie->movie_name ?></a>
+              <div class="section_movie_data">
+                  <div class="section_movie_info">
+                      <p class="section_movie_year"><?= $similarMovie->movie_year ?></p>
+                      <div class="separator"></div>
+                      <p class="section_movie_runtime"><?= $similarMovie->movie_runtime ?></p>
+                  </div>
+                  <div class="section_movie_type"><?= (empty($similarMovie->movie_age_rating)) ? 'NA' : $similarMovie->movie_age_rating ?></div>
+              </div>
+            </div>
             <?php endforeach; ?>
           </div>
           <div class="movies_prev_btn">
@@ -210,6 +217,8 @@
     formData.append('movieName', '<?= $movie->movie_name ?>');
     formData.append('moviePlot', `<?= $movie->movie_plot ?>`);
     formData.append('movieYear', `<?= $movie->movie_year ?>`);
+    formData.append('movieRuntime', `<?= $movie->movie_runtime ?>`);
+    formData.append('movieAgeRating', `<?= $movie->movie_age_rating ?>`);
     formData.append('movieImdbRating', `<?= $movie->movie_imdb_rating ?>`);
     formData.append('moviePosterLarge', `<?= $movie->movie_poster_large ?>`);
     formData.append('watchlistItemType', 'movie');

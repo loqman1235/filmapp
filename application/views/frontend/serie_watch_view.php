@@ -1,7 +1,9 @@
-    <!-- Serie Seasons -->
-    <?php if($serieSeasons) :?>
+<div class="watch_page" style="background: url(<?= $serie->serie_backdrop ?>) no-repeat fixed center; background-size: cover;">
+  <!-- Serie Seasons -->
+  <?php if($serieSeasons) :?>
     <div class="movie_embed" id="seriePlayer">
-        <iframe id="serieIframe" allowfullscreen="allowfullscreen" src=""></iframe>
+        <h2 class="media_title"><?= $serie->serie_name ?> <span class="media_year">(<?= $serie->serie_year ?>)</span></h2>
+        <iframe id="serieIframe" allow="fullscreen" src=""></iframe>
     </div>
     <div class="serie_seasons_container">
     <ul class="seasons">
@@ -18,6 +20,7 @@
     <?php endif; ?>
 
 
+</div>
 
 <script>
 

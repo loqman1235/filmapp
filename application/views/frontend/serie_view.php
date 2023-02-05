@@ -45,11 +45,9 @@
                   <?php endforeach; ?>
             </ul>
             <span class="seperator"></span>
-            <p class="quality"><?= $serie->serie_quality ?></p>
+            <p class="year"><?= $serie->serie_year ?></p>
             <span class="seperator"></span>
-            <span class="movie_imdb_rating"
-              ><img src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="" class="imdb_logo"> <?= $serie->serie_imdb_rating ?>/10</span
-            >
+            <p class="movie_age_rating"><?= $serie->serie_age_rating ?></p>
           </div>
           <div class="movie_plot">
             <h3><strong>Overview</strong></h3>
@@ -106,14 +104,21 @@
         <div class="section_body swiper" id="suggestMovies">
           <div class="swiper-wrapper">
             <?php foreach($similarSeries as $similarSerie) : ?>
-              <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie swiper-slide">
-                <div class="section_movie_poster">
+              <div class="section_movie swiper-slide">
+                <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie_poster">
                   <img
                     src="<?= $similarSerie->serie_poster ?>"
                     alt="<?= $similarSerie->serie_name ?>"
                   />
+                </a>
+                <a href="<?= base_url('series/serie/') . $similarSerie->serie_id ?>" class="section_movie_title"><?= (strlen($similarSerie->serie_name) >= 24) ? strShortner($similarSerie->serie_name, 24) . '...' : $similarSerie->serie_name ?></a>
+                <div class="section_movie_data">
+                    <div class="section_movie_info">
+                        <p class="section_movie_year"><?= $similarSerie->serie_year ?></p>
+                    </div>
+                    <div class="section_movie_type"><?= (empty($similarSerie->serie_age_rating)) ? 'NA' : $similarSerie->serie_age_rating ?></div>
                 </div>
-              </a>
+            </div>
             <?php endforeach; ?>
           </div>
           <div class="movies_prev_btn">
@@ -148,6 +153,8 @@
     formData.append('movieName', '<?= $serie->serie_name ?>');
     formData.append('moviePlot', `<?= $serie->serie_plot ?>`);
     formData.append('movieYear', `<?= $serie->serie_year ?>`);
+    formData.append('movieRuntime', `<?= $serie->serie_runtime ?>`);
+    formData.append('movieAgeRating', `<?= $serie->serie_age_rating ?>`);
     formData.append('movieImdbRating', `<?= $serie->serie_imdb_rating ?>`);
     formData.append('watchlistItemType', 'serie');
 

@@ -14,7 +14,7 @@
             </div> -->
           </div>
           <div class="movie_details">
-            <h1><a href="#"><?= $featuredMedia->media_name ?></a></h1>
+            <h1><?= $featuredMedia->media_name ?></h1>
             <div class="movie_data">
               <ul class="genre">
                 <?php if($featuredMedia->media_type === 'movie') : ?>
@@ -33,17 +33,15 @@
               </ul>
               <?php if($featuredMedia->media_type === 'movie') : ?>
                 <span class="seperator"></span>
+                <p class="time"><?= $featuredMedia->media_year ?></p>
+                <span class="seperator"></span>
                 <p class="time"><?= $featuredMedia->media_runtime ?></p>
                 <?php else: ?>
                   <span class="seperator"></span>
                   <p class="time"><?= $featuredMedia->media_year ?></p>
               <?php endif; ?>
               <span class="seperator"></span>
-              <!-- <p class="quality"><?= $featuredMovie->movie_quality ?></p> -->
-              <!-- <span class="seperator"></span> -->
-              <span class="movie_imdb_rating">
-                <img class="imdb_logo" src="<?= base_url('assets/img/imdb-logo.png') ?>" alt="imdb"> <?= $featuredMedia->media_imdb_rating ?>
-              </span>
+              <span class="movie_age_rating"><?= (empty($featuredMedia->media_age_rating)) ? 'NA' : $featuredMedia->media_age_rating ?></span>
             </div>
             <p class="movie_details_info_plot">
               <?= strShortner($featuredMedia->media_plot, 200) ?>...

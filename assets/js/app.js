@@ -5,7 +5,8 @@ const navbar = document.getElementById("navbar");
 
 if (
 	!navbar.nextElementSibling.classList.contains("heroSlider") &&
-	!navbar.nextElementSibling.classList.contains("movie_page")
+	!navbar.nextElementSibling.classList.contains("movie_page") &&
+	!navbar.nextElementSibling.classList.contains("watch_page")
 ) {
 	navbar.style.background = "#1C1F29";
 	console.log(navbar.nextElementSibling);

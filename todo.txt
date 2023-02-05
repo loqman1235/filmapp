@@ -1,3 +1,5 @@
+* Add to watchlist for series                      -> Not done yet
+
 * Start working on the backend                     -> Not done yet
 
 * Add pagination to my list                        -> Not done yet
@@ -77,3 +79,15 @@ ORDER BY release_date DESC;
 
 // Order Movies/Series Based on views
 SELECT tbl_movies.movie_id AS media_id, tbl_movies.movie_name AS media_name, tbl_movies.movie_poster_large AS media_poster_large,tbl_movies.movie_views AS media_views FROM tbl_movies WHERE tbl_movies.movie_views>100 UNION SELECT tbl_series.serie_id AS media_id, tbl_series.serie_name AS media_name,tbl_series.serie_poster_large AS media_poster_large,tbl_series.serie_views AS media_views FROM tbl_series WHERE tbl_series.serie_views>100 ORDER BY media_views DESC;
+
+// Movies Age rating: 
+G     -> (General Audiences: all ages admitted)
+PG    -> (Parental Guidance Suggested: some material may not be suitable for children)
+PG-13 -> Parents Strongly Cautioned: some material may be inappropriate for children under 13)
+R     -> (Restricted: under 17 requires accompanying parent or adult guardian)
+NC-17 -> (No One 17 and Under Admitted) most adult rating a movie can have
+
+// Shows Age rating: 
+TV-Y                      -> suitable for all children
+TV-MA                     -> not suitable for anyone under 17
+TV-Y7, TV-G, TV-PG, TV-14 -> suitable for children ages 7 and above, as well as for general audiences, parental guidance suggested, and for viewers 14 and above, respectively

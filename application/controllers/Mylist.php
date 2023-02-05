@@ -45,7 +45,7 @@ class Mylist extends CI_Controller
             {
 
 
-            if(!$this->movie_model->watchListMovieExist($this->input->post('movieId')))
+            if(!$this->movie_model->watchListMovieExist($this->input->post('movieId'), $this->input->post('watchlistItemType')))
             {
                     $insertToWatchListData = 
 
@@ -57,7 +57,9 @@ class Mylist extends CI_Controller
                         'watchlist_moviePosterLarge' => $this->input->post('moviePosterLarge'),
                         'watchlist_moviePlot'        => $this->input->post('moviePlot'),
                         'watchlist_movieYear'        => $this->input->post('movieYear'),
-                        'watchlist_movieImdbRating'        => $this->input->post('movieImdbRating'),
+                        'watchlist_movieRuntime'     => $this->input->post('movieRuntime'),
+                        'watchlist_movieAgeRating'   => $this->input->post('movieAgeRating'),
+                        'watchlist_movieImdbRating'  => $this->input->post('movieImdbRating'),
                         'watchlist_type'             => $this->input->post('watchlistItemType'),
                         'user_id'                    => $this->session->userdata('userId')
 
@@ -100,11 +102,10 @@ class Mylist extends CI_Controller
         {
             if(!empty($this->input->post('movieId')) && !empty($this->input->post('movieName')))
             {
-
                 $movieId = $this->input->post('movieId');
                 $movieName = $this->input->post('movieName');
 
-                if($this->movie_model->removeMovieFromWatchlist($movieId))
+                if($this->movie_model->removeMovieFromWatchlist($movieId, $movieName))
                 {
                     $response = ["success" => true, 'msg' => $movieName . ' deleted from your list'];
                 }
@@ -130,7 +131,7 @@ class Mylist extends CI_Controller
             $watchlistMovies = $this->movie_model->getWatchlistMoviesByUserId();
             $moviesGenres = $this->movie_model->getMovieGenre();
             $seriesGenres = $this->serie_model->getSerieGenre();
-
+            $countListItems = $this->movie_model->countWatchlistMoviesByUserId();
 
             if($watchlistMovies)
             {
@@ -156,12 +157,23 @@ class Mylist extends CI_Controller
                     
                     $result .= '<div class="section_movie_data">
                     <div class="section_movie_info">
-                        <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> '. $watchlistMovie->watchlist_movieImdbRating  .'</p>
-                        <div class="separator"></div>
-                        <p class="section_movie_year">'. $watchlistMovie->watchlist_movieYear .'</p>
-                        </div>
-                        <div class="section_movie_type">'. ($watchlistMovie->watchlist_type) .'</div>
-                    </div>';
+                        <p class="section_movie_year">'. $watchlistMovie->watchlist_movieYear .'</p>';
+                       
+                       if($watchlistMovie->watchlist_type === 'movie') {
+                            $result .= '<div class="separator"></div>
+                            <p class="section_movie_year">'. $watchlistMovie->watchlist_movieRuntime .'</p>';
+                       }
+                       
+                        $result .= '</div>';
+
+                        if(empty($watchlistMovie->watchlist_movieAgeRating)) {
+                            $result .= '<div class="section_movie_type">NA</div>';
+                        } else {
+                            $result .= '<div class="section_movie_type">'. ($watchlistMovie->watchlist_movieAgeRating) .'</div>';
+                        }
+                       
+                        
+                    $result .= '</div>';
 
                     $result .= '</div>';
 
@@ -171,17 +183,94 @@ class Mylist extends CI_Controller
             }
             else
             {
-                $result .= '<p>You didn\'t add any item yet</p>';
+                $result .= '<p>Your list is empty</p>';
             }
 
 
-            echo json_encode($result);
+            echo json_encode(['result' => $result, 'listCounter' => $countListItems]);
         }
         else
         {
             redirect(base_url('home'));
         }
 
+    }
+
+
+    public function addMediaToWatchlist()
+    {
+        
+        if($this->session->userdata('is_logged_in'))
+       {
+            $response = [];
+            if(!empty($this->input->post('mediaId')))
+            {
+                if(!$this->movie_model->watchListMovieExist($this->input->post('mediaId'), $this->input->post('mediaType')))
+                {
+                    $watchlistData = 
+
+                        [
+                            'watchlist_movieId'          => $this->input->post('mediaId'),
+                            'watchlist_movieName'        => $this->input->post('mediaName'),
+                            'watchlist_moviePoster'      => $this->input->post('mediaPoster'),
+                            'watchlist_movieYear'        => $this->input->post('mediaYear'),
+                            'watchlist_movieRuntime'     => $this->input->post('mediaRuntime'),
+                            'watchlist_movieAgeRating'   => $this->input->post('mediaAgeRating'),
+                            'watchlist_type'             => $this->input->post('mediaType'),
+                            'user_id'                    => $this->session->userdata('userId')
+
+                        ];
+
+                        if($this->movie_model->insertWatchlist($watchlistData))
+                        {
+                            $response['success'] = true;
+                            $response['message'] = 'Item has been added to your list';
+                        }
+                }
+                else
+                {
+                    $response['error'] = true;
+                    $response['message'] = 'Item already added';
+                }
+
+            }
+        }
+        else
+        {
+            $response['error'] = true;
+            $response['message'] = 'Login to use this feature';
+            
+        }
+        echo json_encode($response);
+    }
+
+
+    public function mediaExistInWatchlist()
+    {
+        if($this->movie_model->watchListMovieExist($this->input->post('mediaId'), $this->input->post('mediaType')))
+        {
+            $result = true;
+        }
+        else 
+        {
+            $result = false;
+        }
+
+        echo json_encode($result);
+    }
+
+
+    public function removeMediaFromList()
+    {
+        if($this->input->post('mediaId') !== null) {
+            
+            if($this->movie_model->removeMovieFromWatchlist($this->input->post('mediaId'), $this->input->post('mediaName')))
+            {
+                $response['success'] = true;
+            }
+        }
+
+        echo json_encode($response);
     }
 
 

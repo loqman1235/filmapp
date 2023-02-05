@@ -75,11 +75,9 @@
                 <a href="<?= base_url('series/serie/') . $serie->serie_id ?>" class="section_movie_title"><?= (strlen($serie->serie_name) >= 24) ? strShortner($serie->serie_name, 24) . '...' : $serie->serie_name ?></a>
                 <div class="section_movie_data">
                     <div class="section_movie_info">
-                        <p class="section_movie_rating"><i class="fas fa-star fa-sm"></i> <?= $serie->serie_imdb_rating ?></p>
-                        <div class="separator"></div>
                         <p class="section_movie_year"><?= $serie->serie_year ?></p>
                     </div>
-                    <div class="section_movie_type">Serie</div>
+                    <div class="section_movie_type"><?= (empty($serie->serie_age_rating)) ? 'NA' : $serie->serie_age_rating ?></div>
                 </div>
         </div>
         <?php endforeach; ?>
